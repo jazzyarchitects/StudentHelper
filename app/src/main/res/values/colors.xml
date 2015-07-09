@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--<color name="appThemeColor">#ff811ada</color>-->
-    <!--<color name="background1">#DDA3F5</color>-->
-    <!--<color name="background2">#EAC8F8</color>-->
-    <color name="appThemeColor">#ffff4f48</color>
-    <color name="background1">#fffda2a2</color>
-    <color name="background2">#fffbd6d3</color>
+    <color name="appThemeColor">#ff811ada</color>
+    <color name="background1">#DDA3F5</color>
+    <color name="background2">#EAC8F8</color>
+    <!--<color name="appThemeColor">#ffff4f48</color>-->
+    <!--<color name="background1">#fffda2a2</color>-->
+    <!--<color name="background2">#fffbd6d3</color>-->
 
 
 
@@ -14,5 +14,6 @@
     <color name="roundImageViewBorder">#FFF</color>
     <color name="homeScreenTopTextColor">#FFF</color>
     <color name="alarmClockColor">#ff770001</color>
+    <color name="toolBarColor">@color/appThemeColor</color>
 
 </resources>
