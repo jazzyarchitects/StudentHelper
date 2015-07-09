@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/linearLayout"
+    android:weightSum="2"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:id="@+id/connector"
+        android:background="#FFF" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="8:50-9:40"
+        android:textColor="#000"
+        android:paddingBottom="3dp"
+        android:paddingTop="10dp"
+        android:textSize="11sp"
+        android:id="@+id/timeDisplay"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Maths"
+        android:paddingTop="3dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/subjectDisplay"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="#000"/>
+
+</LinearLayout>
