@@ -30,6 +30,7 @@
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:maxLines="3"
+                android:id="@+id/notes"
                 android:text="@string/lorem_ipsum"
                 android:textColor="#000"
                 android:textSize="14sp" />

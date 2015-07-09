@@ -10,6 +10,8 @@
 
 
 
+    <color name="selectedCellColor">#ffa4aeda</color>
+    <color name="unSelectedCellColor">#EEE</color>
 
     <color name="roundImageViewBorder">#FFF</color>
     <color name="homeScreenTopTextColor">#FFF</color>

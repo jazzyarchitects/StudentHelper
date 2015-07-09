@@ -60,6 +60,17 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background2"
+                android:textColor="@color/appThemeColor"
+                android:text="Lunch Break"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                />
+
             <include
                 android:id="@+id/p6"
                 layout="@layout/table_row_subject"
