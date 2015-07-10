@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="appThemeColor">#ff811ada</color>
+    <!--<color name="appThemeColor">#ff811ada</color>-->
+    <color name="appThemeColor">@color/themeColor1</color>
+    <color name="timeTableLabelCellColor">@color/themeColor3</color>
+    <color name="timeTableLabelColor">#FFFFFF</color>
+    <color name="timeTableCellColor">@color/themeColor2</color>
+    <color name="emptyCellColor">@color/themeColor3</color>
+    <color name="lunchBreakTextColor">#FFF</color>
+    <color name="lunchBreakBackground">@color/themeColor3</color>
+
     <color name="background1">#DDA3F5</color>
     <color name="background2">#EAC8F8</color>
+
+
+
     <!--<color name="appThemeColor">#ffff4f48</color>-->
     <!--<color name="background1">#fffda2a2</color>-->
     <!--<color name="background2">#fffbd6d3</color>-->
@@ -11,11 +22,29 @@
 
 
     <color name="selectedCellColor">#ffa4aeda</color>
-    <color name="unSelectedCellColor">#EEE</color>
+    //Change this color in TimeTableOperations also
+    <color name="unSelectedCellColor">#fefefe</color>
 
     <color name="roundImageViewBorder">#FFF</color>
     <color name="homeScreenTopTextColor">#FFF</color>
     <color name="alarmClockColor">#ff770001</color>
     <color name="toolBarColor">@color/appThemeColor</color>
 
+    <color name="borderColor">#ff847e96</color>
+    <color name="shadowColor">#66000000</color>
+
+
+    <color name="color1">#ff0e3501</color>
+    <color name="color2">#ff353100</color>
+    <color name="color3">#ff350c00</color>
+    <color name="color4">#ff350125</color>
+    <color name="color5">#ff1b0035</color>
+    <color name="color6">#ff001135</color>
+    <color name="color7">#ff002f35</color>
+
+    <color name="themeColor1">#A0C55F</color>
+    <color name="themeColor2">#7AB317</color>
+    <color name="themeColor3">#0D6759</color>
+    <color name="themeColor4">#0B2E59</color>
+    <color name="themeColor5">#2A044A</color>
 </resources>

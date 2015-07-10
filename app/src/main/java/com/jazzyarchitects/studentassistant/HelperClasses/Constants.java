@@ -7,6 +7,21 @@ import android.graphics.BitmapFactory;
  * Created by Jibin_ism on 08-Jul-15.
  */
 public class Constants {
+
+    public static String getBunkedClassText(int bunkedClasses){
+        return "Bunked Classes: "+bunkedClasses;
+    }
+    public static String getAttendancePercentageText(double percentage){
+        return "Attendance: "+percentage+"%";
+    }
+    public static String getProfessorNameText(String name){
+        return "Professor: "+name;
+    }
+
+
+
+
+
     /**
      * Image Size Reducing
      */

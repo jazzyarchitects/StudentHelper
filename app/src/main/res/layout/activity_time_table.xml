@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context="com.jazzyarchitects.studentassistant.Activities.TimeTable">
 
     <include
@@ -14,29 +15,8 @@
     <include layout="@layout/table_complete"
         android:id="@+id/timeTableLayout"
         android:layout_below="@+id/toolbar"
-        android:layout_above="@+id/bottomLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="100dp"
-        android:id="@+id/bottomLinearLayout"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#000" />
-
-        <include layout="@layout/subject_detail_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
 
 
 </RelativeLayout>

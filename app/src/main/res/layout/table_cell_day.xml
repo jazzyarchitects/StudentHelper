@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:text="Mon"
-    android:textColor="#000"
-    android:background="@color/background1"
+    android:textColor="@color/timeTableLabelColor"
+    android:background="@color/timeTableLabelCellColor"
     android:gravity="center"
     android:textStyle="bold"
     android:textSize="14sp"/>

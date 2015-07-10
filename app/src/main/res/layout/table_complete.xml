@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:background="@color/borderColor">
 
     <include
         android:id="@+id/days"
-        android:layout_height="@dimen/cellMinHeight"
+        layout="@layout/table_row_days"
         android:layout_width="match_parent"
-        layout="@layout/table_row_days" />
+        android:layout_height="@dimen/dayCellHeight"
+        android:layout_marginBottom="1dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/toolbar_shadow" />
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/tableWidth"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_below="@+id/days">
 
         <TableLayout
+            android:id="@+id/table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/table"
             android:weightSum="10">
 
 
@@ -30,6 +34,7 @@
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
             <include
@@ -37,6 +42,7 @@
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
             <include
@@ -44,6 +50,7 @@
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
             <include
@@ -51,6 +58,7 @@
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
             <include
@@ -58,24 +66,26 @@
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background2"
-                android:textColor="@color/appThemeColor"
-                android:text="Lunch Break"
+                android:background="@color/lunchBreakBackground"
                 android:gravity="center"
-                android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                />
+                android:paddingTop="5dp"
+                android:text="Lunch Break"
+                android:textColor="@color/lunchBreakTextColor" />
 
             <include
                 android:id="@+id/p6"
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
             <include
@@ -83,6 +93,7 @@
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
             <include
@@ -90,6 +101,7 @@
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
             <include
@@ -97,6 +109,7 @@
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
             <include
@@ -104,9 +117,10 @@
                 layout="@layout/table_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1" />
 
         </TableLayout>
 
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>

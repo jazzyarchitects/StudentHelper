@@ -5,4 +5,9 @@
     <dimen name="homeScreenUserPicSize">100dp</dimen>
     <dimen name="selectionConnectorHeight">15dp</dimen>
     <dimen name="cellMinHeight">50dp</dimen>
+    <dimen name="assignmentIconSize">15dp</dimen>
+    <dimen name="colorStripWidth">7dp</dimen>
+    <dimen name="dayCellHeight">@dimen/cellMinHeight</dimen>
+    <dimen name="colorIndicatorSize">7dp</dimen>
+    <dimen name="tableWidth">540dp</dimen>
 </resources>
