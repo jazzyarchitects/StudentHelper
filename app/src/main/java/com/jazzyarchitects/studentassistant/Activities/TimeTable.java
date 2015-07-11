@@ -13,11 +13,13 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.jazzyarchitects.studentassistant.CustomViews.SubjectDetailDialog;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.TimeTableIds;
 import com.jazzyarchitects.studentassistant.R;
 
+import java.util.Calendar;
 import java.util.Random;
 
 
@@ -27,6 +29,9 @@ public class TimeTable extends AppCompatActivity {
     static int selectedDayIndex = -1, selectedPeriodIndex = -1;
     boolean selected = false;
     protected static View activityLayout;
+    int dayToday=-1;
+
+    boolean TESTING=true;
 
 
     int col(int id){
@@ -39,6 +44,14 @@ public class TimeTable extends AppCompatActivity {
         activityLayout = View.inflate(this, R.layout.activity_time_table, null);
         setContentView(activityLayout);
 
+        Calendar calendar=Calendar.getInstance();
+        if(TESTING) {
+            dayToday=Calendar.WEDNESDAY;
+        }else{
+            dayToday = calendar.get(Calendar.DAY_OF_WEEK);
+        }
+        highlightToday();
+
         //View setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -49,7 +62,8 @@ public class TimeTable extends AppCompatActivity {
         TimeTableOperations.setUpLabels();
 
         int[] colors={col(R.color.color1),col(R.color.color2),col(R.color.color3),col(R.color.color4),
-                col(R.color.color5),col(R.color.color6),col(R.color.color7),Color.RED, Color.MAGENTA, Color.GREEN, Color.YELLOW, Color.CYAN};
+                col(R.color.color5),col(R.color.color6),col(R.color.color7),Color.RED, Color.MAGENTA,
+                Color.GREEN, Color.YELLOW, Color.CYAN};
 
 
         //Writing some junk Values
@@ -92,44 +106,23 @@ public class TimeTable extends AppCompatActivity {
      */
     public void subjectClick(View v) {
         if (v instanceof RelativeLayout) {
-            int dayIndex = TimeTableIds.getDay(v.getId());
-            int periodIndex = TimeTableIds.getPeriod(((View) v.getParent()).getId());
+            int dayIndex = TimeTableIds.getDay(((View)v.getParent().getParent()).getId());
+            int periodIndex = TimeTableIds.getPeriod(((View) v.getParent().getParent().getParent()).getId());
 
-            //TODO: uncomment this if bottom details pane to be shown
             if (dayIndex == selectedDayIndex && periodIndex == selectedPeriodIndex && selected) {
-//                bottomLinearLayout.setVisibility(View.GONE);
                 selected = false;
             } else {
-//                bottomLinearLayout.setVisibility(View.VISIBLE);
                 selected = true;
             }
 
             Subject subject = TimeTableOperations.getSubject(dayIndex, periodIndex);
 
-            applyClickBackground(dayIndex, periodIndex);
-            refreshDetails(subject);
+            if(selected) {
+                refreshDetails(subject);
+            }
 
             selectedDayIndex = dayIndex;
             selectedPeriodIndex = periodIndex;
-        }
-    }
-
-    /**
-     * Changing the background of cell when clicked
-     *
-     * @param dayIndex    which day
-     * @param periodIndex which period
-     */
-    public void applyClickBackground(int dayIndex, int periodIndex) {
-        if (selectedDayIndex >= 0) {
-            int color = getResources().getColor(R.color.unSelectedCellColor);
-            TimeTableOperations.changeBackground(selectedDayIndex, selectedPeriodIndex, color);
-        }
-        if (selected) {
-            TimeTableOperations.changeBackground(dayIndex, periodIndex, getResources().getColor(R.color.selectedCellColor));
-        } else {
-            int color = getResources().getColor(R.color.unSelectedCellColor);
-            TimeTableOperations.changeBackground(dayIndex, periodIndex, color);
         }
     }
 
@@ -139,9 +132,13 @@ public class TimeTable extends AppCompatActivity {
      * @param subject selected subject
      */
     public void refreshDetails(Subject subject) {
-        SubjectDetailDialog detailDialog=new SubjectDetailDialog(this, subject);
+        SubjectDetailDialog detailDialog=new SubjectDetailDialog(this,subject);
         detailDialog.show();
 
+    }
+
+    public void highlightToday(){
+        TimeTableOperations.markDay(dayToday);
     }
 
 
@@ -159,6 +156,7 @@ public class TimeTable extends AppCompatActivity {
         static ImageView assignmentIcon;
         static TextView textView;
         static View colorIndicator;
+        static MaterialRippleLayout rippleLayout;
 
         public static void setUpLabels() {
             tableLayout = (TableLayout) activityLayout.findViewById(TimeTableIds.table);
@@ -209,16 +207,6 @@ public class TimeTable extends AppCompatActivity {
                 textView.setText(subject.getSubject());
                 cell.setTag(subject);
                 colorIndicator.setBackgroundColor(subject.getColor());
-
-//                cell.setBackgroundColor(getLightenColor(subject.getColor()));
-
-                //Setting text color to white for darker colors
-//                float[] hsv=new float[3];
-//                Color.colorToHSV(subject.getColor(),hsv);
-//                if(hsv[0]>345.0 || hsv[0]<15.0 || (hsv[0]>225.0 && hsv[0]<265.0) || hsv[2]<0.4){
-//                    textView.setTextColor(Color.WHITE);
-//                }
-//                Log.e("HSV Values", subject.getSubject() + " " + hsv[0] + " " + hsv[1] + " " + hsv[2]);
                 if (subject.hasAssignment()) {
                     assignmentIcon.setVisibility(View.VISIBLE);
                 }
@@ -228,7 +216,6 @@ public class TimeTable extends AppCompatActivity {
         public static void changeBackground(int dayIndex, int periodIndex, int color) {
             getCellDetails(dayIndex, periodIndex);
             cell.setBackgroundColor(color);
-//            cell.setBackgroundColor(getLightenColor(color));
         }
 
         public static int getLightenColor(int color){
@@ -236,6 +223,25 @@ public class TimeTable extends AppCompatActivity {
             Color.colorToHSV(color, hsv);
             hsv[1]=0.1f;
             return Color.HSVToColor(hsv);
+        }
+
+        public static void markDay(int dayOfWeek){
+            if(dayOfWeek==0 || dayOfWeek>=6){
+                return;
+            }
+            tableLayout=(TableLayout)activityLayout.findViewById(R.id.table);
+            for(int i=0;i<tableLayout.getChildCount();i++){
+                View child=tableLayout.getChildAt(i);
+                if(child instanceof TableRow){
+                    RelativeLayout cell=(RelativeLayout)((TableRow) child).getChildAt(dayOfWeek-1);
+                    cell.setBackgroundColor(Color.parseColor("#7AB317"));
+                }
+            }
+        }
+
+        public static void removeMaterialRipple(int dayIndex, int periodIndex){
+            getCellDetails(dayIndex, periodIndex);
+            rippleLayout=(MaterialRippleLayout)cell.findViewById(R.id.rippleLayout);
         }
     }
 }

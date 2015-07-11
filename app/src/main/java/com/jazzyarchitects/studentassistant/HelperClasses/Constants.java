@@ -2,20 +2,32 @@ package com.jazzyarchitects.studentassistant.HelperClasses;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.text.Html;
+import android.text.Spanned;
 
 /**
  * Created by Jibin_ism on 08-Jul-15.
  */
 public class Constants {
 
-    public static String getBunkedClassText(int bunkedClasses){
-        return "Bunked Classes: "+bunkedClasses;
+    public static Spanned getBunkedClassText(int bunkedClasses){
+        return Html.fromHtml("Bunked Classes: <b>"+bunkedClasses+"</b>");
     }
-    public static String getAttendancePercentageText(double percentage){
-        return "Attendance: "+percentage+"%";
+    public static Spanned getAttendancePercentageText(double percentage){
+        return Html.fromHtml("Attendance: <b>"+percentage+"%</b>");
     }
-    public static String getProfessorNameText(String name){
-        return "Professor: "+name;
+    public static Spanned getProfessorNameText(String name){
+        return Html.fromHtml("Professor: <b>"+name+"</b>");
+    }
+    public static Spanned getAssignmentCountText(int assignmentCount){
+        return Html.fromHtml("Assignments Pending: <b>"+assignmentCount+"</b>");
+    }
+
+    public static boolean isColorDark(int color){
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        return (hsv[0] > 345.0) || (hsv[0] < 15.0) || (hsv[0] > 225.0 && hsv[0] < 265.0) || (hsv[2] < 0.4);
     }
 
 
