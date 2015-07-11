@@ -10,4 +10,5 @@
     <dimen name="dayCellHeight">@dimen/cellMinHeight</dimen>
     <dimen name="colorIndicatorSize">7dp</dimen>
     <dimen name="tableWidth">540dp</dimen>
+    <dimen name="navigationDrawerWidth">280dp</dimen>
 </resources>

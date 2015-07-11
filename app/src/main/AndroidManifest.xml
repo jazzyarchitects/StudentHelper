@@ -10,10 +10,6 @@
         <activity
             android:name=".Activities.HomeScreen"
             android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name=".Activities.TimeTable"
-            android:label="@string/title_activity_time_table" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

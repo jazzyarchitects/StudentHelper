@@ -1,12 +1,14 @@
-package com.jazzyarchitects.studentassistant.Activities;
+package com.jazzyarchitects.studentassistant.Fragment;
 
+
+import android.app.Activity;
+import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -14,6 +16,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.jazzyarchitects.studentassistant.Activities.HomeScreen;
 import com.jazzyarchitects.studentassistant.CustomViews.SubjectDetailDialog;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.TimeTableIds;
@@ -22,10 +25,15 @@ import com.jazzyarchitects.studentassistant.R;
 import java.util.Calendar;
 import java.util.Random;
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class TimeTable extends Fragment {
 
-public class TimeTable extends AppCompatActivity {
 
-    Toolbar toolbar;
+    public TimeTable() {
+        // Required empty public constructor
+    }
     static int selectedDayIndex = -1, selectedPeriodIndex = -1;
     boolean selected = false;
     protected static View activityLayout;
@@ -39,11 +47,15 @@ public class TimeTable extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activityLayout = View.inflate(this, R.layout.activity_time_table, null);
-        setContentView(activityLayout);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        activityLayout = View.inflate(getActivity(), R.layout.fragment_time_table, null);
+        try{
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Weekly Time Table");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         Calendar calendar=Calendar.getInstance();
         if(TESTING) {
             dayToday=Calendar.WEDNESDAY;
@@ -52,17 +64,12 @@ public class TimeTable extends AppCompatActivity {
         }
         highlightToday();
 
-        //View setup
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        //Setting toolbar
-        setSupportActionBar(toolbar);
 
         //Setting up time table
         TimeTableOperations.setUpLabels();
 
         int[] colors={col(R.color.color1),col(R.color.color2),col(R.color.color3),col(R.color.color4),
-                col(R.color.color5),col(R.color.color6),col(R.color.color7),Color.RED, Color.MAGENTA,
+                col(R.color.color5),col(R.color.color6),col(R.color.color7), Color.RED, Color.MAGENTA,
                 Color.GREEN, Color.YELLOW, Color.CYAN};
 
 
@@ -78,26 +85,8 @@ public class TimeTable extends AppCompatActivity {
 
             }
         }
+        return activityLayout;
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_time_table, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     /**
      * Invoked when the cell is clicked
@@ -132,7 +121,7 @@ public class TimeTable extends AppCompatActivity {
      * @param subject selected subject
      */
     public void refreshDetails(Subject subject) {
-        SubjectDetailDialog detailDialog=new SubjectDetailDialog(this,subject);
+        SubjectDetailDialog detailDialog=new SubjectDetailDialog(getActivity(),subject);
         detailDialog.show();
 
     }
@@ -243,5 +232,16 @@ public class TimeTable extends AppCompatActivity {
             getCellDetails(dayIndex, periodIndex);
             rippleLayout=(MaterialRippleLayout)cell.findViewById(R.id.rippleLayout);
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((HomeScreen)activity).setActivityClickListener(new HomeScreen.ActivityClickListener() {
+            @Override
+            public void onSubjectClick(View view) {
+                subjectClick(view);
+            }
+        });
     }
 }
