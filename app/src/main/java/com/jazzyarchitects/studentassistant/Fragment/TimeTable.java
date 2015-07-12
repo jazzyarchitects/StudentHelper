@@ -1,32 +1,45 @@
-package com.jazzyarchitects.studentassistant.Activities;
+package com.jazzyarchitects.studentassistant.Fragment;
 
+
+import android.app.Activity;
+import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
+import com.jazzyarchitects.studentassistant.Activities.HomeScreen;
 import com.jazzyarchitects.studentassistant.CustomViews.SubjectDetailDialog;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.TimeTableIds;
 import com.jazzyarchitects.studentassistant.R;
 
+import java.util.Calendar;
 import java.util.Random;
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class TimeTable extends Fragment {
 
-public class TimeTable extends AppCompatActivity {
 
-    Toolbar toolbar;
+    public TimeTable() {
+        // Required empty public constructor
+    }
     static int selectedDayIndex = -1, selectedPeriodIndex = -1;
     boolean selected = false;
     protected static View activityLayout;
+    int dayToday=-1;
+
+    boolean TESTING=true;
 
 
     int col(int id){
@@ -34,22 +47,30 @@ public class TimeTable extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activityLayout = View.inflate(this, R.layout.activity_time_table, null);
-        setContentView(activityLayout);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        activityLayout = View.inflate(getActivity(), R.layout.fragment_time_table, null);
+        try{
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Weekly Time Table");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Calendar calendar=Calendar.getInstance();
+        if(TESTING) {
+            dayToday=Calendar.WEDNESDAY;
+        }else{
+            dayToday = calendar.get(Calendar.DAY_OF_WEEK);
+        }
+        highlightToday();
 
-        //View setup
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        //Setting toolbar
-        setSupportActionBar(toolbar);
 
         //Setting up time table
         TimeTableOperations.setUpLabels();
 
         int[] colors={col(R.color.color1),col(R.color.color2),col(R.color.color3),col(R.color.color4),
-                col(R.color.color5),col(R.color.color6),col(R.color.color7),Color.RED, Color.MAGENTA, Color.GREEN, Color.YELLOW, Color.CYAN};
+                col(R.color.color5),col(R.color.color6),col(R.color.color7), Color.RED, Color.MAGENTA,
+                Color.GREEN, Color.YELLOW, Color.CYAN};
 
 
         //Writing some junk Values
@@ -64,26 +85,8 @@ public class TimeTable extends AppCompatActivity {
 
             }
         }
+        return activityLayout;
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_time_table, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     /**
      * Invoked when the cell is clicked
@@ -92,44 +95,23 @@ public class TimeTable extends AppCompatActivity {
      */
     public void subjectClick(View v) {
         if (v instanceof RelativeLayout) {
-            int dayIndex = TimeTableIds.getDay(v.getId());
-            int periodIndex = TimeTableIds.getPeriod(((View) v.getParent()).getId());
+            int dayIndex = TimeTableIds.getDay(((View)v.getParent().getParent()).getId());
+            int periodIndex = TimeTableIds.getPeriod(((View) v.getParent().getParent().getParent()).getId());
 
-            //TODO: uncomment this if bottom details pane to be shown
             if (dayIndex == selectedDayIndex && periodIndex == selectedPeriodIndex && selected) {
-//                bottomLinearLayout.setVisibility(View.GONE);
                 selected = false;
             } else {
-//                bottomLinearLayout.setVisibility(View.VISIBLE);
                 selected = true;
             }
 
             Subject subject = TimeTableOperations.getSubject(dayIndex, periodIndex);
 
-            applyClickBackground(dayIndex, periodIndex);
-            refreshDetails(subject);
+            if(selected) {
+                refreshDetails(subject);
+            }
 
             selectedDayIndex = dayIndex;
             selectedPeriodIndex = periodIndex;
-        }
-    }
-
-    /**
-     * Changing the background of cell when clicked
-     *
-     * @param dayIndex    which day
-     * @param periodIndex which period
-     */
-    public void applyClickBackground(int dayIndex, int periodIndex) {
-        if (selectedDayIndex >= 0) {
-            int color = getResources().getColor(R.color.unSelectedCellColor);
-            TimeTableOperations.changeBackground(selectedDayIndex, selectedPeriodIndex, color);
-        }
-        if (selected) {
-            TimeTableOperations.changeBackground(dayIndex, periodIndex, getResources().getColor(R.color.selectedCellColor));
-        } else {
-            int color = getResources().getColor(R.color.unSelectedCellColor);
-            TimeTableOperations.changeBackground(dayIndex, periodIndex, color);
         }
     }
 
@@ -139,9 +121,13 @@ public class TimeTable extends AppCompatActivity {
      * @param subject selected subject
      */
     public void refreshDetails(Subject subject) {
-        SubjectDetailDialog detailDialog=new SubjectDetailDialog(this, subject);
+        SubjectDetailDialog detailDialog=new SubjectDetailDialog(getActivity(),subject);
         detailDialog.show();
 
+    }
+
+    public void highlightToday(){
+        TimeTableOperations.markDay(dayToday);
     }
 
 
@@ -159,6 +145,7 @@ public class TimeTable extends AppCompatActivity {
         static ImageView assignmentIcon;
         static TextView textView;
         static View colorIndicator;
+        static MaterialRippleLayout rippleLayout;
 
         public static void setUpLabels() {
             tableLayout = (TableLayout) activityLayout.findViewById(TimeTableIds.table);
@@ -209,16 +196,6 @@ public class TimeTable extends AppCompatActivity {
                 textView.setText(subject.getSubject());
                 cell.setTag(subject);
                 colorIndicator.setBackgroundColor(subject.getColor());
-
-//                cell.setBackgroundColor(getLightenColor(subject.getColor()));
-
-                //Setting text color to white for darker colors
-//                float[] hsv=new float[3];
-//                Color.colorToHSV(subject.getColor(),hsv);
-//                if(hsv[0]>345.0 || hsv[0]<15.0 || (hsv[0]>225.0 && hsv[0]<265.0) || hsv[2]<0.4){
-//                    textView.setTextColor(Color.WHITE);
-//                }
-//                Log.e("HSV Values", subject.getSubject() + " " + hsv[0] + " " + hsv[1] + " " + hsv[2]);
                 if (subject.hasAssignment()) {
                     assignmentIcon.setVisibility(View.VISIBLE);
                 }
@@ -228,7 +205,6 @@ public class TimeTable extends AppCompatActivity {
         public static void changeBackground(int dayIndex, int periodIndex, int color) {
             getCellDetails(dayIndex, periodIndex);
             cell.setBackgroundColor(color);
-//            cell.setBackgroundColor(getLightenColor(color));
         }
 
         public static int getLightenColor(int color){
@@ -237,5 +213,35 @@ public class TimeTable extends AppCompatActivity {
             hsv[1]=0.1f;
             return Color.HSVToColor(hsv);
         }
+
+        public static void markDay(int dayOfWeek){
+            if(dayOfWeek==0 || dayOfWeek>=6){
+                return;
+            }
+            tableLayout=(TableLayout)activityLayout.findViewById(R.id.table);
+            for(int i=0;i<tableLayout.getChildCount();i++){
+                View child=tableLayout.getChildAt(i);
+                if(child instanceof TableRow){
+                    RelativeLayout cell=(RelativeLayout)((TableRow) child).getChildAt(dayOfWeek-1);
+                    cell.setBackgroundColor(Color.parseColor("#7AB317"));
+                }
+            }
+        }
+
+        public static void removeMaterialRipple(int dayIndex, int periodIndex){
+            getCellDetails(dayIndex, periodIndex);
+            rippleLayout=(MaterialRippleLayout)cell.findViewById(R.id.rippleLayout);
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((HomeScreen)activity).setActivityClickListener(new HomeScreen.ActivityClickListener() {
+            @Override
+            public void onSubjectClick(View view) {
+                subjectClick(view);
+            }
+        });
     }
 }
