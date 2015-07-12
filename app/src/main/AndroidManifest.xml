@@ -10,12 +10,27 @@
         <activity
             android:name=".Activities.HomeScreen"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".Activities.SubjectActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".Activities.TimeTable"
+            android:label="@string/title_activity_time_table" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.AlarmActivity"
+            android:label="@string/title_activity_alarm" >
+        </activity>
+        <service
+            android:name=".HelperClasses.AlarmService"
+            android:enabled="true" />
+        <receiver android:name=".HelperClasses.AlarmReceiver" />
     </application>
 
 </manifest>
