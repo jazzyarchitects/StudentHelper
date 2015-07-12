@@ -47,4 +47,8 @@
     <color name="themeColor3">#0D6759</color>
     <color name="themeColor4">#0B2E59</color>
     <color name="themeColor5">#2A044A</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="hintColor">#ffa1a1a1</color>
 </resources>
