@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
 import com.jazzyarchitects.studentassistant.R;
 
@@ -45,10 +46,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         drawerToggle.syncState();
 
 
-        Fragment fragment=new TimeTable();
+        Fragment fragment=new DailyTimeTable();
         FragmentManager fragmentManager=getFragmentManager();
         fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
-        navigationView.getMenu().findItem(R.id.timeTable).setChecked(true);
+        navigationView.getMenu().findItem(R.id.dailyTimeTable).setChecked(true);
 
 
     }
@@ -75,13 +76,18 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         int id=menuItem.getItemId();
         menuItem.setChecked(true);
         drawerLayout.closeDrawers();
+        Fragment fragment=null;
+        FragmentManager fragmentManager=getFragmentManager();
         switch (id){
             case R.id.credits:
                 Toast.makeText(this, "Credits",Toast.LENGTH_LONG).show();
                 break;
             case R.id.timeTable:
-                Fragment fragment=new TimeTable();
-                FragmentManager fragmentManager=getFragmentManager();
+                fragment=new TimeTable();
+                fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
+                break;
+            case R.id.dailyTimeTable:
+                fragment=new TimeTable();
                 fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
                 break;
             default:

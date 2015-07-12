@@ -9,6 +9,7 @@ import android.widget.Checkable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.R;
 
 /**

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/borderColor"
+    android:weightSum="22">
+
+    <include
+        layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableLabelWidth"
+        android:layout_height="match_parent"
+        android:id="@+id/day"/>
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p1" />
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p2" />
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p3" />
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p4" />
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p5" />
+
+    <TextView
+        android:layout_width="@dimen/dailyTimeTableLabelWidth"
+        android:layout_height="match_parent"
+        android:background="@color/lunchBreakBackground"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="Lunch Break"
+        android:textColor="@color/lunchBreakTextColor" />
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p6" />
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p7" />
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p8" />
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p9" />
+
+    <include
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_marginLeft="1dp"
+        android:layout_height="match_parent"
+        layout="@layout/table_daily_cell_subject"
+        android:id="@+id/p10" />
+
+
+</LinearLayout>

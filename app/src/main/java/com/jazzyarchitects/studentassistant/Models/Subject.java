@@ -13,7 +13,7 @@ public class Subject implements Parcelable {
     String professor="", notes="";
     int assignmentCount=0;
     int bunkedClasses = 0, attendance = 100, totalClasses = 1;
-    int color = Color.WHITE;
+    int color = 0;
 
     public Subject(String id, String subject) {
         this.id = id;
@@ -71,7 +71,11 @@ public class Subject implements Parcelable {
     }
 
     public int getColor() {
-        return color;
+        if(this.color==0){
+            return Color.parseColor("#fefefe");
+        }else{
+            return this.color;
+        }
     }
 
     public void setColor(int color) {

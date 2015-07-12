@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@color/toolBarColor"
             android:minHeight="?attr/actionBarSize"
-            app:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+            app:theme="@style/ThemeOverlay.AppCompat.Light" />
 
     </android.support.design.widget.AppBarLayout>
 

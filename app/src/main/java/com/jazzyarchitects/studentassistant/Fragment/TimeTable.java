@@ -6,10 +6,12 @@ import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -18,6 +20,8 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.jazzyarchitects.studentassistant.Activities.HomeScreen;
 import com.jazzyarchitects.studentassistant.CustomViews.SubjectDetailDialog;
+import com.jazzyarchitects.studentassistant.CustomViews.SubjectSelection;
+import com.jazzyarchitects.studentassistant.Listeners.DragEventListener;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.TimeTableIds;
 import com.jazzyarchitects.studentassistant.R;
@@ -38,8 +42,13 @@ public class TimeTable extends Fragment {
     boolean selected = false;
     protected static View activityLayout;
     int dayToday=-1;
+    int[] colors;
+
+    LinearLayout subjectList;
 
     boolean TESTING=true;
+
+    CardView card;
 
 
     int col(int id){
@@ -51,6 +60,11 @@ public class TimeTable extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         activityLayout = View.inflate(getActivity(), R.layout.fragment_time_table, null);
+        subjectList=(LinearLayout)activityLayout.findViewById(R.id.subjectList);
+//        card=(CardView)activityLayout.findViewById(R.id.card);
+
+//        card.setOnLongClickListener(new DragStartListener());
+
         try{
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Weekly Time Table");
         }catch (Exception e){
@@ -68,24 +82,38 @@ public class TimeTable extends Fragment {
         //Setting up time table
         TimeTableOperations.setUpLabels();
 
-        int[] colors={col(R.color.color1),col(R.color.color2),col(R.color.color3),col(R.color.color4),
+        colors = new int[]{col(R.color.color1),col(R.color.color2),col(R.color.color3),col(R.color.color4),
                 col(R.color.color5),col(R.color.color6),col(R.color.color7), Color.RED, Color.MAGENTA,
                 Color.GREEN, Color.YELLOW, Color.CYAN};
 
 
+        populateSubjectList();
         //Writing some junk Values
-        for (int i = 0; i < TimeTableIds.day.length; i++) {
-            for (int j = 0; j < TimeTableIds.period.length; j++) {
-                Subject subject = new Subject("0", "Subject (" + j + "," + i + ")");
-                if(i*j+j+i*2%3==0){
-                    subject.incrementAssignmentCount();
-                }
-                subject.setColor(colors[(new Random()).nextInt(colors.length)]);
-                TimeTableOperations.setSubject(i, j, subject);
-
-            }
-        }
+//        for (int i = 0; i < TimeTableIds.day.length; i++) {
+//            for (int j = 0; j < TimeTableIds.period.length; j++) {
+//                Subject subject = new Subject("0", "Subject (" + j + "," + i + ")");
+//                if(i*j+j+i*2%3==0){
+//                    subject.incrementAssignmentCount();
+//                }
+//                subject.setColor(colors[(new Random()).nextInt(colors.length)]);
+//                TimeTableOperations.setSubject(i, j, subject);
+//
+//            }
+//        }
+        TimeTableOperations.setDragListeners();
         return activityLayout;
+    }
+
+    public void populateSubjectList(){
+        for(int i=0;i<5;i++) {
+            Subject subject = new Subject(String.valueOf(i), "Subject " + (i + 1));
+            subject.setColor(colors[((new Random()).nextInt(colors.length))]);
+            subject.setAssignmentCount(i % 4);
+            SubjectSelection subjectSelection=new SubjectSelection(getActivity());
+            subjectSelection.setSubject(subject);
+            subjectList.addView(subjectSelection);
+        }
+
     }
 
     /**
@@ -134,7 +162,7 @@ public class TimeTable extends Fragment {
     /**
      * All operations on time table
      */
-    public static class TimeTableOperations {
+    private static class TimeTableOperations {
 
         static String[] day = {"Mon", "Tue", "Wed", "Thu", "Fri"};
         static String[] timings = {"8:00 - 8:50", "8:50 - 9:40", "9:40 - 10:30", "10:30 - 11:20", "11:20 - 12:10",
@@ -231,6 +259,15 @@ public class TimeTable extends Fragment {
         public static void removeMaterialRipple(int dayIndex, int periodIndex){
             getCellDetails(dayIndex, periodIndex);
             rippleLayout=(MaterialRippleLayout)cell.findViewById(R.id.rippleLayout);
+        }
+
+        public static void setDragListeners(){
+            for (int i = 0; i < TimeTableIds.day.length; i++) {
+                for (int j = 0; j < TimeTableIds.period.length; j++) {
+                    getCellDetails(i,j);
+                    cell.setOnDragListener(new DragEventListener());
+                }
+            }
         }
     }
 

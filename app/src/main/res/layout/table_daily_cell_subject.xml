@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+    android:layout_height="match_parent"
+    android:background="@color/unSelectedCellColor">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dailyTableSubjectTextColor"
+        android:textSize="16sp"
+        android:padding="5dp"
+        android:background="@color/themeColor2"
+        android:id="@+id/subjectName"
+        android:gravity="center"
+        android:text="Subject Name"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dailyTableSubjectTextColor"
+        android:id="@+id/notes"
+        android:layout_below="@+id/subjectName"
+        android:maxLines="6"
+        android:padding="5dp"
+        android:textSize="13sp"
+        android:text="@string/lorem_ipsum"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableRow"
+        android:layout_below="@+id/notes"
+        android:layout_margin="5dp"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/bunkedClasses"
+            android:id="@+id/bunkedClasses"
+            android:textColor="@color/themeColor4"
+            android:textSize="15sp"/>
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/attendancePercentage"
+            android:id="@+id/attendancePercentage"
+            android:textColor="@color/themeColor4"
+            android:textSize="15sp"/>
+
+    </TableRow>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableRow"
+        android:textColor="@color/themeColor5"
+        android:padding="5dp"
+        android:textSize="15sp"
+        android:text="Assignments Pending: 0"/>
+
+</RelativeLayout>

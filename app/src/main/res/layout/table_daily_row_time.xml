@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/cellMinHeight"
+    android:orientation="horizontal"
+    android:background="@color/borderColor"
+    android:weightSum="22">
+
+    <View
+        android:layout_width="@dimen/dailyTimeTableLabelWidth"
+        android:background="@color/emptyCellColor"
+        android:layout_height="@dimen/cellMinHeight" />
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="1dp"
+        android:id="@+id/time1"/>
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:layout_marginLeft="1dp"
+        android:id="@+id/time2"/>
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="2"
+        android:id="@+id/time3"/>
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="2"
+        android:id="@+id/time4"/>
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="2"
+        android:id="@+id/time5"/>
+
+    <View
+        android:layout_width="@dimen/dailyTimeTableLabelWidth"
+        android:layout_weight="1"
+        android:layout_marginLeft="1dp"
+        android:background="@color/emptyCellColor"
+        android:layout_height="@dimen/cellMinHeight" />
+
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:layout_marginLeft="1dp"
+        android:id="@+id/time6"/>
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="2"
+        android:id="@+id/time7"/>
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="2"
+        android:id="@+id/time8"/>
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="2"
+        android:id="@+id/time9"/>
+
+
+    <include layout="@layout/table_cell_day"
+        android:layout_width="@dimen/dailyTimeTableSubjectWidth"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="2"
+        android:id="@+id/time10"/>
+
+
+</TableRow>
