@@ -1,11 +1,12 @@
 package com.jazzyarchitects.studentassistant.Listeners;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.R;
 
 /**
@@ -16,11 +17,9 @@ public class DragEventListener implements View.OnDragListener {
     public boolean onDrag(View v, DragEvent event) {
         int action=event.getAction();
         RelativeLayout rl=(RelativeLayout)v.findViewById(R.id.cell);
-        Subject subject;
-            subject = (Subject) v.getTag();
-        if(subject==null) {
-            subject = new Subject("0", "___");
-        }
+        TextView name=(TextView)rl.findViewById(R.id.subjectName);
+        String subjectName=event.getClipData().toString();
+        Log.e("DragEventListener",subjectName);
         switch (action){
             case DragEvent.ACTION_DRAG_STARTED:
 //                Log.d("DragEventListener","Started");
@@ -31,7 +30,8 @@ public class DragEventListener implements View.OnDragListener {
                 break;
             case DragEvent.ACTION_DROP:
 //                Log.e("DragEventListener","Dropped "+subject.getSubject());
-                rl.setBackgroundColor(subject.getColor());
+                name.setText(subjectName);
+                rl.setBackgroundColor(Color.WHITE);
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
 //                Log.e("DragEventListener","Exitted "+subject.getSubject());

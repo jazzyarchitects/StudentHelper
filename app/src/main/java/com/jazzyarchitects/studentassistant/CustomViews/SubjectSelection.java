@@ -72,6 +72,7 @@ public class SubjectSelection extends CardView {
 
     public void setSubject(Subject subject){
         this.subject=subject;
+        this.cardView.setTag(subject);
         set();
     }
 }
