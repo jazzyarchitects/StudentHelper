@@ -54,7 +54,7 @@ public class SubjectDetailDialog extends AppCompatDialog {
 
         setColor(subject.getColor());
         subjectName.setText(subject.getSubject().toUpperCase());
-        professor.setText(Constants.getProfessorNameText(subject.getProfessor()));
+        professor.setText(Constants.getProfessorNameText(subject.getTeacher()));
         bunkedClasses.setText(Constants.getBunkedClassText(subject.getBunkedClasses()));
         attendancePercentage.setText(Constants.getAttendancePercentageText(subject.getAttendancePercentage()));
         if(subject.getNotes().isEmpty()){

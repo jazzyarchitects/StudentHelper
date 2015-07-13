@@ -18,6 +18,10 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
 
+    <string name="noSubject">You have not added any subject</string>
+    <string name="chooseSubject">Choose a color for easy identification of the subject</string>
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_add_subject">AddSubject</string>
 </resources>
