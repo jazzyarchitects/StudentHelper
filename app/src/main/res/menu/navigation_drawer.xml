@@ -12,7 +12,11 @@
 
         <item
             android:id="@+id/dailyTimeTable"
-            android:title="Daily Time Tablle" />
+            android:title="Daily Time Table" />
+
+        <item
+            android:id="@+id/subjectList"
+            android:title="Subjects" />
 
 
     </group>

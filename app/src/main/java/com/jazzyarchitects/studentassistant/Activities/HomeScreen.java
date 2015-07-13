@@ -2,6 +2,7 @@ package com.jazzyarchitects.studentassistant.Activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
+import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
 import com.jazzyarchitects.studentassistant.R;
 
@@ -90,12 +92,15 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 fragment=new TimeTable();
                 fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
                 break;
+            case R.id.subjectList:
+                fragment=new SubjectList();
+                fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
+                break;
             default:
                 break;
         }
         return false;
     }
-
 
     ActivityClickListener activityClickListener;
 

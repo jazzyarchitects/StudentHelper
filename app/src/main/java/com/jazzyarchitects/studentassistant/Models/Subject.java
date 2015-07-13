@@ -10,7 +10,7 @@ import android.os.Parcelable;
 public class Subject implements Parcelable {
 
     String id = "", subject = "";
-    String professor="", notes="";
+    String teacher="", notes="";
     int assignmentCount=0;
     int bunkedClasses = 0, attendance = 100, totalClasses = 1;
     int color = 0;
@@ -110,12 +110,12 @@ public class Subject implements Parcelable {
         return 100 - (100 * (bunkedClasses / totalClasses));
     }
 
-    public String getProfessor() {
-        return professor;
+    public String getTeacher() {
+        return teacher;
     }
 
-    public void setProfessor(String professor) {
-        this.professor = professor;
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 
     public String getNotes() {

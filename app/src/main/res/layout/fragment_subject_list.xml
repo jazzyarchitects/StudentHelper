@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    tools:context="com.jazzyarchitects.studentassistant.Fragment.SubjectList">
+
+    <TextView
+        android:id="@+id/noSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/noSubject"
+        android:textColor="@color/themeColor5"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/addSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/noSubject"
+        android:layout_marginTop="20sp"
+        android:text="+ ADD NEW SUBJECT"
+        android:textColor="@color/themeColor4"
+        android:textSize="20sp" />
+
+</RelativeLayout>
