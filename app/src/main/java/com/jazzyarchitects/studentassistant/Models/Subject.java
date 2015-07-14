@@ -26,6 +26,12 @@ public class Subject implements Parcelable {
     public Subject(Parcel in) {
     }
 
+    public Subject(String subjectName, String teacherName, int color){
+        subject=subjectName;
+        teacher=teacherName;
+        this.color=color;
+    }
+
     @Override
     public int describeContents() {
         return 0;
