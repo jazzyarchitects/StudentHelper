@@ -12,7 +12,7 @@
         android:gravity="center"
         android:text="@string/noSubject"
         android:textColor="@color/themeColor5"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:visibility="visible" />
 
     <TextView
@@ -20,9 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/noSubject"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="20dp"
         android:text="+ ADD NEW SUBJECT"
         android:textColor="@color/themeColor4"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
 </RelativeLayout>

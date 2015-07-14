@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
-import com.jazzyarchitects.studentassistant.Listeners.DragStartListener;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.R;
 
@@ -52,8 +51,6 @@ public class SubjectSelection extends CardView {
                 subjectName.setText(textResource);
             }
         }
-
-        cardView.setOnLongClickListener(new DragStartListener());
     }
 
     public void set(){
@@ -74,5 +71,9 @@ public class SubjectSelection extends CardView {
         this.subject=subject;
         this.cardView.setTag(subject);
         set();
+    }
+
+    public void setDragStartListener(OnLongClickListener listener){
+        this.cardView.setOnLongClickListener(listener);
     }
 }

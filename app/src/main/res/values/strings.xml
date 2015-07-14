@@ -18,7 +18,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
 
-    <string name="noSubject">You have not added any subject</string>
+    <string name="noSubject">No Subjects&#8230;!!!\nAre you sure that you are a student??</string>
     <string name="chooseSubject">Choose a color for easy identification of the subject</string>
 
 <!-- TODO: Remove or change this placeholder text -->

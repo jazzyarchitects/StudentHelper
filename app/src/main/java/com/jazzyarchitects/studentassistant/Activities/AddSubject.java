@@ -1,11 +1,9 @@
 package com.jazzyarchitects.studentassistant.Activities;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -13,8 +11,6 @@ import android.widget.TextView;
 
 import com.jazzyarchitects.studentassistant.CustomViews.ColorPickerDialog;
 import com.jazzyarchitects.studentassistant.R;
-
-import org.w3c.dom.Text;
 
 public class AddSubject extends AppCompatActivity {
 
@@ -106,9 +102,6 @@ public class AddSubject extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
