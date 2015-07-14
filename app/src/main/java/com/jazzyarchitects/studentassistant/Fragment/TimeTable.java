@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.jazzyarchitects.studentassistant.Activities.HomeScreen;
 import com.jazzyarchitects.studentassistant.Adapters.SubjectSelectionListAdapter;
 import com.jazzyarchitects.studentassistant.CustomViews.SubjectDetailDialog;
+import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.TimeTableIds;
@@ -35,7 +37,6 @@ import com.jazzyarchitects.studentassistant.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,18 +113,20 @@ public class TimeTable extends Fragment {
 //
 //            }
 //        }
-        TimeTableOperations.setDragListeners();
+        TimeTableOperations.setTableCellListeners();
         return activityLayout;
     }
 
     public void populateSubjectList() {
-        ArrayList<Subject> subjects = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Subject subject = new Subject(String.valueOf(i), "Subject " + (i + 1));
-            subject.setColor(colors[((new Random()).nextInt(colors.length))]);
-            subject.setAssignmentCount(i % 4);
-            subjects.add(subject);
-        }
+//        ArrayList<Subject> subjects = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            Subject subject = new Subject(String.valueOf(i), "Subject " + (i + 1));
+//            subject.setColor(colors[((new Random()).nextInt(colors.length))]);
+//            subject.setAssignmentCount(i % 4);
+//            subjects.add(subject);
+//        }
+
+        ArrayList<Subject> subjects= (new SubjectDatabase(getActivity())).getAllSubject();
 
         RecyclerView recyclerView = (RecyclerView) activityLayout.findViewById(R.id.subjectList);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), getResources().getInteger(R.integer.subjectListColoumnCount)));
@@ -131,7 +134,7 @@ public class TimeTable extends Fragment {
         adapter.setOnLongClickListener(new SubjectSelectionListAdapter.LongClickListener() {
             @Override
             public void onLongClick(View v) {
-                v.setOnLongClickListener(new DragStartListener());
+                v.setOnTouchListener(new DragStartListener());
             }
         });
         recyclerView.setHasFixedSize(true);
@@ -185,10 +188,9 @@ public class TimeTable extends Fragment {
                 "13:30 - 14:20", "14:20 - 15:10", "15:10 - 16:00", "16:00 - 16:50", "16:50 - 17:40"};
         static TableLayout tableLayout;
         static TableRow tableRow;
-        static RelativeLayout cell;
+        static RelativeLayout cell, innerCell;
         static ImageView assignmentIcon;
         static TextView textView;
-        static View colorIndicator;
         static MaterialRippleLayout rippleLayout;
 
         public static void setUpLabels() {
@@ -214,9 +216,10 @@ public class TimeTable extends Fragment {
             tableLayout = (TableLayout) activityLayout.findViewById(TimeTableIds.table);
             tableRow = (TableRow) tableLayout.findViewById(TimeTableIds.period[periodIndex]);
             cell = (RelativeLayout) tableRow.findViewById(TimeTableIds.day[dayIndex]);
+            innerCell=(RelativeLayout)cell.findViewById(R.id.cell);
+            rippleLayout=(MaterialRippleLayout)cell.findViewById(R.id.rippleLayout);
             assignmentIcon = (ImageView) cell.findViewById(TimeTableIds.assignmentIcon);
             textView = (TextView) cell.findViewById(TimeTableIds.subjectName);
-            colorIndicator = cell.findViewById(R.id.colorIndicator);
         }
 
         public static Subject getSubject(int dayIndex, int periodIndex) {
@@ -234,14 +237,15 @@ public class TimeTable extends Fragment {
 
             if (subject == null) {
                 textView.setText("____");
-                cell.setBackgroundColor(Color.parseColor("#EEEEEE"));
                 cell.setTag(null);
+                assignmentIcon.setVisibility(View.GONE);
+                innerCell.setBackgroundColor(Color.WHITE);
+                textView.setTextColor(Color.BLACK);
             } else {
                 textView.setText(subject.getSubject());
                 cell.setTag(subject);
-                colorIndicator.setBackgroundColor(subject.getColor());
                 if (Constants.isColorDark(subject.getColor())) {
-                    textView.setTextColor(Color.WHITE);
+                    textView.setTextColor(Color.parseColor("#fefefe"));
                 }
                 if (subject.hasAssignment()) {
                     assignmentIcon.setVisibility(View.VISIBLE);
@@ -280,11 +284,22 @@ public class TimeTable extends Fragment {
             rippleLayout = (MaterialRippleLayout) cell.findViewById(R.id.rippleLayout);
         }
 
-        public static void setDragListeners() {
+        public static void setTableCellListeners() {
             for (int i = 0; i < TimeTableIds.day.length; i++) {
                 for (int j = 0; j < TimeTableIds.period.length; j++) {
                     getCellDetails(i, j);
                     cell.setOnDragListener(new DragEventListener());
+                    final int finalI = i;
+                    final int finalJ = j;
+                    rippleLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+//                            Log.e("Table","Cell long click..."+finalI+","+finalJ);
+                            TimeTableOperations.setSubject(finalI, finalJ,null);
+                            vibrator.vibrate(100);
+                            return false;
+                        }
+                    });
                 }
             }
         }
@@ -346,15 +361,16 @@ public class TimeTable extends Fragment {
     }
 
 
-    public class DragStartListener implements View.OnLongClickListener {
+    public class DragStartListener implements View.OnTouchListener {
+
         @Override
-        public boolean onLongClick(View v) {
-            vibrator.vibrate(150);
+        public boolean onTouch(View v, MotionEvent event) {
+//            vibrator.vibrate(150);
             ClipData clipData = ClipData.newPlainText("", "");
             draggingSubject = (Subject) v.getTag();
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
             v.startDrag(clipData, shadowBuilder, v, 0);
-            return true;
+            return false;
         }
     }
 

@@ -2,9 +2,9 @@ package com.jazzyarchitects.studentassistant.Activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
@@ -81,15 +80,12 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         Fragment fragment=null;
         FragmentManager fragmentManager=getFragmentManager();
         switch (id){
-            case R.id.credits:
-                Toast.makeText(this, "Credits",Toast.LENGTH_LONG).show();
-                break;
             case R.id.timeTable:
                 fragment=new TimeTable();
                 fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
                 break;
             case R.id.dailyTimeTable:
-                fragment=new TimeTable();
+                fragment=new DailyTimeTable();
                 fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
                 break;
             case R.id.subjectList:
@@ -110,6 +106,15 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     public interface ActivityClickListener{
         void onSubjectClick(View view);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawers();
+        }else{
+            super.onBackPressed();
+        }
     }
 
     public void setActivityClickListener(ActivityClickListener activityClickListener){

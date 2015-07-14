@@ -33,6 +33,10 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     private static final String KEY_SUBJECT_COLOR = "color";
     private static final String KEY_TEACHER_NAME = "teacher";
 
+    String CREATE_EXPENSES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SUBJECTS + " ("
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT,"
+            + KEY_SUBJECT_COLOR + " INTEGER," + KEY_TEACHER_NAME + " TEXT" + ");";
+
     public SubjectDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -40,9 +44,6 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_EXPENSES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SUBJECTS + " ("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT,"
-                + KEY_SUBJECT_COLOR + " INTEGER," + KEY_TEACHER_NAME + " TEXT" + ");";
         Log.e("SQL", CREATE_EXPENSES_TABLE);
         db.execSQL(CREATE_EXPENSES_TABLE);
     }
@@ -70,12 +71,7 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     // Adding new subject
     public void addSubject(Subject subject) {
 
-        String CREATE_EXPENSES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SUBJECTS + " ("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT,"
-                + KEY_SUBJECT_COLOR + " INTEGER," + KEY_TEACHER_NAME + " TEXT" + ");";
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         db.execSQL(CREATE_EXPENSES_TABLE);
 
         ContentValues values = new ContentValues();
@@ -99,24 +95,22 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         //Cursor cursor = db.rawQuery(selectQuery, null);
 
-        Cursor cursor=db.query(TABLE_SUBJECTS,
-                new String[] { KEY_ID, KEY_SUBJECT_NAME, KEY_SUBJECT_COLOR, KEY_TEACHER_NAME },
+        Cursor cursor = db.query(TABLE_SUBJECTS,
+                new String[]{KEY_ID, KEY_SUBJECT_NAME, KEY_SUBJECT_COLOR, KEY_TEACHER_NAME},
                 null, null, null, null, null);
 
-        Log.e("cursor", cursor.toString());
         // looping through all rows and adding to list
 
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    Subject subject = new Subject();
-                    subject.setSubject(cursor.getString(1));
-                    subject.setColor(cursor.getInt(2));
-                    subject.setTeacher(cursor.getString(3));
+        if (cursor.moveToFirst()) {
+            do {
+                Log.e("cursor", cursor.getString(0));
+                Subject subject = new Subject();
+                subject.setSubject(cursor.getString(1));
+                subject.setColor(cursor.getInt(2));
+                subject.setTeacher(cursor.getString(3));
 
-                    subjectList.add(subject);
-                } while (cursor.moveToNext());
-            }
+                subjectList.add(subject);
+            } while (cursor.moveToNext());
         }
         cursor.close();
 

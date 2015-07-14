@@ -3,21 +3,18 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/credits"
-            android:title="Credits" />
+            android:id="@+id/dailyTimeTable"
+            android:icon="@drawable/ic_today_black_24dp"
+            android:title="Today's Time Table" />
 
         <item
             android:id="@+id/timeTable"
-            android:title="Time Table" />
-
-        <item
-            android:id="@+id/dailyTimeTable"
-            android:title="Daily Time Table" />
+            android:icon="@drawable/ic_bookmark_border_black_24dp"
+            android:title="Weekly Time Table" />
 
         <item
             android:id="@+id/subjectList"
-            android:title="Subjects" />
-
-
+            android:icon="@drawable/ic_view_list_black_24dp"
+            android:title="All Subjects" />
     </group>
 </menu>

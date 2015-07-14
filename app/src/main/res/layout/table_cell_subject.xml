@@ -44,15 +44,6 @@
                 android:textColor="#000"
                 android:textSize="12sp" />
 
-            <View
-                android:id="@+id/colorIndicator"
-                android:layout_width="@dimen/colorIndicatorSize"
-                android:layout_height="@dimen/colorIndicatorSize"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="2dp"
-                android:background="@color/appThemeColor"
-                android:visibility="gone" />
         </RelativeLayout>
 
     </com.balysv.materialripple.MaterialRippleLayout>
