@@ -29,7 +29,6 @@
         android:paddingTop="5sp"
         android:paddingBottom="5sp"
         android:layout_below="@id/recyclerView"
-        android:layout_below="@id/noSubject"
         android:layout_marginTop="20dp"
         android:text="+ ADD NEW SUBJECT"
         android:textColor="@color/themeColor4"
