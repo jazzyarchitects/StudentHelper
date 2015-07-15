@@ -80,7 +80,6 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         values.put(KEY_SUBJECT_COLOR, subject.getColor());
         values.put(KEY_TEACHER_NAME, subject.getTeacher());
 
-        Log.e("values", values.toString());
         // Inserting Row
         db.insert(TABLE_SUBJECTS, null, values);
         db.close(); // Closing database connection
@@ -89,28 +88,24 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     // Getting All subject
     public ArrayList<Subject> getAllSubject() {
         ArrayList<Subject> subjectList = new ArrayList<Subject>();
-        // Select All Query
+
         String selectQuery = "SELECT  * FROM " + TABLE_SUBJECTS;
-
         SQLiteDatabase db = this.getWritableDatabase();
-        //Cursor cursor = db.rawQuery(selectQuery, null);
-
-        Cursor cursor = db.query(TABLE_SUBJECTS,
-                new String[]{KEY_ID, KEY_SUBJECT_NAME, KEY_SUBJECT_COLOR, KEY_TEACHER_NAME},
-                null, null, null, null, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
 
-        if (cursor.moveToFirst()) {
-            do {
-                Log.e("cursor", cursor.getString(0));
-                Subject subject = new Subject();
-                subject.setSubject(cursor.getString(1));
-                subject.setColor(cursor.getInt(2));
-                subject.setTeacher(cursor.getString(3));
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    Subject subject = new Subject();
+                    subject.setSubject(cursor.getString(cursor.getColumnIndex(KEY_SUBJECT_NAME)));
+                    subject.setColor(cursor.getInt(cursor.getColumnIndex(KEY_SUBJECT_COLOR)));
+                    subject.setTeacher(cursor.getString(cursor.getColumnIndex(KEY_TEACHER_NAME)));
 
-                subjectList.add(subject);
-            } while (cursor.moveToNext());
+                    subjectList.add(subject);
+                } while (cursor.moveToNext());
+            }
         }
         cursor.close();
 
