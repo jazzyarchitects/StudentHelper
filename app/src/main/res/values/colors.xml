@@ -35,7 +35,8 @@
     <color name="borderColor">#ff847e96</color>
     <color name="shadowColor">#66000000</color>
 
-
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
     <color name="color1">#ff0e3501</color>
     <color name="color2">#ff353100</color>
     <color name="color3">#ff350c00</color>

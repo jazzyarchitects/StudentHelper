@@ -1,27 +1,29 @@
 package com.jazzyarchitects.studentassistant.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jazzyarchitects.studentassistant.Activities.AddSubject;
 import com.jazzyarchitects.studentassistant.Activities.HomeScreen;
+import com.jazzyarchitects.studentassistant.Adapters.SubjectListAdapter;
+import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
+import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SubjectList.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SubjectList#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class SubjectList extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,7 +35,11 @@ public class SubjectList extends Fragment {
     private String mParam2;
 
     TextView addSubject, noSubject;
-    private OnFragmentInteractionListener mListener;
+    SubjectDatabase subjectDatabase;
+    Context context;
+    RecyclerView recyclerView;
+    SubjectListAdapter subjectListAdapter;
+    ArrayList<Subject> subjectList;
 
     /**
      * Use this factory method to create a new instance of
@@ -70,9 +76,33 @@ public class SubjectList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        context=getActivity();
         View view= inflater.inflate(R.layout.fragment_subject_list, container, false);
         addSubject=(TextView)view.findViewById(R.id.addSubject);
         noSubject=(TextView)view.findViewById(R.id.noSubject);
+        recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+
+        subjectDatabase=new SubjectDatabase(context);
+        subjectList=new ArrayList<>();
+        subjectList=subjectDatabase.getAllSubject();
+
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        if (subjectList.isEmpty()){
+            noSubject.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            p.addRule(RelativeLayout.BELOW, R.id.noSubject);
+        }else{
+            noSubject.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            subjectListAdapter = new SubjectListAdapter(subjectList,context);
+            recyclerView.setAdapter(subjectListAdapter);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            p.addRule(RelativeLayout.BELOW, R.id.recyclerView);
+        }
+        noSubject.setLayoutParams(p);
 
         addSubject.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,14 +114,13 @@ public class SubjectList extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onResume() {
+        super.onResume();
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
 }

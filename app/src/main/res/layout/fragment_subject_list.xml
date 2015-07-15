@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:layout_margin="10dp"
     tools:context="com.jazzyarchitects.studentassistant.Fragment.SubjectList">
 
     <TextView
@@ -15,12 +15,20 @@
         android:textSize="20sp"
         android:visibility="visible" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:clipToPadding="false" />
+
     <TextView
         android:id="@+id/addSubject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/noSubject"
-        android:layout_marginTop="20sp"
+        android:paddingTop="5sp"
+        android:paddingBottom="5sp"
+        android:layout_below="@id/recyclerView"
         android:text="+ ADD NEW SUBJECT"
         android:textColor="@color/themeColor4"
         android:textSize="20sp" />
