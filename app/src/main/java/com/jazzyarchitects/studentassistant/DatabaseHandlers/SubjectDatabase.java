@@ -33,6 +33,10 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     private static final String KEY_SUBJECT_COLOR = "color";
     private static final String KEY_TEACHER_NAME = "teacher";
 
+    String CREATE_EXPENSES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SUBJECTS + " ("
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT,"
+            + KEY_SUBJECT_COLOR + " INTEGER," + KEY_TEACHER_NAME + " TEXT" + ");";
+
     public SubjectDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -40,9 +44,6 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_EXPENSES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SUBJECTS + " ("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT,"
-                + KEY_SUBJECT_COLOR + " INTEGER," + KEY_TEACHER_NAME + " TEXT" + ");";
         Log.e("SQL", CREATE_EXPENSES_TABLE);
         db.execSQL(CREATE_EXPENSES_TABLE);
     }
@@ -70,12 +71,7 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     // Adding new subject
     public void addSubject(Subject subject) {
 
-        String CREATE_EXPENSES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SUBJECTS + " ("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT,"
-                + KEY_SUBJECT_COLOR + " INTEGER," + KEY_TEACHER_NAME + " TEXT" + ");";
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         db.execSQL(CREATE_EXPENSES_TABLE);
 
         ContentValues values = new ContentValues();

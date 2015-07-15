@@ -5,7 +5,7 @@
     <color name="appThemeColor">@color/themeColor1</color>
     <color name="timeTableLabelCellColor">@color/themeColor3</color>
     <color name="navigationDrawerTextColor">@color/themeColor3</color>
-    <color name="navigationDrawerIconTint">@color/themeColor4</color>
+    <color name="navigationDrawerIconTint">@color/themeColor3</color>
     <color name="timeTableLabelColor">#FFFFFF</color>
     <color name="timeTableCellColor">@color/themeColor2</color>
     <color name="emptyCellColor">@color/themeColor3</color>

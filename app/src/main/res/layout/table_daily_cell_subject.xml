@@ -16,53 +16,69 @@
         android:text="Subject Name"/>
 
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/dailyTableSubjectTextColor"
-        android:id="@+id/notes"
+        android:layout_height="match_parent"
         android:layout_below="@+id/subjectName"
-        android:maxLines="6"
-        android:padding="5dp"
-        android:textSize="13sp"
-        android:text="@string/lorem_ipsum"/>
+        android:id="@+id/scrollView">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tableRow"
-        android:layout_below="@+id/notes"
-        android:layout_margin="5dp"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/bunkedClasses"
-            android:id="@+id/bunkedClasses"
-            android:textColor="@color/themeColor4"
-            android:textSize="15sp"/>
+            android:id="@+id/relativeLayout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dailyTableSubjectTextColor"
+                android:id="@+id/notes"
+                android:maxLines="6"
+                android:padding="5dp"
+                android:textSize="13sp"
+                android:text="@string/lorem_ipsum"/>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tableRow"
+                android:layout_below="@+id/notes"
+                android:layout_margin="5dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bunkedClasses"
+                    android:id="@+id/bunkedClasses"
+                    android:textColor="@color/themeColor4"
+                    android:textSize="15sp"/>
 
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/attendancePercentage"
-            android:id="@+id/attendancePercentage"
-            android:textColor="@color/themeColor4"
-            android:textSize="15sp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/attendancePercentage"
+                    android:id="@+id/attendancePercentage"
+                    android:textColor="@color/themeColor4"
+                    android:textSize="15sp"/>
 
-    </TableRow>
+            </TableRow>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tableRow"
-        android:textColor="@color/themeColor5"
-        android:padding="5dp"
-        android:textSize="15sp"
-        android:text="Assignments Pending: 0"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tableRow"
+                android:textColor="@color/themeColor5"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:text="Assignments Pending: 0"/>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 
 </RelativeLayout>

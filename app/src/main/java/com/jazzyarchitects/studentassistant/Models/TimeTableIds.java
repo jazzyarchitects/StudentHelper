@@ -12,7 +12,6 @@ public class TimeTableIds{
     public static int[] day={R.id.day1,R.id.day2,R.id.day3,R.id.day4,R.id.day5};
     public static int assignmentIcon=R.id.assignmentIcon;
     public static int subjectName=R.id.subjectName;
-    public static int colorIndicator=R.id.colorIndicator;
 
     public static int getDay(int id){
         return getPosition(id,day);

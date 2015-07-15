@@ -85,7 +85,7 @@ public class AddSubject extends AppCompatActivity {
 
                 ArrayList<Subject> subjectList = subjectDatabase.getAllSubject();
                 for (int i = 0; i < subjectList.size(); i++) {
-                    Log.e("database", subjectList.get(i).toString());
+                    Log.e("database", subjectList.get(i).getSubject());
                 }
                 finish();
             }
@@ -126,10 +126,6 @@ public class AddSubject extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

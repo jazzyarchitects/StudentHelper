@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.R;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +48,7 @@ public class DailyTimeTable extends Fragment {
         // Inflate the layout for this fragment
         activityView= inflater.inflate(R.layout.fragment_daily_time_table, container, false);
 
-        DailyTimeTableOperations.setLabels();
+        DailyTimeTableOperations.setLabels(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
 
         return activityView;
     }
@@ -56,6 +59,7 @@ public class DailyTimeTable extends Fragment {
         public static int[] time={R.id.time1, R.id.time2, R.id.time3, R.id.time4, R.id.time5,
                 R.id.time6, R.id.time7, R.id.time8, R.id.time9, R.id.time10};
         public static int periodRow=R.id.subjects;
+        public static int dayIndicator=R.id.day;
         public static int[] period={R.id.p1, R.id.p2, R.id.p3,R.id.p4, R.id.p5, R.id.p6,R.id.p7, R.id.p8, R.id.p9,R.id.p10};
 
         public static int getDay(int id){
@@ -81,8 +85,7 @@ public class DailyTimeTable extends Fragment {
         static TableRow tableRow;
         static RelativeLayout cell;
         static TextView subjectName, notes, bunkedClasses, attendancePercentage, assignments;
-
-        static String[] day = {"Mon", "Tue", "Wed", "Thu", "Fri"};
+        static String[] day = {"Sun","Mon", "Tue", "Wed", "Thu", "Fri","Sat"};
         static String[] timings = {"8:00 - 8:50", "8:50 - 9:40", "9:40 - 10:30", "10:30 - 11:20", "11:20 - 12:10",
                 "13:30 - 14:20", "14:20 - 15:10", "15:10 - 16:00", "16:00 - 16:50", "16:50 - 17:40"};
 
@@ -97,7 +100,7 @@ public class DailyTimeTable extends Fragment {
             assignments=(TextView)cell.findViewById(R.id.assignmentCount);
         }
 
-        public static void setLabels(){
+        public static void setLabels(int dayToday){
             tableLayout=(TableLayout)activityView.findViewById(DailyTimeTableIds.table);
             tableRow=(TableRow)tableLayout.findViewById(DailyTimeTableIds.timeRow);
             int j=0;
@@ -106,6 +109,10 @@ public class DailyTimeTable extends Fragment {
                 view.setText(timings[j]);
                 j++;
             }
+            LinearLayout row=(LinearLayout)tableLayout.getChildAt(1);
+            TextView dayIndicator=(TextView)row.getChildAt(0);
+            dayIndicator.setText(day[dayToday-1]);
+
         }
 
         public static void setSubject(int periodIndex, Subject subject){
