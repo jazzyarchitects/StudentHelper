@@ -3,6 +3,7 @@ package com.jazzyarchitects.studentassistant.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -46,9 +47,9 @@ public class SubjectSelectionListAdapter extends RecyclerView.Adapter<SubjectSel
             viewHolder.subjectName.setTextColor(Color.BLACK);
         }
         viewHolder.subjectName.setText(subject.getSubject());
-        viewHolder.cell.setOnLongClickListener(new View.OnLongClickListener() {
+        viewHolder.cell.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
                 if (mListener != null) {
                     mListener.onLongClick(v);
                 }

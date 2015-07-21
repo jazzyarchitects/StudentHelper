@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         android:layout_weight="7"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#FFF"
@@ -27,5 +27,20 @@
             android:layout_height="match_parent"
             android:id="@+id/subjectList" />
 
-    </LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="@dimen/floatingActionButtonSize"
+            android:layout_height="@dimen/floatingActionButtonSize"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_action_add"
+            android:scaleType="center"
+            app:borderWidth="2dp"
+            app:elevation="5dp"
+            android:id="@+id/addSubject"
+            />
+
+
+
+    </RelativeLayout>
 </LinearLayout>

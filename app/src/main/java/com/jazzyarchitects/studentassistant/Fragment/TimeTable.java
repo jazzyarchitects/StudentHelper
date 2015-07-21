@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,6 +32,7 @@ import com.jazzyarchitects.studentassistant.Activities.HomeScreen;
 import com.jazzyarchitects.studentassistant.Adapters.SubjectSelectionListAdapter;
 import com.jazzyarchitects.studentassistant.CustomViews.SubjectDetailDialog;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
+import com.jazzyarchitects.studentassistant.DatabaseHandlers.TimeTableHandler;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.TimeTableIds;
@@ -48,6 +51,8 @@ public class TimeTable extends Fragment {
         // Required empty public constructor
     }
 
+    OnFragmentInteractionListener mListener;
+    static String TAG="TimeTableFragment";
     boolean selected = false;
     protected static View activityLayout;
     static int dayToday = -1;
@@ -57,12 +62,15 @@ public class TimeTable extends Fragment {
 
     boolean TESTING = true;
 
+    TimeTableHandler timeTableHandler;
+    FloatingActionButton addSubjects;
+
     CardView card;
 
     static Subject draggingSubject = null;
 
     static Vibrator vibrator;
-
+    static Context sContext;
 
     int col(int id) {
         return getResources().getColor(id);
@@ -71,13 +79,30 @@ public class TimeTable extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e(TAG,"Created");
         // Inflate the layout for this fragment
         activityLayout = View.inflate(getActivity(), R.layout.fragment_time_table, null);
 //        card=(CardView)activityLayout.findViewById(R.id.card);
 
 //        card.setOnLongClickListener(new DragStartListener());
 
+        addSubjects=(FloatingActionButton)activityLayout.findViewById(R.id.addSubject);
+        addSubjects.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener!=null)
+                    mListener.onFloatingButtonClicked();
+            }
+        });
+
+        SharedPreferences timeTablePref=getActivity().getSharedPreferences(Constants.TimeTablePreferences.Preference,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=timeTablePref.edit();
+        editor.putInt(Constants.TimeTablePreferences.PeriodCount,10);
+        editor.putInt(Constants.TimeTablePreferences.WorkingDaysInWeek,5);
+        editor.apply();
+
         vibrator=(Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        sContext=getActivity();
 
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Weekly Time Table");
@@ -101,31 +126,13 @@ public class TimeTable extends Fragment {
 
 
         populateSubjectList();
-        //Writing some junk Values
-//        for (int i = 0; i < TimeTableIds.day.length; i++) {
-//            for (int j = 0; j < TimeTableIds.period.length; j++) {
-//                Subject subject = new Subject("0", "Subject (" + j + "," + i + ")");
-//                if(i*j+j+i*2%3==0){
-//                    subject.incrementAssignmentCount();
-//                }
-//                subject.setColor(colors[(new Random()).nextInt(colors.length)]);
-//                TimeTableOperations.setSubject(i, j, subject);
-//
-//            }
-//        }
         TimeTableOperations.setTableCellListeners();
+        TimeTableOperations.populateTimeTable();
         return activityLayout;
     }
 
     public void populateSubjectList() {
-//        ArrayList<Subject> subjects = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            Subject subject = new Subject(String.valueOf(i), "Subject " + (i + 1));
-//            subject.setColor(colors[((new Random()).nextInt(colors.length))]);
-//            subject.setAssignmentCount(i % 4);
-//            subjects.add(subject);
-//        }
-
+        Log.e(TAG,"Populating time table");
         ArrayList<Subject> subjects= (new SubjectDatabase(getActivity())).getAllSubject();
 
         RecyclerView recyclerView = (RecyclerView) activityLayout.findViewById(R.id.subjectList);
@@ -137,7 +144,6 @@ public class TimeTable extends Fragment {
                 v.setOnTouchListener(new DragStartListener());
             }
         });
-        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
     }
@@ -194,6 +200,7 @@ public class TimeTable extends Fragment {
         static MaterialRippleLayout rippleLayout;
 
         public static void setUpLabels() {
+            Log.d(TAG,"Setting up labels");
             tableLayout = (TableLayout) activityLayout.findViewById(TimeTableIds.table);
             TableRow days = (TableRow) activityLayout.findViewById(R.id.days);
             for (int i = 1; i < days.getChildCount(); i++) {
@@ -213,6 +220,7 @@ public class TimeTable extends Fragment {
         }
 
         private static void getCellDetails(int dayIndex, int periodIndex) {
+            Log.v(TAG,"Getting cell: ("+dayIndex+","+periodIndex+")");
             tableLayout = (TableLayout) activityLayout.findViewById(TimeTableIds.table);
             tableRow = (TableRow) tableLayout.findViewById(TimeTableIds.period[periodIndex]);
             cell = (RelativeLayout) tableRow.findViewById(TimeTableIds.day[dayIndex]);
@@ -241,9 +249,12 @@ public class TimeTable extends Fragment {
                 assignmentIcon.setVisibility(View.GONE);
                 innerCell.setBackgroundColor(Color.WHITE);
                 textView.setTextColor(Color.BLACK);
+                Log.v(TAG,"Null subject in ("+dayIndex+","+periodIndex+")");
             } else {
+                Log.v(TAG,"Setting subject: "+subject.getSubject()+",id: "+subject.getId()+" in ("+dayIndex+","+periodIndex+")");
                 textView.setText(subject.getSubject());
                 cell.setTag(subject);
+                cell.setBackgroundColor(subject.getColor());
                 if (Constants.isColorDark(subject.getColor())) {
                     textView.setTextColor(Color.parseColor("#fefefe"));
                 }
@@ -266,7 +277,7 @@ public class TimeTable extends Fragment {
         }
 
         public static void markDay(int dayOfWeek) {
-            if (dayOfWeek == 0 || dayOfWeek >= 6) {
+            if (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY) {
                 return;
             }
             tableLayout = (TableLayout) activityLayout.findViewById(R.id.table);
@@ -277,6 +288,22 @@ public class TimeTable extends Fragment {
                     cell.setBackgroundColor(Color.parseColor("#7AB317"));
                 }
             }
+        }
+
+        public static void populateTimeTable(){
+            Log.e(TAG,"Populating Time Table--1");
+            TimeTableHandler handler=new TimeTableHandler(sContext);
+            SubjectDatabase subjectHandler=new SubjectDatabase(sContext);
+            for(int i=0;i<TimeTableIds.day.length;i++){
+                for (int j = 0; j < TimeTableIds.period.length; j++) {
+                    String id=handler.getSubjectId(i,j);
+                    Subject subject=subjectHandler.findSubjectById(id);
+                    setSubject(i,j,subject);
+                }
+            }
+            handler.close();
+            subjectHandler.close();
+            Log.e(TAG,"Finished Populating Time Table--2");
         }
 
         public static void removeMaterialRipple(int dayIndex, int periodIndex) {
@@ -295,7 +322,10 @@ public class TimeTable extends Fragment {
                         @Override
                         public boolean onLongClick(View v) {
 //                            Log.e("Table","Cell long click..."+finalI+","+finalJ);
-                            TimeTableOperations.setSubject(finalI, finalJ,null);
+                            TimeTableOperations.setSubject(finalI, finalJ, null);
+                            TimeTableHandler handler=new TimeTableHandler(sContext);
+                            handler.removeSubject(finalI, finalJ);
+                            handler.close();
                             vibrator.vibrate(100);
                             return false;
                         }
@@ -304,6 +334,7 @@ public class TimeTable extends Fragment {
             }
         }
     }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -314,6 +345,11 @@ public class TimeTable extends Fragment {
                 subjectClick(view);
             }
         });
+        try{
+            mListener=(OnFragmentInteractionListener)activity;
+        }catch (ClassCastException e){
+            throw new ClassCastException(activity.toString()+"must implement OnFragmentInteractionListener");
+        }
     }
 
 
@@ -332,7 +368,9 @@ public class TimeTable extends Fragment {
                     vibrator.vibrate(100);
                     int dayIndex = TimeTableIds.getDay(v.getId());
                     int periodIndex = TimeTableIds.getPeriod(((View) v.getParent()).getId());
+                    Log.e(TAG,"DragEvent: ACTION_DRAG_DROPPED in ("+dayIndex+","+periodIndex+")");
                     TimeTableOperations.setSubject(dayIndex, periodIndex, draggingSubject);
+                    updateSubject(dayIndex, periodIndex, draggingSubject);
 
                     if (dayIndex == dayToday -2) {
                         rl.setBackgroundColor(Color.parseColor("#7AB317"));
@@ -343,7 +381,7 @@ public class TimeTable extends Fragment {
                 case DragEvent.ACTION_DRAG_EXITED:
                     Subject existingSubject = (Subject) v.getTag();
                     int dI = TimeTableIds.getDay(v.getId());
-                    Log.e("DragEvent","dI: "+dI+" dayToday: "+dayToday);
+                    Log.e(TAG,"DragEvent: ACTION_DRAG_EXITED dI: "+dI+" dayToday: "+dayToday);
                     if (dI + 2 == dayToday) {
                         rl.setBackgroundColor(Color.parseColor("#7AB317"));
                     }else if (existingSubject == null) {
@@ -358,8 +396,14 @@ public class TimeTable extends Fragment {
 
             return true;
         }
+
     }
 
+    private static void updateSubject(int dayIndex, int periodIndex, Subject subject){
+        Log.e(TAG,"Updating subject: "+subject.getId());
+        TimeTableHandler handler=new TimeTableHandler(sContext);
+        handler.insertSubject(dayIndex,periodIndex,subject.getId());
+    }
 
     public class DragStartListener implements View.OnTouchListener {
 
@@ -372,6 +416,10 @@ public class TimeTable extends Fragment {
             v.startDrag(clipData, shadowBuilder, v, 0);
             return false;
         }
+    }
+
+    public interface OnFragmentInteractionListener{
+        void onFloatingButtonClicked();
     }
 
 

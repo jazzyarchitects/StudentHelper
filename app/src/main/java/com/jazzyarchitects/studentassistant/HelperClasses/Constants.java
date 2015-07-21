@@ -24,10 +24,17 @@ public class Constants {
         return Html.fromHtml("Assignments Pending: <b>"+assignmentCount+"</b>");
     }
 
+    public static class TimeTablePreferences{
+        public static final String Preference="timeTablePreferences";
+        public static final String PeriodCount ="columns";
+        public static final String WorkingDaysInWeek="workingDays";
+    }
+
+
     public static boolean isColorDark(int color){
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
-        return (hsv[0] > 345.0) || (hsv[0] < 15.0) || (hsv[0] > 225.0 && hsv[0] < 265.0) || (hsv[2] < 0.4);
+        return (hsv[0] > 345.0) || (hsv[0] < 15.0) || (hsv[0] > 225.0 && hsv[0] < 265.0) || (hsv[2] < 0.5);
     }
 
 

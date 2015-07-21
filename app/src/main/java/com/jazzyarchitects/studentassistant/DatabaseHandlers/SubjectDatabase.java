@@ -14,8 +14,11 @@ import android.util.Log;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SubjectDatabase extends SQLiteOpenHelper {
+
+    String TAG="SubjectDatabase";
 
     // All Static variables
     // Database Version
@@ -37,8 +40,11 @@ public class SubjectDatabase extends SQLiteOpenHelper {
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT,"
             + KEY_SUBJECT_COLOR + " INTEGER," + KEY_TEACHER_NAME + " TEXT" + ");";
 
+   SQLiteDatabase db;
+
     public SubjectDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        db=this.getWritableDatabase();
     }
 
     // Creating Tables
@@ -71,11 +77,11 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     // Adding new subject
     public void addSubject(Subject subject) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
+//        SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(CREATE_EXPENSES_TABLE);
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, getSubjectCount());
+        values.put(KEY_ID, getSubjectId());
         values.put(KEY_SUBJECT_NAME, subject.getSubject());
         values.put(KEY_SUBJECT_COLOR, subject.getColor());
         values.put(KEY_TEACHER_NAME, subject.getTeacher());
@@ -99,6 +105,7 @@ public class SubjectDatabase extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     Subject subject = new Subject();
+                    subject.setId(cursor.getString(cursor.getColumnIndex(KEY_ID)));
                     subject.setSubject(cursor.getString(cursor.getColumnIndex(KEY_SUBJECT_NAME)));
                     subject.setColor(cursor.getInt(cursor.getColumnIndex(KEY_SUBJECT_COLOR)));
                     subject.setTeacher(cursor.getString(cursor.getColumnIndex(KEY_TEACHER_NAME)));
@@ -106,8 +113,8 @@ public class SubjectDatabase extends SQLiteOpenHelper {
                     subjectList.add(subject);
                 } while (cursor.moveToNext());
             }
+            cursor.close();
         }
-        cursor.close();
 
         // return subject list
         return subjectList;
@@ -129,22 +136,43 @@ public class SubjectDatabase extends SQLiteOpenHelper {
 
     // Deleting single subject
     public void deleteSubject(Subject subject) {
-        SQLiteDatabase db = this.getWritableDatabase();
+//        SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SUBJECTS, KEY_ID + " = ?",
                 new String[]{String.valueOf(subject.getId())});
         db.close();
     }
 
+    public Subject findSubjectById(String subjectId){
+        Subject subject=null;
+        if(subjectId.equalsIgnoreCase("0"))
+            return null;
+        Cursor c=db.query(TABLE_SUBJECTS, new String[]{KEY_ID, KEY_SUBJECT_NAME, KEY_TEACHER_NAME, KEY_SUBJECT_COLOR}, KEY_ID + "= ?", new String[]{subjectId}, null, null, null);
+        if(c.moveToFirst()) {
+            subject=new Subject();
+            subject.setId(c.getString(0));
+            subject.setSubject(c.getString(1));
+            subject.setTeacher(c.getString(2));
+            subject.setColor(Integer.parseInt(c.getString(3)));
+        }
+        c.close();
+        return subject;
+    }
+
 
     // Getting subject Count
-    public int getSubjectCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_SUBJECTS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int count = cursor.getCount();
-        cursor.close();
-        // return count
-        return count;
+    private int getSubjectId() {
+        Random random=new Random();
+        int id;
+        Cursor c;
+        do{
+            id=random.nextInt();
+            if(id==0)
+                id++;
+            c=db.rawQuery("SELECT * FROM " + TABLE_SUBJECTS + " WHERE " + KEY_ID + "=" + id, null);
+        }while (c.moveToFirst());
+        c.close();
+        Log.e(TAG,"Subject id: "+id);
+        return id;
     }
 
     // Delete Database
