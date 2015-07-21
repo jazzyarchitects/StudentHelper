@@ -40,7 +40,8 @@ public class TimeTableHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         db = this.getWritableDatabase();
-        displayTable();
+        if(tableExists(TIMETABLE_STRUCTURE_TABLE))
+            displayTable();
         if (!tableExists(TIMETABLE_STRUCTURE_TABLE)) {
             retrieveTimeTableColumns();
             if (COLUMNS == 0) {

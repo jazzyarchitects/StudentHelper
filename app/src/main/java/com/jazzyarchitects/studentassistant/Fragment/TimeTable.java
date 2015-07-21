@@ -17,7 +17,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -141,7 +140,7 @@ public class TimeTable extends Fragment {
         adapter.setOnLongClickListener(new SubjectSelectionListAdapter.LongClickListener() {
             @Override
             public void onLongClick(View v) {
-                v.setOnTouchListener(new DragStartListener());
+                v.setOnLongClickListener(new DragStartListener());
             }
         });
         recyclerView.setAdapter(adapter);
@@ -249,12 +248,15 @@ public class TimeTable extends Fragment {
                 assignmentIcon.setVisibility(View.GONE);
                 innerCell.setBackgroundColor(Color.WHITE);
                 textView.setTextColor(Color.BLACK);
-                Log.v(TAG,"Null subject in ("+dayIndex+","+periodIndex+")");
+//                Log.v(TAG,"Null subject in ("+dayIndex+","+periodIndex+")");
             } else {
-                Log.v(TAG,"Setting subject: "+subject.getSubject()+",id: "+subject.getId()+" in ("+dayIndex+","+periodIndex+")");
+//                Log.v(TAG, "Setting subject: " + subject.getSubject() + ",id: " + subject.getId() + " in (" + dayIndex + "," + periodIndex + ")");
                 textView.setText(subject.getSubject());
                 cell.setTag(subject);
-                cell.setBackgroundColor(subject.getColor());
+                if(dayToday-2!=dayIndex)
+                    cell.setBackgroundColor(subject.getColor());
+                else
+                    cell.setBackgroundColor(Color.parseColor("#7AB317"));
                 if (Constants.isColorDark(subject.getColor())) {
                     textView.setTextColor(Color.parseColor("#fefefe"));
                 }
@@ -405,11 +407,11 @@ public class TimeTable extends Fragment {
         handler.insertSubject(dayIndex,periodIndex,subject.getId());
     }
 
-    public class DragStartListener implements View.OnTouchListener {
+    public class DragStartListener implements View.OnLongClickListener{
 
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
-//            vibrator.vibrate(150);
+        public boolean onLongClick(View v) {
+            vibrator.vibrate(100);
             ClipData clipData = ClipData.newPlainText("", "");
             draggingSubject = (Subject) v.getTag();
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);

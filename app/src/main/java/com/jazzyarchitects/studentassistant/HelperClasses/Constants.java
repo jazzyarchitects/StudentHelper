@@ -34,7 +34,10 @@ public class Constants {
     public static boolean isColorDark(int color){
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
-        return (hsv[0] > 345.0) || (hsv[0] < 15.0) || (hsv[0] > 225.0 && hsv[0] < 265.0) || (hsv[2] < 0.5);
+        return (hsv[0] > 345.0) ||
+                (hsv[0] < 15.0) ||
+                (hsv[0] > 215.0 && hsv[0] < 275.0) ||
+                (hsv[2] < 0.5);
     }
 
 
