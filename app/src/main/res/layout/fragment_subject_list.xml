@@ -29,7 +29,7 @@
         android:id="@+id/addSubject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10sp"
+        android:padding="15sp"
         android:background="@color/themeColor4"
         android:layout_alignParentBottom="true"
         android:text="+ ADD NEW SUBJECT"
