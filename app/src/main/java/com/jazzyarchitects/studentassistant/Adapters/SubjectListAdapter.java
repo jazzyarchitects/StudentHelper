@@ -58,8 +58,8 @@ public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         /** Setting list View item details */
-        viewHolder.txtViewTeacher.setText(subjectList.get(position).getSubject());
-        viewHolder.txtViewSubject.setText(subjectList.get(position).getTeacher());
+        viewHolder.txtViewTeacher.setText(subjectList.get(position).getTeacher());
+        viewHolder.txtViewSubject.setText(subjectList.get(position).getSubject());
         viewHolder.linearLayout.setBackgroundColor(subjectList.get(position).getColor());
     }
 

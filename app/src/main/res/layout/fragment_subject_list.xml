@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
     tools:context="com.jazzyarchitects.studentassistant.Fragment.SubjectList">
 
     <TextView
         android:id="@+id/noSubject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:text="@string/noSubject"
         android:textColor="@color/themeColor5"
@@ -17,9 +17,11 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/noSubject"
+        android:layout_above="@+id/addSubject"
         android:visibility="visible"
         android:clipToPadding="false" />
 
@@ -27,21 +29,11 @@
         android:id="@+id/addSubject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5sp"
-        android:paddingBottom="5sp"
+        android:padding="10sp"
+        android:background="@color/themeColor4"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="20dp"
         android:text="+ ADD NEW SUBJECT"
-        android:textColor="@color/themeColor4"
+        android:textColor="@color/white"
         android:textSize="16sp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/fab_background"
-        android:src="@drawable/ic_view_list_black_24dp" />
 
 </RelativeLayout>

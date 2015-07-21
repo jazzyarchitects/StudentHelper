@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,6 @@ public class SubjectList extends Fragment {
                 startActivity(new Intent(getActivity(), AddSubject.class));
             }
         });
-
         return view;
     }
 
@@ -112,12 +112,13 @@ public class SubjectList extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.e("check","onResume called");
         updateSubjectList();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.e("check", "onDetach called");
     }
-
 }
