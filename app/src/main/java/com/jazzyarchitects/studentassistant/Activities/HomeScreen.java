@@ -19,7 +19,7 @@ import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
 import com.jazzyarchitects.studentassistant.R;
 
-public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimeTable.OnFragmentInteractionListener {
 
     Toolbar toolbar;
     ActionBarDrawerToggle drawerToggle;
@@ -77,20 +77,15 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         int id=menuItem.getItemId();
         menuItem.setChecked(true);
         drawerLayout.closeDrawers();
-        Fragment fragment=null;
-        FragmentManager fragmentManager=getFragmentManager();
         switch (id){
             case R.id.timeTable:
-                fragment=new TimeTable();
-                fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
+                replaceViewWithFragment(new TimeTable());
                 break;
             case R.id.dailyTimeTable:
-                fragment=new DailyTimeTable();
-                fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
+                replaceViewWithFragment(new DailyTimeTable());
                 break;
             case R.id.subjectList:
-                fragment=new SubjectList();
-                fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
+                replaceViewWithFragment(new SubjectList());
                 break;
             default:
                 break;
@@ -102,6 +97,16 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     public void subjectClick(View view){
         activityClickListener.onSubjectClick(view);
+    }
+
+    @Override
+    public void onFloatingButtonClicked() {
+        replaceViewWithFragment(new SubjectList());
+    }
+
+    void replaceViewWithFragment(Fragment fragment){
+        FragmentManager fragmentManager=getFragmentManager();
+        fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
     }
 
     public interface ActivityClickListener{
