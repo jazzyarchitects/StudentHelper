@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
+import com.jazzyarchitects.studentassistant.Fragment.Settings;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
 import com.jazzyarchitects.studentassistant.R;
@@ -30,6 +31,14 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+
+//
+//        SharedPreferences timeTablePref=getSharedPreferences(Constants.TimeTablePreferences.Preference, Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor=timeTablePref.edit();
+//        editor.putInt(Constants.TimeTablePreferences.PeriodCount,8);
+//        editor.putInt(Constants.TimeTablePreferences.WorkingDaysInWeek, 4);
+//        editor.apply();
 
         //View setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -47,10 +56,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         drawerToggle.syncState();
 
 
-        Fragment fragment=new DailyTimeTable();
+        Fragment fragment=new TimeTable();
         FragmentManager fragmentManager=getFragmentManager();
         fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
-        navigationView.getMenu().findItem(R.id.dailyTimeTable).setChecked(true);
+        navigationView.getMenu().findItem(R.id.timeTable).setChecked(true);
 
 
     }
@@ -86,6 +95,9 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 break;
             case R.id.subjectList:
                 replaceViewWithFragment(new SubjectList());
+                break;
+            case R.id.settings:
+                replaceViewWithFragment(new Settings());
                 break;
             default:
                 break;

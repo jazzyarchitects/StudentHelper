@@ -35,6 +35,7 @@ import com.jazzyarchitects.studentassistant.DatabaseHandlers.TimeTableHandler;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.TimeTableIds;
+import com.jazzyarchitects.studentassistant.Models.ViewTag;
 import com.jazzyarchitects.studentassistant.R;
 
 import java.util.ArrayList;
@@ -71,6 +72,10 @@ public class TimeTable extends Fragment {
     static Vibrator vibrator;
     static Context sContext;
 
+    int dayCount=1,periodCount=1;
+
+    Context context;
+
     int col(int id) {
         return getResources().getColor(id);
     }
@@ -79,11 +84,19 @@ public class TimeTable extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.e(TAG,"Created");
+        context=getActivity();
         // Inflate the layout for this fragment
         activityLayout = View.inflate(getActivity(), R.layout.fragment_time_table, null);
 //        card=(CardView)activityLayout.findViewById(R.id.card);
 
 //        card.setOnLongClickListener(new DragStartListener());
+
+        SharedPreferences pref=getActivity().getSharedPreferences(Constants.TimeTablePreferences.Preference,Context.MODE_PRIVATE);
+        dayCount=pref.getInt(Constants.TimeTablePreferences.WorkingDaysInWeek,5);
+        periodCount=pref.getInt(Constants.TimeTablePreferences.PeriodCount,8);
+
+        createTable();
+        populateSubjectList();
 
         addSubjects=(FloatingActionButton)activityLayout.findViewById(R.id.addSubject);
         addSubjects.setOnClickListener(new View.OnClickListener() {
@@ -94,11 +107,6 @@ public class TimeTable extends Fragment {
             }
         });
 
-        SharedPreferences timeTablePref=getActivity().getSharedPreferences(Constants.TimeTablePreferences.Preference,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=timeTablePref.edit();
-        editor.putInt(Constants.TimeTablePreferences.PeriodCount,10);
-        editor.putInt(Constants.TimeTablePreferences.WorkingDaysInWeek,5);
-        editor.apply();
 
         vibrator=(Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         sContext=getActivity();
@@ -114,20 +122,80 @@ public class TimeTable extends Fragment {
         } else {
             dayToday = calendar.get(Calendar.DAY_OF_WEEK);
         }
-        highlightToday();
+        //TODO: not working active day
+//        highlightToday();
 
 
         //Setting up time table
-        TimeTableOperations.setUpLabels();
+//        TimeTableOperations.setUpLabels();
 
-        colors = new int[]{col(R.color.color1), col(R.color.color2), col(R.color.color3), col(R.color.color4),
-                col(R.color.color5), col(R.color.color6), col(R.color.color7)};
+//        colors = new int[]{col(R.color.color1), col(R.color.color2), col(R.color.color3), col(R.color.color4),
+//                col(R.color.color5), col(R.color.color6), col(R.color.color7)};
 
 
-        populateSubjectList();
-        TimeTableOperations.setTableCellListeners();
-        TimeTableOperations.populateTimeTable();
+//        populateSubjectList();
+//        TimeTableOperations.setTableCellListeners();
+//        TimeTableOperations.populateTimeTable();
         return activityLayout;
+    }
+
+    TableLayout tableLayout;
+    public void createTable(){
+        setupDayList();
+        tableLayout = (TableLayout)activityLayout.findViewById(R.id.timeTableLayout);
+        tableLayout.setWeightSum(periodCount+1);
+//        tableLayout.setWeightSum(periodCount+1);
+        tableLayout.removeAllViews();
+        setupSubjects();
+    }
+
+    void setupDayList(){
+        TableRow tableRow=(TableRow)activityLayout.findViewById(R.id.dayList);
+        tableRow.setWeightSum(dayCount + 1);
+        View v=new View(context);
+        TableRow.LayoutParams params=new TableRow.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f);
+        params.setMargins(0,0,1,1);
+        v.setLayoutParams(params);
+        v.setBackgroundColor(getResources().getColor(R.color.timeTableLabelCellColor));
+
+        tableRow.addView(v);
+        for(int i=1;i<=dayCount;i++){
+            tableRow.addView(Constants.getDayView(context,TimeTableOperations.day[i-1]));
+        }
+    }
+
+    /**
+     * Table Row ids in multiples of 100
+     * Cell ids in series of row ids
+     */
+    void setupSubjects(){
+        TimeTableHandler handler=new TimeTableHandler(context);
+        SubjectDatabase subjectHandler=new SubjectDatabase(context);
+        for(int i=0;i<periodCount;i++){
+            TableRow tableRow=new TableRow(context);
+            int rowId=100*(i+1);
+            tableRow.setId(rowId);
+            tableRow.setWeightSum(dayCount + 1);
+            tableRow.setMinimumHeight((int) getResources().getDimension(R.dimen.cellMinHeight));
+            tableRow.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+            tableRow.addView(Constants.getTimeView(context, TimeTableOperations.timings[i]));
+            for(int j=0;j<dayCount;j++){
+                View v=Constants.getSubjectView(context,subjectHandler.findSubjectById(handler.getSubjectId(j,i)),j,i);
+                v.setId(rowId+j);
+                v.setOnDragListener(new DragEventListener());
+                v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        subjectClick(v);
+                    }
+                });
+                tableRow.addView(v);
+            }
+            tableLayout.addView(tableRow);
+        }
+        handler.close();
+        subjectHandler.close();
+
     }
 
     public void populateSubjectList() {
@@ -144,7 +212,6 @@ public class TimeTable extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
-
     }
 
     /**
@@ -153,18 +220,16 @@ public class TimeTable extends Fragment {
      * @param v clicked view
      */
     public void subjectClick(View v) {
-        if (v instanceof RelativeLayout) {
-            int dayIndex = TimeTableIds.getDay(((View) v.getParent().getParent()).getId());
-            int periodIndex = TimeTableIds.getPeriod(((View) v.getParent().getParent().getParent()).getId());
+        ViewTag viewTag=(ViewTag)v.getTag();
+        int periodIndex=viewTag.getPeriodIndex();
+        int dayIndex=viewTag.getDayIndex();
+        Log.e(TAG,"Clicked: ("+periodIndex+","+dayIndex+")");
 
-            selected = !selected;
-
-            Subject subject = TimeTableOperations.getSubject(dayIndex, periodIndex);
-
-            if (selected && subject != null) {
+        Subject subject = viewTag.getSubject();
+            if (subject != null) {
                 refreshDetails(subject);
             }
-        }
+
     }
 
     /**
@@ -188,9 +253,10 @@ public class TimeTable extends Fragment {
      */
     private static class TimeTableOperations {
 
-        static String[] day = {"Mon", "Tue", "Wed", "Thu", "Fri"};
-        static String[] timings = {"8:00 - 8:50", "8:50 - 9:40", "9:40 - 10:30", "10:30 - 11:20", "11:20 - 12:10",
-                "13:30 - 14:20", "14:20 - 15:10", "15:10 - 16:00", "16:00 - 16:50", "16:50 - 17:40"};
+        static String[] day = {"Mon", "Tue", "Wed", "Thu", "Fri","Sat"};
+        static String[] timings = {"8:00 - 8:55", "9:00 - 9:55", "10:00 - 10:55", "11:00 - 11:55", "1:30 - 2:25",
+                "2:30 - 3:25", "3:30 - 4:25", "4:30 - 5:25","8:00 - 8:55", "9:00 - 9:55", "10:00 - 10:55", "11:00 - 11:55", "1:30 - 2:25",
+                "2:30 - 3:25", "3:30 - 4:25", "4:30 - 5:25"};
         static TableLayout tableLayout;
         static TableRow tableRow;
         static RelativeLayout cell, innerCell;
@@ -220,9 +286,9 @@ public class TimeTable extends Fragment {
 
         private static void getCellDetails(int dayIndex, int periodIndex) {
             Log.v(TAG,"Getting cell: ("+dayIndex+","+periodIndex+")");
-            tableLayout = (TableLayout) activityLayout.findViewById(TimeTableIds.table);
-            tableRow = (TableRow) tableLayout.findViewById(TimeTableIds.period[periodIndex]);
-            cell = (RelativeLayout) tableRow.findViewById(TimeTableIds.day[dayIndex]);
+            tableLayout = (TableLayout) activityLayout.findViewById(R.id.timeTableLayout);
+            tableRow = (TableRow) tableLayout.findViewById((periodIndex+1)*100);
+            cell = (RelativeLayout) tableRow.findViewById(dayIndex);
             innerCell=(RelativeLayout)cell.findViewById(R.id.cell);
             rippleLayout=(MaterialRippleLayout)cell.findViewById(R.id.rippleLayout);
             assignmentIcon = (ImageView) cell.findViewById(TimeTableIds.assignmentIcon);
@@ -288,7 +354,7 @@ public class TimeTable extends Fragment {
                 if (child instanceof TableRow) {
                     RelativeLayout cell = (RelativeLayout) ((TableRow) child).getChildAt(dayOfWeek - 1);
                     cell.setBackgroundColor(Color.parseColor("#7AB317"));
-                }
+                 }
             }
         }
 

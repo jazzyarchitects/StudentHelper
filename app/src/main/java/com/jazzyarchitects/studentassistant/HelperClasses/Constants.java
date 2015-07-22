@@ -1,37 +1,49 @@
 package com.jazzyarchitects.studentassistant.HelperClasses;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Context;
 import android.graphics.Color;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
+import com.jazzyarchitects.studentassistant.Models.Subject;
+import com.jazzyarchitects.studentassistant.Models.ViewTag;
+import com.jazzyarchitects.studentassistant.R;
 
 /**
  * Created by Jibin_ism on 08-Jul-15.
  */
 public class Constants {
 
-    public static Spanned getBunkedClassText(int bunkedClasses){
-        return Html.fromHtml("Bunked Classes: <b>"+bunkedClasses+"</b>");
-    }
-    public static Spanned getAttendancePercentageText(double percentage){
-        return Html.fromHtml("Attendance: <b>"+percentage+"%</b>");
-    }
-    public static Spanned getProfessorNameText(String name){
-        return Html.fromHtml("Professor: <b>"+name+"</b>");
-    }
-    public static Spanned getAssignmentCountText(int assignmentCount){
-        return Html.fromHtml("Assignments Pending: <b>"+assignmentCount+"</b>");
+    public static Spanned getBunkedClassText(int bunkedClasses) {
+        return Html.fromHtml("Bunked Classes: <b>" + bunkedClasses + "</b>");
     }
 
-    public static class TimeTablePreferences{
-        public static final String Preference="timeTablePreferences";
-        public static final String PeriodCount ="columns";
-        public static final String WorkingDaysInWeek="workingDays";
+    public static Spanned getAttendancePercentageText(double percentage) {
+        return Html.fromHtml("Attendance: <b>" + percentage + "%</b>");
+    }
+
+    public static Spanned getProfessorNameText(String name) {
+        return Html.fromHtml("Professor: <b>" + name + "</b>");
+    }
+
+    public static Spanned getAssignmentCountText(int assignmentCount) {
+        return Html.fromHtml("Assignments Pending: <b>" + assignmentCount + "</b>");
+    }
+
+    public static class TimeTablePreferences {
+        public static final String Preference = "timeTablePreferences";
+        public static final String PeriodCount = "columns";
+        public static final String WorkingDaysInWeek = "workingDays";
     }
 
 
-    public static boolean isColorDark(int color){
+    public static boolean isColorDark(int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         return (hsv[0] > 345.0) ||
@@ -40,46 +52,61 @@ public class Constants {
                 (hsv[2] < 0.5);
     }
 
+    public static View getSubjectView(Context context, Subject subject,int dayIndex, int periodIndex) {
+        View v = View.inflate(context, R.layout.table_cell_subject, null);
+        v.setTag(subject);
 
+        TextView textView;
+        RelativeLayout cell, innerCell;
+        ImageView assignmentIcon;
 
+        textView = (TextView) v.findViewById(R.id.subjectName);
+        cell = (RelativeLayout) v;
+        assignmentIcon = (ImageView) v.findViewById(R.id.assignmentIcon);
+        innerCell = (RelativeLayout) v.findViewById(R.id.cell);
 
+        innerCell.setTag(new ViewTag(subject,dayIndex,periodIndex));
 
-    /**
-     * Image Size Reducing
-     */
-    public static Bitmap getScaledBitmap(String picturePath, int width, int height) {
-        BitmapFactory.Options sizeOptions = new BitmapFactory.Options();
-        sizeOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(picturePath, sizeOptions);
-
-        int inSampleSize = calculateInSampleSize(sizeOptions, width, height);
-
-        sizeOptions.inJustDecodeBounds = false;
-        sizeOptions.inSampleSize = inSampleSize;
-
-        return BitmapFactory.decodeFile(picturePath, sizeOptions);
-    }
-
-    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            // Calculate ratios of height and width to requested height and
-            // width
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            // Choose the smallest ratio as inSampleSize value, this will
-            // guarantee
-            // a final image with both dimensions larger than or equal to the
-            // requested height and width.
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        if (subject == null) {
+            textView.setText("____");
+            assignmentIcon.setVisibility(View.GONE);
+            innerCell.setBackgroundColor(Color.WHITE);
+            textView.setTextColor(Color.BLACK);
+//                Log.v(TAG,"Null subject in ("+dayIndex+","+periodIndex+")");
+        } else {
+//                Log.v(TAG, "Setting subject: " + subject.getSubject() + ",id: " + subject.getId() + " in (" + dayIndex + "," + periodIndex + ")");
+            textView.setText(subject.getSubject());
+            cell.setTag(subject);
+            cell.setBackgroundColor(subject.getColor());
+            if (Constants.isColorDark(subject.getColor())) {
+                textView.setTextColor(Color.parseColor("#fefefe"));
+            }
+            if (subject.hasAssignment()) {
+                assignmentIcon.setVisibility(View.VISIBLE);
+            }
         }
-
-        return inSampleSize;
+        TableRow.LayoutParams params = new TableRow.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f);
+        params.setMargins(1, 1, 0, 0);
+        v.setLayoutParams(params);
+        return v;
     }
+
+    public static View getTimeView(Context context, String time) {
+        TextView v = (TextView) View.inflate(context, R.layout.table_cell_time, null);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f);
+        params.setMargins(0, 1, 1, 0);
+        v.setText(time);
+        v.setLayoutParams(params);
+        return v;
+    }
+
+    public static View getDayView(Context context, String day) {
+        TextView v = (TextView) View.inflate(context, R.layout.table_cell_day, null);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f);
+        params.setMargins(1, 0, 0, 1);
+        v.setLayoutParams(params);
+        v.setText(day);
+        return v;
+    }
+
 }
