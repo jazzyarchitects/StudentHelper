@@ -40,7 +40,8 @@ public class TimeTableHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         db = this.getWritableDatabase();
-        displayTable();
+        if(tableExists(TIMETABLE_STRUCTURE_TABLE))
+            displayTable();
         if (!tableExists(TIMETABLE_STRUCTURE_TABLE)) {
             retrieveTimeTableColumns();
             if (COLUMNS == 0) {
@@ -86,8 +87,9 @@ public class TimeTableHandler extends SQLiteOpenHelper {
 
     public String getSubjectId(int dayIndex, int periodIndex){
         Cursor c=db.query(TIMETABLE_STRUCTURE_TABLE, new String[]{getColumnName(periodIndex)}, DAY_INDEX_COLUMN_NAME + "= ?", new String[]{String.valueOf(dayIndex)}, null, null, null);
-        c.moveToFirst();
-        String s=c.getString(0);
+        String s="0";
+        if(c.moveToFirst())
+            s=c.getString(0);
         c.close();
         return s;
     }
