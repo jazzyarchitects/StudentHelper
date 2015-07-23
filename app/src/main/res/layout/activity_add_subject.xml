@@ -118,7 +118,7 @@
             </LinearLayout>
 
             <TableRow
-                android:id="@+id/monday"
+                android:id="@+id/day1"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@id/linearLayout"
@@ -132,22 +132,6 @@
                     android:layout_weight="1"
                     android:text="Monday" />
 
-                <Spinner
-                    android:id="@+id/monTime"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone" />
-
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/tuesday"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@id/monday"
-                android:weightSum="2">
-
                 <CheckBox
                     android:id="@+id/checkTues"
                     android:layout_width="0dp"
@@ -155,20 +139,13 @@
                     android:layout_weight="1"
                     android:text="Tuesday" />
 
-                <Spinner
-                    android:id="@+id/tuesTime"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone" />
-
             </TableRow>
 
             <TableRow
-                android:id="@+id/wednesday"
+                android:id="@+id/day2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/tuesday"
+                android:layout_below="@id/day1"
                 android:weightSum="2">
 
                 <CheckBox
@@ -178,22 +155,6 @@
                     android:layout_weight="1"
                     android:text="Wednesday" />
 
-                <Spinner
-                    android:id="@+id/wedTime"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone" />
-
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/thrusday"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@id/wednesday"
-                android:weightSum="2">
-
                 <CheckBox
                     android:id="@+id/checkThrus"
                     android:layout_width="0dp"
@@ -201,20 +162,13 @@
                     android:layout_weight="1"
                     android:text="Thrusday" />
 
-                <Spinner
-                    android:id="@+id/thrusTime"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone" />
-
             </TableRow>
 
             <TableRow
-                android:id="@+id/friday"
+                android:id="@+id/day3"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/thrusday"
+                android:layout_below="@id/day2"
                 android:weightSum="2">
 
                 <CheckBox
@@ -224,36 +178,12 @@
                     android:layout_weight="1"
                     android:text="Friday" />
 
-                <Spinner
-                    android:id="@+id/friTime"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone" />
-
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/saturday"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@id/friday"
-                android:visibility="visible"
-                android:weightSum="2">
-
                 <CheckBox
                     android:id="@+id/checkSat"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Saturday" />
-
-                <Spinner
-                    android:id="@+id/satTime"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone" />
 
             </TableRow>
 

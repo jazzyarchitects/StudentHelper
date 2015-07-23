@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,12 @@ public class AddSubject extends AppCompatActivity {
         teacherName = (EditText) findViewById(R.id.editTeacherName);
         txtSubjectName = (TextView) findViewById(R.id.textSubjectName);
         txtTeacherName = (TextView) findViewById(R.id.textTeacherName);
+        mon=(CheckBox)findViewById(R.id.checkMon);
+        tue=(CheckBox)findViewById(R.id.checkTues);
+        wed=(CheckBox)findViewById(R.id.checkWed);
+        thrus=(CheckBox)findViewById(R.id.checkThrus);
+        fri=(CheckBox)findViewById(R.id.checkFri);
+        sat=(CheckBox)findViewById(R.id.checkSat);
         discard = (TextView) findViewById(R.id.discard);
         save = (TextView) findViewById(R.id.save);
         colorPicker = findViewById(R.id.colorPicker);
@@ -108,6 +115,15 @@ public class AddSubject extends AppCompatActivity {
                         textView.setVisibility(View.VISIBLE);
                     }
                 }
+            }
+        });
+    }
+
+    public void checkIfChecked(CheckBox checkBox){
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
             }
         });
     }
