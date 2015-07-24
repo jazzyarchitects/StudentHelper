@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,12 @@ public class Settings extends Fragment {
         dayCountInput=(EditText)v.findViewById(R.id.dayCount);
         periodCountInput=(EditText)v.findViewById(R.id.periodCount);
         saveButton=(Button)v.findViewById(R.id.save);
+
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Settings");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

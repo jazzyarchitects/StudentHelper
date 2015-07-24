@@ -91,6 +91,7 @@ public class TimeTableHandler extends SQLiteOpenHelper {
         if(c.moveToFirst())
             s=c.getString(0);
         c.close();
+//        Log.e(TAG, "Requested Id: (" + dayIndex + "," + periodIndex + "): "+s);
         return s;
     }
 

@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jazzyarchitects.studentassistant.Activities.TimeSetting">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/toolBarColor"
+            android:minHeight="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:id="@+id/tr1">
+            <TextView
+                android:layout_weight="6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end|right|center_vertical"
+                android:textSize="@dimen/timeSetting_classCount_textSize"
+                android:textColor="@color/timeSetting_classCountText"
+                android:text="@string/timeSetting_classCount"/>
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:hint="Count"
+                android:text="8"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                android:maxLines="1"
+                android:id="@+id/classCount"
+                android:textSize="@dimen/timeSetting_classCount_textSize"
+                android:layout_weight="3"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:layout_below="@+id/tr1"
+            android:id="@+id/tr2">
+            <TextView
+                android:layout_weight="6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end|right|center_vertical"
+                android:textSize="@dimen/timeSetting_classDuration_textSize"
+                android:textColor="@color/timeSetting_classDurationText"
+                android:text="@string/timeSetting_classDuration"/>
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:hint="Count"
+                android:text="8"
+                android:gravity="center"
+                android:maxLines="1"
+                android:id="@+id/classDuration"
+                android:textSize="@dimen/timeSetting_classDuration_textSize"
+                android:layout_weight="3"/>
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tr2"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/timeSetting_headingText"
+                android:textSize="@dimen/timeSetting_headingTextSize"
+                android:textColor="@color/timeSetting_heading"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

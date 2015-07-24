@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -69,7 +70,9 @@ public class SubjectDetailDialog extends AppCompatDialog {
     private void setColor(int color) {
         colorStrip.setBackgroundColor(color);
         subjectName.setBackgroundColor(color);
-
+        float[] hsv=new float[3];
+        Color.colorToHSV(color,hsv);
+//        Log.e("SubjectDetailDialog","Color="+color+" "+hsv[0]+" "+hsv[1]+" "+hsv[2]);
         if (Constants.isColorDark(color)) {
             subjectName.setTextColor(Color.WHITE);
         }

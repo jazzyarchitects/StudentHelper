@@ -143,6 +143,7 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     }
 
     public Subject findSubjectById(String subjectId){
+//        Log.e(TAG,"Requested Subject has id="+subjectId);
         Subject subject=null;
         if(subjectId.equalsIgnoreCase("0"))
             return null;

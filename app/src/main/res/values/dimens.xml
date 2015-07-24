@@ -19,4 +19,9 @@
     <dimen name="dailyTimeTableSubjectWidth">200dp</dimen>
     <dimen name="dailyTimeTableLabelWidth">75dp</dimen>
     <dimen name="floatingActionButtonSize">50dp</dimen>
+    <dimen name="timeSetting_classCount_textSize">@dimen/timeSettingDefaultTextSize</dimen>
+    <dimen name="timeSettingDefaultTextSize">16sp</dimen>
+    <dimen name="timeSetting_headingTextSize">@dimen/defaultTitleSize</dimen>
+    <dimen name="defaultTitleSize">18sp</dimen>
+    <dimen name="timeSetting_classDuration_textSize">@dimen/timeSettingDefaultTextSize</dimen>
 </resources>
