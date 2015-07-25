@@ -35,10 +35,11 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     private static final String KEY_SUBJECT_NAME = "subject";
     private static final String KEY_SUBJECT_COLOR = "color";
     private static final String KEY_TEACHER_NAME = "teacher";
+    private static final String KEY_DAYS="days";
 
     String CREATE_EXPENSES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SUBJECTS + " ("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT,"
-            + KEY_SUBJECT_COLOR + " INTEGER," + KEY_TEACHER_NAME + " TEXT" + ");";
+            + KEY_SUBJECT_COLOR + " INTEGER," + KEY_DAYS + " TEXT,"+ KEY_TEACHER_NAME + " TEXT" + ");";
 
    SQLiteDatabase db;
 
@@ -84,6 +85,7 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         values.put(KEY_ID, getSubjectId());
         values.put(KEY_SUBJECT_NAME, subject.getSubject());
         values.put(KEY_SUBJECT_COLOR, subject.getColor());
+        values.put(KEY_DAYS,subject.getSubject());
         values.put(KEY_TEACHER_NAME, subject.getTeacher());
 
         // Inserting Row
@@ -109,6 +111,7 @@ public class SubjectDatabase extends SQLiteOpenHelper {
                     subject.setSubject(cursor.getString(cursor.getColumnIndex(KEY_SUBJECT_NAME)));
                     subject.setColor(cursor.getInt(cursor.getColumnIndex(KEY_SUBJECT_COLOR)));
                     subject.setTeacher(cursor.getString(cursor.getColumnIndex(KEY_TEACHER_NAME)));
+                    subject.setDays(cursor.getString(cursor.getColumnIndex(KEY_DAYS)));
 
                     subjectList.add(subject);
                 } while (cursor.moveToNext());
@@ -128,6 +131,7 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         values.put(KEY_SUBJECT_NAME, subject.getSubject());
         values.put(KEY_SUBJECT_COLOR, subject.getColor());
         values.put(KEY_TEACHER_NAME, subject.getTeacher());
+        values.put(KEY_DAYS,subject.getDays());
 
         // updating row
         return db.update(TABLE_SUBJECTS, values, KEY_ID + " = ?",
@@ -146,13 +150,14 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         Subject subject=null;
         if(subjectId.equalsIgnoreCase("0"))
             return null;
-        Cursor c=db.query(TABLE_SUBJECTS, new String[]{KEY_ID, KEY_SUBJECT_NAME, KEY_TEACHER_NAME, KEY_SUBJECT_COLOR}, KEY_ID + "= ?", new String[]{subjectId}, null, null, null);
+        Cursor c=db.query(TABLE_SUBJECTS, new String[]{KEY_ID, KEY_SUBJECT_NAME, KEY_TEACHER_NAME, KEY_DAYS, KEY_SUBJECT_COLOR}, KEY_ID + "= ?", new String[]{subjectId}, null, null, null);
         if(c.moveToFirst()) {
             subject=new Subject();
             subject.setId(c.getString(0));
             subject.setSubject(c.getString(1));
             subject.setTeacher(c.getString(2));
-            subject.setColor(Integer.parseInt(c.getString(3)));
+            subject.setDays(c.getString(3));
+            subject.setColor(Integer.parseInt(c.getString(4)));
         }
         c.close();
         return subject;
