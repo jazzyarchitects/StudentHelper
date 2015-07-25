@@ -24,4 +24,8 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_subject">AddSubject</string>
+    <string name="title_activity_time_setting">Timings</string>
+    <string name="timeSetting_classCount">No. of classes in a day:</string>
+    <string name="timeSetting_headingText">Class Timings:</string>
+    <string name="timeSetting_classDuration">Duration of your classes?</string>
 </resources>

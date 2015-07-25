@@ -2,6 +2,7 @@ package com.jazzyarchitects.studentassistant.Activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
-import com.jazzyarchitects.studentassistant.Fragment.Settings;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
 import com.jazzyarchitects.studentassistant.R;
@@ -97,7 +97,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 replaceViewWithFragment(new SubjectList());
                 break;
             case R.id.settings:
-                replaceViewWithFragment(new Settings());
+                startActivity(new Intent(this,TimeSetting.class));
                 break;
             default:
                 break;
