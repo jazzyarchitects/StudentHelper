@@ -49,6 +49,13 @@ public class AddSubject extends AppCompatActivity {
         colorPicker = findViewById(R.id.colorPicker);
         subColor = getResources().getColor(R.color.white);
 
+        checkIfChecked(mon,"monday");
+        checkIfChecked(tue,"tuesday");
+        checkIfChecked(wed,"wednesday");
+        checkIfChecked(thrus,"thrusday");
+        checkIfChecked(fri,"friday");
+        checkIfChecked(sat,"saturday");
+
         subjectDatabase = new SubjectDatabase(this);
 
         colorPicker.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +97,7 @@ public class AddSubject extends AppCompatActivity {
                     teacher = "";
                 }
                 subjectDatabase.addSubject(new Subject(subject, teacher, subColor,days));
+                Log.e("days",days);
 
                 ArrayList<Subject> subjectList = subjectDatabase.getAllSubject();
                 for (int i = 0; i < subjectList.size(); i++) {
@@ -120,7 +128,7 @@ public class AddSubject extends AppCompatActivity {
         });
     }
 
-    public void checkIfChecked(CheckBox checkBox, String name){
+    public void checkIfChecked(CheckBox checkBox, final String name){
         final int[] x = {0};
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -142,7 +150,10 @@ public class AddSubject extends AppCompatActivity {
                         break;
                 }
                 if (isChecked){
-
+                    days=replace(days,x[0],'1');
+                }
+                else{
+                    days=replace(days,x[0],'0');
                 }
             }
         });
