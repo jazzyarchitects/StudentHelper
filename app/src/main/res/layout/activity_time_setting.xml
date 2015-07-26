@@ -29,9 +29,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="10"
+            android:id="@+id/tr0">
+            <TextView
+                android:layout_weight="7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end|right|center_vertical"
+                android:textSize="@dimen/timeSetting_dayCount_textSize"
+                android:textColor="@color/timeSetting_dayCountText"
+                android:text="@string/timeSetting_dayCount"/>
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:hint="Count"
+                android:text="8"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                android:maxLines="1"
+                android:id="@+id/dayCount"
+                android:textSize="@dimen/timeSetting_dayCount_textSize"
+                android:layout_weight="3"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:layout_below="@+id/tr0"
             android:id="@+id/tr1">
             <TextView
-                android:layout_weight="6"
+                android:layout_weight="7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="end|right|center_vertical"
@@ -54,6 +85,7 @@
                 android:textSize="@dimen/timeSetting_classCount_textSize"
                 android:layout_weight="3"/>
         </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +93,7 @@
             android:layout_below="@+id/tr1"
             android:id="@+id/tr2">
             <TextView
-                android:layout_weight="6"
+                android:layout_weight="7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="end|right|center_vertical"
@@ -95,6 +127,7 @@
                 android:text="@string/timeSetting_headingText"
                 android:textSize="@dimen/timeSetting_headingTextSize"
                 android:textColor="@color/timeSetting_heading"/>
+
 
         </LinearLayout>
 

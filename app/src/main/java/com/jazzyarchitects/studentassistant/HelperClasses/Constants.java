@@ -40,6 +40,9 @@ public class Constants {
         public static final String Preference = "timeTablePreferences";
         public static final String PeriodCount = "columns";
         public static final String WorkingDaysInWeek = "workingDays";
+        public static final String PreferencesSet="haveSetPreferences";
+        public static final String ClassDuration="classDuration";
+        public static final String Restructured="tableRestructured";
     }
 
 

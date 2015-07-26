@@ -36,13 +36,18 @@ public class TimeTableHandler extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-    public TimeTableHandler(Context context, Boolean restructureTimeTable) {
+    public TimeTableHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         db = this.getWritableDatabase();
         if(tableExists(TIMETABLE_STRUCTURE_TABLE))
             displayTable();
-        if (!tableExists(TIMETABLE_STRUCTURE_TABLE)) {
+
+        boolean tableRestructured=context.getSharedPreferences(Constants.TimeTablePreferences.Preference,Context.MODE_PRIVATE).getBoolean(Constants.TimeTablePreferences.Restructured,false);
+        if (!tableExists(TIMETABLE_STRUCTURE_TABLE) || tableRestructured) {
+            Log.e(TAG,"Table Restructuring Required: "+tableRestructured);
+            db.execSQL("DROP TABLE IF EXISTS " + TIMETABLE_STRUCTURE_TABLE);
+            context.getSharedPreferences(Constants.TimeTablePreferences.Preference,Context.MODE_PRIVATE).edit().putBoolean(Constants.TimeTablePreferences.Restructured,false).apply();
             retrieveTimeTableColumns();
             if (COLUMNS == 0) {
                 throw new IndexOutOfBoundsException("Period Count not saved in database");
@@ -59,10 +64,6 @@ public class TimeTableHandler extends SQLiteOpenHelper {
             db.execSQL(CREATE_STRUCTURE);
             insertDaysOfWeek();
         }
-    }
-
-    public TimeTableHandler(Context context) {
-        this(context, false);
     }
 
     void retrieveTimeTableColumns() {

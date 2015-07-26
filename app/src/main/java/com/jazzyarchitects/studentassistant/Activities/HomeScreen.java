@@ -2,7 +2,9 @@ package com.jazzyarchitects.studentassistant.Activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,7 @@ import android.widget.FrameLayout;
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
+import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.R;
 
 public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimeTable.OnFragmentInteractionListener {
@@ -34,12 +37,12 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
 
 //
-//        SharedPreferences timeTablePref=getSharedPreferences(Constants.TimeTablePreferences.Preference, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor=timeTablePref.edit();
-//        editor.putInt(Constants.TimeTablePreferences.PeriodCount,8);
-//        editor.putInt(Constants.TimeTablePreferences.WorkingDaysInWeek, 4);
-//        editor.apply();
-
+        SharedPreferences timeTablePref=getSharedPreferences(Constants.TimeTablePreferences.Preference, Context.MODE_PRIVATE);
+        if(!timeTablePref.getBoolean(Constants.TimeTablePreferences.PreferencesSet,false)){
+            startActivity(new Intent(this, TimeSetting.class));
+            finish();
+            return;
+        }
         //View setup
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawerLayout);
@@ -123,6 +126,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     public interface ActivityClickListener{
         void onSubjectClick(View view);
+        boolean onBackKeyPressed();
     }
 
     @Override
@@ -130,7 +134,8 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawers();
         }else{
-            super.onBackPressed();
+            if(!activityClickListener.onBackKeyPressed())
+                super.onBackPressed();
         }
     }
 
