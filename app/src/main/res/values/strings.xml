@@ -25,7 +25,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_subject">AddSubject</string>
     <string name="title_activity_time_setting">Timings</string>
-    <string name="timeSetting_classCount">No. of classes in a day:</string>
-    <string name="timeSetting_headingText">Class Timings:</string>
-    <string name="timeSetting_classDuration">Duration of your classes?</string>
+    <string name="timeSetting_classCount">Classes in a day:</string>
+    <string name="timeSetting_headingText">Class Timings</string>
+    <string name="timeSetting_classDuration">Class duration (in min)</string>
+    <string name="timeSetting_dayCount">Working days in a week</string>
+    <string name="tableRestructuring_Alert">You have changed the number of days in a week or number of classes in a day. This will delete the current time table.
+         \nSubjects will not be affected. \nDo you want to continue?</string>
 </resources>

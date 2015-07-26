@@ -24,4 +24,5 @@
     <dimen name="timeSetting_headingTextSize">@dimen/defaultTitleSize</dimen>
     <dimen name="defaultTitleSize">18sp</dimen>
     <dimen name="timeSetting_classDuration_textSize">@dimen/timeSettingDefaultTextSize</dimen>
+    <dimen name="timeSetting_dayCount_textSize">@dimen/timeSettingDefaultTextSize</dimen>
 </resources>

@@ -56,4 +56,5 @@
     <color name="timeSettingDefaultTextColor">#111</color>
     <color name="timeSetting_heading">@color/themeColor3</color>
     <color name="timeSetting_classDurationText">@color/timeSettingDefaultTextColor</color>
+    <color name="timeSetting_dayCountText">@color/timeSettingDefaultTextColor</color>
 </resources>

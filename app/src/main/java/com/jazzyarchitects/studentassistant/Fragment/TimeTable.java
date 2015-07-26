@@ -16,6 +16,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -49,6 +52,8 @@ public class TimeTable extends Fragment {
     }
 
     OnFragmentInteractionListener mListener;
+    RelativeLayout rl;
+    boolean isInEditMode=false;
     static String TAG = "TimeTableFragment";
     protected static View activityLayout;
     static int dayToday = -1;
@@ -73,6 +78,8 @@ public class TimeTable extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences(Constants.TimeTablePreferences.Preference, Context.MODE_PRIVATE);
         dayCount = pref.getInt(Constants.TimeTablePreferences.WorkingDaysInWeek, 5);
         periodCount = pref.getInt(Constants.TimeTablePreferences.PeriodCount, 8);
+
+        rl=(RelativeLayout)activityLayout.findViewById(R.id.rl);
 
         createTable();
         populateSubjectList();
@@ -101,6 +108,7 @@ public class TimeTable extends Fragment {
         } else {
             dayToday = calendar.get(Calendar.DAY_OF_WEEK);
         }
+        setHasOptionsMenu(true);
         return activityLayout;
     }
 
@@ -238,6 +246,15 @@ public class TimeTable extends Fragment {
             public void onSubjectClick(View view) {
                 subjectClick(view);
             }
+
+            @Override
+            public boolean onBackKeyPressed() {
+                if (rl.getVisibility() == View.VISIBLE) {
+                    rl.setVisibility(View.GONE);
+                    return true;
+                }
+                return false;
+            }
         });
         try {
             mListener = (OnFragmentInteractionListener) activity;
@@ -352,4 +369,19 @@ public class TimeTable extends Fragment {
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.time_table,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if(item.getItemId()==R.id.editTimeTable){
+            rl.setVisibility(View.VISIBLE);
+            isInEditMode=true;
+        }
+        return true;
+    }
 }
