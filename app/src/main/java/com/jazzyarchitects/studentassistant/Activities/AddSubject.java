@@ -25,6 +25,7 @@ public class AddSubject extends AppCompatActivity {
     View colorPicker;
     TextView txtSubjectName, txtTeacherName, discard, save;
     int subColor;
+    String days="0000000";
     SubjectDatabase subjectDatabase;
     CheckBox mon, tue, wed, thrus, fri, sat;
 
@@ -88,7 +89,7 @@ public class AddSubject extends AppCompatActivity {
                 if (teacher.isEmpty()) {
                     teacher = "";
                 }
-                subjectDatabase.addSubject(new Subject(subject, teacher, subColor));
+                subjectDatabase.addSubject(new Subject(subject, teacher, subColor,days));
 
                 ArrayList<Subject> subjectList = subjectDatabase.getAllSubject();
                 for (int i = 0; i < subjectList.size(); i++) {
@@ -119,13 +120,38 @@ public class AddSubject extends AppCompatActivity {
         });
     }
 
-    public void checkIfChecked(CheckBox checkBox){
+    public void checkIfChecked(CheckBox checkBox, String name){
+        final int[] x = {0};
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                switch (name){
+                    case "sunday": x[0] =0;
+                        break;
+                    case "monday": x[0]=1;
+                        break;
+                    case "tuesday": x[0] =2;
+                        break;
+                    case "wednesday": x[0]=3;
+                        break;
+                    case "thrusday": x[0] =4;
+                        break;
+                    case "friday": x[0]=5;
+                        break;
+                    case "saturday":  x[0]=6;
+                        break;
+                }
+                if (isChecked){
 
+                }
             }
         });
+    }
+
+    public String replace(String str, int index, char replace){
+        char[] chars = str.toCharArray();
+        chars[index] = replace;
+        return String.valueOf(chars);
     }
 
     @Override

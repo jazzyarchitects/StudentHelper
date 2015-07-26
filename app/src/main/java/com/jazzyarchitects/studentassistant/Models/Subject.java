@@ -11,6 +11,7 @@ public class Subject implements Parcelable {
 
     String id = "", subject = "";
     String teacher="", notes="";
+    String days="";
     int assignmentCount=0;
     int bunkedClasses = 0, attendance = 100, totalClasses = 1;
     int color = 0;
@@ -26,10 +27,11 @@ public class Subject implements Parcelable {
     public Subject(Parcel in) {
     }
 
-    public Subject(String subjectName, String teacherName, int color){
+    public Subject(String subjectName, String teacherName, int color, String days){
         subject=subjectName;
         teacher=teacherName;
         this.color=color;
+        this.days=days;
     }
 
     @Override
@@ -86,6 +88,14 @@ public class Subject implements Parcelable {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public String getDays(){
+        return days;
+    }
+
+    public void setDays(String days){
+        this.days=days;
     }
 
     public int getBunkedClasses() {
