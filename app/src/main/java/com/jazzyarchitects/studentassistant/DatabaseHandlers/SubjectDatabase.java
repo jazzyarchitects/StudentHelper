@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class SubjectDatabase extends SQLiteOpenHelper {
 
-    String TAG="SubjectDatabase";
+    String TAG = "SubjectDatabase";
 
     // All Static variables
     // Database Version
@@ -33,19 +33,23 @@ public class SubjectDatabase extends SQLiteOpenHelper {
     // subject Table Columns names
     private static final String KEY_ID = "id";
     private static final String KEY_SUBJECT_NAME = "subject";
+    private static final String KEY_SHORT_NAME = "shortname";
     private static final String KEY_SUBJECT_COLOR = "color";
     private static final String KEY_TEACHER_NAME = "teacher";
-    private static final String KEY_DAYS="days";
+    private static final String KEY_DAYS = "days";
+    private static final String KEY_PLACE = "place";
+    private static final String KEY_NOTES = "notes";
 
     String CREATE_EXPENSES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_SUBJECTS + " ("
-            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT,"
-            + KEY_SUBJECT_COLOR + " INTEGER," + KEY_DAYS + " TEXT,"+ KEY_TEACHER_NAME + " TEXT" + ");";
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SUBJECT_NAME + " TEXT," + KEY_SHORT_NAME + " TEXT,"
+            + KEY_SUBJECT_COLOR + " INTEGER," + KEY_DAYS + " TEXT," + KEY_TEACHER_NAME + " TEXT," + KEY_PLACE + " TEXT,"
+            + KEY_NOTES + " TEXT" + ");";
 
-   SQLiteDatabase db;
+    SQLiteDatabase db;
 
     public SubjectDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        db=this.getWritableDatabase();
+        db = this.getWritableDatabase();
     }
 
     // Creating Tables
@@ -84,9 +88,12 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ID, getSubjectId());
         values.put(KEY_SUBJECT_NAME, subject.getSubject());
+        values.put(KEY_SHORT_NAME, subject.getShortSubject());
         values.put(KEY_SUBJECT_COLOR, subject.getColor());
-        values.put(KEY_DAYS,subject.getSubject());
+        values.put(KEY_DAYS, subject.getDays());
         values.put(KEY_TEACHER_NAME, subject.getTeacher());
+        values.put(KEY_PLACE, subject.getPlace());
+        values.put(KEY_NOTES, subject.getNotes());
 
         // Inserting Row
         db.insert(TABLE_SUBJECTS, null, values);
@@ -109,9 +116,12 @@ public class SubjectDatabase extends SQLiteOpenHelper {
                     Subject subject = new Subject();
                     subject.setId(cursor.getString(cursor.getColumnIndex(KEY_ID)));
                     subject.setSubject(cursor.getString(cursor.getColumnIndex(KEY_SUBJECT_NAME)));
+                    subject.setShortSubject(cursor.getString(cursor.getColumnIndex(KEY_SHORT_NAME)));
                     subject.setColor(cursor.getInt(cursor.getColumnIndex(KEY_SUBJECT_COLOR)));
-                    subject.setTeacher(cursor.getString(cursor.getColumnIndex(KEY_TEACHER_NAME)));
                     subject.setDays(cursor.getString(cursor.getColumnIndex(KEY_DAYS)));
+                    subject.setTeacher(cursor.getString(cursor.getColumnIndex(KEY_TEACHER_NAME)));
+                    subject.setPlace(cursor.getString(cursor.getColumnIndex(KEY_PLACE)));
+                    subject.setNotes(cursor.getString(cursor.getColumnIndex(KEY_NOTES)));
 
                     subjectList.add(subject);
                 } while (cursor.moveToNext());
@@ -129,9 +139,12 @@ public class SubjectDatabase extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_SUBJECT_NAME, subject.getSubject());
+        values.put(KEY_SHORT_NAME, subject.getShortSubject());
         values.put(KEY_SUBJECT_COLOR, subject.getColor());
         values.put(KEY_TEACHER_NAME, subject.getTeacher());
-        values.put(KEY_DAYS,subject.getDays());
+        values.put(KEY_DAYS, subject.getDays());
+        values.put(KEY_PLACE, subject.getPlace());
+        values.put(KEY_NOTES, subject.getNotes());
 
         // updating row
         return db.update(TABLE_SUBJECTS, values, KEY_ID + " = ?",
@@ -146,19 +159,23 @@ public class SubjectDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Subject findSubjectById(String subjectId){
+    public Subject findSubjectById(String subjectId) {
 //        Log.e(TAG,"Requested Subject has id="+subjectId);
-        Subject subject=null;
-        if(subjectId.equalsIgnoreCase("0"))
+        Subject subject = null;
+        if (subjectId.equalsIgnoreCase("0"))
             return null;
-        Cursor c=db.query(TABLE_SUBJECTS, new String[]{KEY_ID, KEY_SUBJECT_NAME, KEY_TEACHER_NAME, KEY_DAYS, KEY_SUBJECT_COLOR}, KEY_ID + "= ?", new String[]{subjectId}, null, null, null);
-        if(c.moveToFirst()) {
-            subject=new Subject();
+        Cursor c = db.query(TABLE_SUBJECTS, new String[]{KEY_ID, KEY_SUBJECT_NAME, KEY_SHORT_NAME, KEY_SUBJECT_COLOR,
+                KEY_DAYS, KEY_TEACHER_NAME, KEY_PLACE, KEY_NOTES}, KEY_ID + "= ?", new String[]{subjectId}, null, null, null);
+        if (c.moveToFirst()) {
+            subject = new Subject();
             subject.setId(c.getString(0));
             subject.setSubject(c.getString(1));
-            subject.setTeacher(c.getString(2));
-            subject.setDays(c.getString(3));
-            subject.setColor(Integer.parseInt(c.getString(4)));
+            subject.setShortSubject(c.getString(2));
+            subject.setColor(Integer.parseInt(c.getString(3)));
+            subject.setDays(c.getString(4));
+            subject.setTeacher(c.getString(5));
+            subject.setPlace(c.getString(6));
+            subject.setNotes(c.getString(7));
         }
         c.close();
         return subject;
@@ -167,17 +184,17 @@ public class SubjectDatabase extends SQLiteOpenHelper {
 
     // Getting subject Count
     private int getSubjectId() {
-        Random random=new Random();
+        Random random = new Random();
         int id;
         Cursor c;
-        do{
-            id=random.nextInt();
-            if(id==0)
+        do {
+            id = random.nextInt();
+            if (id == 0)
                 id++;
-            c=db.rawQuery("SELECT * FROM " + TABLE_SUBJECTS + " WHERE " + KEY_ID + "=" + id, null);
-        }while (c.moveToFirst());
+            c = db.rawQuery("SELECT * FROM " + TABLE_SUBJECTS + " WHERE " + KEY_ID + "=" + id, null);
+        } while (c.moveToFirst());
         c.close();
-        Log.e(TAG,"Subject id: "+id);
+        Log.e(TAG, "Subject id: " + id);
         return id;
     }
 
