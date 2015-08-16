@@ -1,13 +1,16 @@
 package com.jazzyarchitects.studentassistant.HelperClasses;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SpinnerAdapter;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -170,6 +173,70 @@ public class Constants {
             view.setLayoutParams(params);
             return view;
         }
+    }
+
+    //function to return spinner Adapter for Material Design Spinners
+    public static SpinnerAdapter spinnerAdapter(final Context context, final String[] list){
+        return new SpinnerAdapter() {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View row = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
+                TextView label = (TextView) row.findViewById(android.R.id.text1);
+                label.setText(list[position]);
+                return row;
+            }
+
+            @Override
+            public void registerDataSetObserver(DataSetObserver observer) {
+
+            }
+
+            @Override
+            public void unregisterDataSetObserver(DataSetObserver observer) {
+
+            }
+
+            @Override
+            public int getCount() {
+                return list.length;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return list[position];
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return 0;
+            }
+
+            @Override
+            public boolean hasStableIds() {
+                return false;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                return getDropDownView(position,convertView,parent);
+            }
+
+            @Override
+            public int getItemViewType(int position) {
+                return 0;
+            }
+
+            @Override
+            public int getViewTypeCount() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+        };
     }
 
 }

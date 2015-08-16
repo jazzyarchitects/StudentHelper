@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
+import com.jazzyarchitects.studentassistant.Fragment.EventList;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
@@ -100,7 +101,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 replaceViewWithFragment(new SubjectList());
                 break;
             case R.id.settings:
-                startActivity(new Intent(this,TimeSetting.class));
+                startActivity(new Intent(this, TimeSetting.class));
+                break;
+            case R.id.eventList:
+                replaceViewWithFragment(new EventList());
                 break;
             default:
                 break;

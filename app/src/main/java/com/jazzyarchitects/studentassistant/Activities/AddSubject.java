@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -21,10 +23,12 @@ import java.util.ArrayList;
 
 public class AddSubject extends AppCompatActivity {
 
-    EditText subjectName, teacherName, shortName, notes, place;
+    EditText subjectName, teacherName, shortName, notes;
+    AutoCompleteTextView place;
     View colorPicker;
     TextView discard, save;
     int subColor;
+    ArrayList<Subject> subjectList;
     String days="0000000";
     SubjectDatabase subjectDatabase;
     CheckBox mon, tue, wed, thurs, fri, sat;
@@ -37,7 +41,7 @@ public class AddSubject extends AppCompatActivity {
         subjectName = (EditText) findViewById(R.id.editSubjectName);
         teacherName = (EditText) findViewById(R.id.editTeacherName);
         shortName=(EditText)findViewById(R.id.editShortName);
-        place=(EditText)findViewById(R.id.place);
+        place=(AutoCompleteTextView)findViewById(R.id.place);
         notes=(EditText)findViewById(R.id.notes);
         mon=(CheckBox)findViewById(R.id.checkMon);
         tue=(CheckBox)findViewById(R.id.checkTues);
@@ -59,6 +63,37 @@ public class AddSubject extends AppCompatActivity {
 
         subjectDatabase = new SubjectDatabase(this);
 
+        //auto suggestion for short Subject name
+        shortName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(shortName.getText().toString().isEmpty() && hasFocus)
+                {
+                    String s=subjectName.getText().toString();
+                    String o="",f="";
+                    int c=1,i;
+                    if(!s.isEmpty())
+                    {
+                        o=o+s.charAt(0);
+                        for(i=0;i<s.length();i++)
+                        {
+                            if(c==1)
+                                f=f+s.charAt(i);
+                            if(s.charAt(i)==' ')
+                            {
+                                c++;
+                                o=o+s.charAt(i+1);
+                            }
+                        }
+                        if(c>2)
+                            shortName.setText(o);
+                        else
+                            shortName.setText(f);
+                    }
+                }
+            }
+        });
+        //pick color for each subject
         colorPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +101,6 @@ public class AddSubject extends AppCompatActivity {
                         new ColorPickerDialog.OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(int color) {
-                                Toast.makeText(getBaseContext(), String.valueOf(color), Toast.LENGTH_LONG).show();
                                 colorPicker.setBackgroundColor(color);
                                 subColor = color;
                             }
@@ -74,6 +108,18 @@ public class AddSubject extends AppCompatActivity {
                 colorPickerDialog.show();
             }
         });
+
+        //populating AutoCompleteTextView 'place'
+        subjectList = new ArrayList<>();
+        subjectList = subjectDatabase.getAllSubject();
+        if(!subjectList.isEmpty())
+        {
+            String[] databasePlace = new String[subjectList.size()];
+            for(int i=0;i<subjectList.size();i++)
+                databasePlace[i]=subjectList.get(i).getPlace();
+            ArrayAdapter<String> adapter=new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_list_item_1,databasePlace);
+            place.setAdapter(adapter);
+        }
 
         discard.setOnClickListener(new View.OnClickListener() {
             @Override

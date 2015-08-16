@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jazzyarchitects.studentassistant.Fragment.EventList">
+
+    <TextView
+        android:id="@+id/noEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/noEvent"
+        android:textColor="@color/themeColor5"
+        android:textSize="17sp"
+        android:visibility="visible" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/noEvent"
+        android:layout_above="@+id/addEvent"
+        android:visibility="visible"
+        android:clipToPadding="false" />
+
+    <TextView
+        android:id="@+id/addEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15sp"
+        android:background="@color/themeColor4"
+        android:layout_alignParentBottom="true"
+        android:text="+ ADD NEW EVENT"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>

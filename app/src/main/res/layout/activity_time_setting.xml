@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.jazzyarchitects.studentassistant.Activities.TimeSetting">
@@ -20,118 +21,154 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp">
+        android:layout_height="match_parent">
 
-        <TableRow
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="10"
-            android:id="@+id/tr0">
-            <TextView
-                android:layout_weight="7"
-                android:layout_width="0dp"
+            android:padding="5dp">
+
+            <TableRow
+                android:id="@+id/tr0"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end|right|center_vertical"
-                android:textSize="@dimen/timeSetting_dayCount_textSize"
-                android:textColor="@color/timeSetting_dayCountText"
-                android:text="@string/timeSetting_dayCount"/>
+                android:weightSum="10">
 
-            <EditText
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:gravity="end|right|center_vertical"
+                    android:text="@string/timeSetting_dayCount"
+                    android:textColor="@color/timeSetting_dayCountText"
+                    android:textSize="@dimen/timeSetting_dayCount_textSize" />
+
+                <EditText
+                    android:id="@+id/dayCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:hint="Count"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:maxLines="1"
+                    android:text="8"
+                    android:textSize="@dimen/timeSetting_dayCount_textSize" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:hint="Count"
-                android:text="8"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="2"
-                android:maxLines="1"
-                android:id="@+id/dayCount"
-                android:textSize="@dimen/timeSetting_dayCount_textSize"
-                android:layout_weight="3"/>
-        </TableRow>
+                android:layout_below="@+id/tr0"
+                android:weightSum="10">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="10"
-            android:layout_below="@+id/tr0"
-            android:id="@+id/tr1">
-            <TextView
-                android:layout_weight="7"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:gravity="end|right|center_vertical"
+                    android:text="@string/timeSetting_classCount"
+                    android:textColor="@color/timeSetting_classCountText"
+                    android:textSize="@dimen/timeSetting_classCount_textSize" />
+
+                <EditText
+                    android:id="@+id/classCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:hint="Count"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:maxLines="1"
+                    android:text="8"
+                    android:textSize="@dimen/timeSetting_classCount_textSize" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end|right|center_vertical"
-                android:textSize="@dimen/timeSetting_classCount_textSize"
-                android:textColor="@color/timeSetting_classCountText"
-                android:text="@string/timeSetting_classCount"/>
+                android:layout_below="@+id/tr1"
+                android:weightSum="10">
 
-            <EditText
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:gravity="end|right|center_vertical"
+                    android:text="@string/timeSetting_classDuration"
+                    android:textColor="@color/timeSetting_classDurationText"
+                    android:textSize="@dimen/timeSetting_classDuration_textSize" />
+
+                <EditText
+                    android:id="@+id/classDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:hint="Count"
+                    android:maxLines="1"
+                    android:text="8"
+                    android:textSize="@dimen/timeSetting_classDuration_textSize" />
+            </TableRow>
+
+            <LinearLayout
+                android:id="@+id/classTime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tr2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/timeSetting_headingText"
+                    android:textColor="@color/timeSetting_heading"
+                    android:textSize="@dimen/timeSetting_headingTextSize" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:hint="Count"
-                android:text="8"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="2"
-                android:maxLines="1"
-                android:id="@+id/classCount"
-                android:textSize="@dimen/timeSetting_classCount_textSize"
-                android:layout_weight="3"/>
-        </TableRow>
+                android:layout_below="@id/classTime"
+                android:orientation="vertical">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="10"
-            android:layout_below="@+id/tr1"
-            android:id="@+id/tr2">
-            <TextView
-                android:layout_weight="7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="end|right|center_vertical"
-                android:textSize="@dimen/timeSetting_classDuration_textSize"
-                android:textColor="@color/timeSetting_classDurationText"
-                android:text="@string/timeSetting_classDuration"/>
+                <com.rey.material.widget.CheckBox
+                    style="@style/Material.Drawable.CheckBox"
+                    cbd_strokeColor="@color/themeColor1"
+                    android:gravity="center"
+                    android:textSize="@dimen/timeSetting_dayCount_textSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check box" />
 
-            <EditText
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:hint="Count"
-                android:text="8"
-                android:gravity="center"
-                android:maxLines="1"
-                android:id="@+id/classDuration"
-                android:textSize="@dimen/timeSetting_classDuration_textSize"
-                android:layout_weight="3"/>
-        </TableRow>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/tr2"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/timeSetting_headingText"
-                android:textSize="@dimen/timeSetting_headingTextSize"
-                android:textColor="@color/timeSetting_heading"/>
+                <com.rey.material.widget.CheckBox
+                    style="@style/Material.Drawable.CheckBox"
+                    cbd_strokeColor="@color/themeColor1"
+                    android:textSize="@dimen/timeSetting_dayCount_textSize"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check box" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 
 </LinearLayout>

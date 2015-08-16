@@ -63,6 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="7dp"
                     android:hint="Subject Name"
+                    android:inputType="textCapWords"
                     android:textSize="18sp" />
             </android.support.design.widget.TextInputLayout>
 
@@ -75,6 +76,7 @@
                 <EditText
                     android:id="@+id/editShortName"
                     android:layout_width="match_parent"
+                    android:inputType="textPersonName"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="7dp"
                     android:hint="Subject Short Name"
@@ -92,6 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="7dp"
+                    android:inputType="textPersonName"
                     android:hint="Teacher Name"
                     android:textSize="18sp" />
             </android.support.design.widget.TextInputLayout>
@@ -128,10 +131,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/linearLayout">
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
                     android:hint="Place" />
             </android.support.design.widget.TextInputLayout>
 
