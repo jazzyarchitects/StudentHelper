@@ -34,7 +34,6 @@ import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.TimeTableHandler;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.Models.Subject;
-import com.jazzyarchitects.studentassistant.Models.TimeTableIds;
 import com.jazzyarchitects.studentassistant.Models.ViewTag;
 import com.jazzyarchitects.studentassistant.R;
 
@@ -292,8 +291,9 @@ public class TimeTable extends Fragment {
                     }
                     break;
                 case DragEvent.ACTION_DRAG_EXITED:
-                    Subject existingSubject = (Subject) v.getTag();
-                    int dI = TimeTableIds.getDay(v.getId());
+                    viewTag=(ViewTag)v.findViewById(R.id.cell).getTag();
+                    Subject existingSubject=viewTag.getSubject();
+                    int dI=viewTag.getDayIndex();
                     Log.e(TAG, "DragEvent: ACTION_DRAG_EXITED dI: " + dI + " dayToday: " + dayToday);
                     if (dI + 2 == dayToday) {
                         rl.setBackgroundColor(Color.parseColor("#7AB317"));
