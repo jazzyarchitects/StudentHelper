@@ -5,6 +5,7 @@ import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,9 +133,11 @@ public class Constants {
             TextView bunkedClasses = (TextView) view.findViewById(R.id.bunkedClasses);
             TextView attendance = (TextView) view.findViewById(R.id.attendancePercentage);
             TextView assignments = (TextView) view.findViewById(R.id.assignmentCount);
+            TextView professorName=(TextView)view.findViewById(R.id.professorName);
 
             if (subject == null) {
                 subjectName.setText("...OFF...");
+                subjectName.setGravity(Gravity.CENTER);
                 notes.setText("There is nothing here... Enjoy your day...");
                 bunkedClasses.setVisibility(View.GONE);
                 assignments.setVisibility(View.GONE);
@@ -153,7 +156,7 @@ public class Constants {
                 }
 
                 bunkedClasses.setText(Constants.getBunkedClassText(subject.getBunkedClasses()));
-
+                professorName.setText(Constants.getProfessorNameText(subject.getTeacher()));
                 attendance.setText(Constants.getAssignmentCountText(subject.getAssignmentCount()));
 
                 assignments.setText(Constants.getAssignmentCountText(subject.getAssignmentCount()));

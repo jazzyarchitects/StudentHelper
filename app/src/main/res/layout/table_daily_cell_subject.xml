@@ -31,9 +31,19 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Professor Name"
+                android:textColor="#000"
+                android:id="@+id/professorName"
+                android:padding="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="@color/dailyTableSubjectTextColor"
                 android:id="@+id/notes"
                 android:maxLines="6"
+                android:layout_below="@+id/professorName"
                 android:padding="5dp"
                 android:textSize="13sp"
                 android:text="@string/lorem_ipsum"/>

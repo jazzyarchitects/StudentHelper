@@ -255,10 +255,6 @@ public class TimeTable extends Fragment {
                 return false;
             }
 
-            @Override
-            public void onSubjectDetailClick(ViewTag tag) {
-
-            }
         });
         try {
             mListener = (OnFragmentInteractionListener) activity;

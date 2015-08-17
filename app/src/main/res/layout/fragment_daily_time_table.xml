@@ -57,36 +57,157 @@
             android:background="#FFF"
             android:id="@+id/timeTable" />
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent">-->
-            <!--<include-->
-                <!--layout="@layout/table_daily_complete"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:id="@+id/table"-->
-                <!--android:layout_height="match_parent" />-->
-        <!--</LinearLayout>-->
 
     </HorizontalScrollView>
 
-    <RelativeLayout
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.7"
-        android:id="@+id/detailLayout"
-        android:orientation="vertical"
-        android:background="#FFF">
-
-        <include
-            layout="@layout/subject_detail_layout"
-            android:id="@+id/subjectDetailLayout"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent" />
+        android:layout_marginTop="5dp"
+        android:weightSum="4" >
 
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginEnd="2.5dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/themeColor2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="60sp"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:gravity="center"
+                android:text="1"/>
 
 
-    </RelativeLayout>
+            <TextView
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:text="Assignments"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/themeColor3"
+            android:layout_marginLeft="2.5dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginStart="2.5dp"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginEnd="2.5dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="60sp"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:gravity="center"
+                android:text="2"/>
 
 
+            <TextView
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:text="Examinations"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginEnd="2.5dp"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginStart="2.5dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/themeColor4"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="60sp"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:gravity="center"
+                android:text="3"/>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                android:layout_gravity="bottom"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:text="Events"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginStart="2.5dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/themeColor5"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="60sp"
+                android:textStyle="bold"
+                android:textColor="#FFF"
+                android:gravity="center"
+                android:text="4"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                android:layout_gravity="bottom"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:text="Extra Classes"/>
+
+        </LinearLayout>
+
+
+
+
+
+    </TableRow>
 </LinearLayout>
