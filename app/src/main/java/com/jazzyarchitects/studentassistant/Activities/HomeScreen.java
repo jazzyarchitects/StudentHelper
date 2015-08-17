@@ -100,11 +100,11 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             case R.id.subjectList:
                 replaceViewWithFragment(new SubjectList());
                 break;
-            case R.id.settings:
-                startActivity(new Intent(this, TimeSetting.class));
-                break;
             case R.id.eventList:
                 replaceViewWithFragment(new EventList());
+                break;
+            case R.id.settings:
+                startActivity(new Intent(this, TimeSetting.class));
                 break;
             default:
                 break;

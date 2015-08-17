@@ -16,13 +16,14 @@
         card_view:cardElevation="2dp"
         card_view:cardMaxElevation="2dp">
 
+
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/dealRipple"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:mrl_rippleAlpha="0.1"
-            app:mrl_rippleBackground="@color/darkBlueRippleColor"
-            app:mrl_rippleColor="@color/darkBlueRippleColor"
+            app:mrl_rippleBackground="#FFFFFF"
+            app:mrl_rippleColor="@color/themeColor1"
             app:mrl_rippleDelayClick="true"
             app:mrl_rippleDimension="10dp"
             app:mrl_rippleDuration="400"

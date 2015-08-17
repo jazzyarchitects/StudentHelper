@@ -181,7 +181,7 @@ public class Constants {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View row = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
+                View row = inflater.inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
                 TextView label = (TextView) row.findViewById(android.R.id.text1);
                 label.setText(list[position]);
                 return row;
