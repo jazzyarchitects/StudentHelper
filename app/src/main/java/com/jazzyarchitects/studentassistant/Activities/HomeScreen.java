@@ -20,8 +20,10 @@ import android.widget.FrameLayout;
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
 import com.jazzyarchitects.studentassistant.Fragment.EventList;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
+import com.jazzyarchitects.studentassistant.Fragment.SundayView;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
+import com.jazzyarchitects.studentassistant.Models.ViewTag;
 import com.jazzyarchitects.studentassistant.R;
 
 public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimeTable.OnFragmentInteractionListener {
@@ -106,6 +108,9 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             case R.id.eventList:
                 replaceViewWithFragment(new EventList());
                 break;
+            case  R.id.test:
+                replaceViewWithFragment(new SundayView());
+                break;
             default:
                 break;
         }
@@ -131,6 +136,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     public interface ActivityClickListener{
         void onSubjectClick(View view);
         boolean onBackKeyPressed();
+        void onSubjectDetailClick(ViewTag tag);
     }
 
     @Override
@@ -145,5 +151,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     public void setActivityClickListener(ActivityClickListener activityClickListener){
         this.activityClickListener=activityClickListener;
+    }
+
+    public void subjectDetailClick(View v){
+        if(activityClickListener!=null)
+            activityClickListener.onSubjectDetailClick((ViewTag)v.getTag());
     }
 }

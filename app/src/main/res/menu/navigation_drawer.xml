@@ -27,5 +27,8 @@
             android:icon="@drawable/ic_action_settings"
             android:title="Settings" />
 
+        <item android:id="@+id/test"
+            android:title="Test" />
+
     </group>
 </menu>
