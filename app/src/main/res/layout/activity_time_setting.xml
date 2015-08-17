@@ -34,7 +34,7 @@
                 android:layout_weight="7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="end|right|center_vertical"
+                android:gravity="center_vertical"
                 android:textSize="@dimen/timeSetting_dayCount_textSize"
                 android:textColor="@color/timeSetting_dayCountText"
                 android:text="@string/timeSetting_dayCount"/>
@@ -45,7 +45,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
                 android:hint="Count"
-                android:text="8"
+                android:text="5"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="2"
@@ -65,7 +65,7 @@
                 android:layout_weight="7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="end|right|center_vertical"
+                android:gravity="center_vertical"
                 android:textSize="@dimen/timeSetting_classCount_textSize"
                 android:textColor="@color/timeSetting_classCountText"
                 android:text="@string/timeSetting_classCount"/>
@@ -96,7 +96,7 @@
                 android:layout_weight="7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="end|right|center_vertical"
+                android:gravity="center_vertical"
                 android:textSize="@dimen/timeSetting_classDuration_textSize"
                 android:textColor="@color/timeSetting_classDurationText"
                 android:text="@string/timeSetting_classDuration"/>
@@ -107,7 +107,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
                 android:hint="Count"
-                android:text="8"
+                android:text="55"
                 android:gravity="center"
                 android:maxLines="1"
                 android:id="@+id/classDuration"
@@ -115,10 +115,18 @@
                 android:layout_weight="3"/>
         </TableRow>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveConfig"
+            android:text="Apply"
+            android:layout_below="@+id/tr2"
+            android:layout_centerHorizontal="true"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tr2"
+            android:layout_below="@+id/saveConfig"
             android:orientation="vertical">
 
             <TextView
@@ -127,6 +135,7 @@
                 android:text="@string/timeSetting_headingText"
                 android:textSize="@dimen/timeSetting_headingTextSize"
                 android:textColor="@color/timeSetting_heading"/>
+
 
 
         </LinearLayout>
