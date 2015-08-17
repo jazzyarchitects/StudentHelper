@@ -17,16 +17,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.jazzyarchitects.studentassistant.Notifications.DayScheduleClassNotification;
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
 import com.jazzyarchitects.studentassistant.Fragment.EventList;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
 import com.jazzyarchitects.studentassistant.Fragment.SundayView;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
-import com.jazzyarchitects.studentassistant.Models.ViewTag;
 import com.jazzyarchitects.studentassistant.R;
 
-public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimeTable.OnFragmentInteractionListener {
+public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        TimeTable.OnFragmentInteractionListener {
 
     Toolbar toolbar;
     ActionBarDrawerToggle drawerToggle;
@@ -106,6 +107,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 replaceViewWithFragment(new EventList());
                 break;
             case  R.id.test:
+                DayScheduleClassNotification.notify(this,12);
                 replaceViewWithFragment(new SundayView());
                 break;
             case R.id.settings:
@@ -128,7 +130,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         replaceViewWithFragment(new SubjectList());
     }
 
-    void replaceViewWithFragment(Fragment fragment){
+    public void replaceViewWithFragment(Fragment fragment){
         FragmentManager fragmentManager=getFragmentManager();
         fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
     }
@@ -136,7 +138,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     public interface ActivityClickListener{
         void onSubjectClick(View view);
         boolean onBackKeyPressed();
-        void onSubjectDetailClick(ViewTag tag);
     }
 
     @Override
@@ -153,8 +154,4 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         this.activityClickListener=activityClickListener;
     }
 
-    public void subjectDetailClick(View v){
-        if(activityClickListener!=null)
-            activityClickListener.onSubjectDetailClick((ViewTag)v.getTag());
-    }
 }

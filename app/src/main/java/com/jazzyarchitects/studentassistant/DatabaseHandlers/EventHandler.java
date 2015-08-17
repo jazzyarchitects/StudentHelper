@@ -187,7 +187,7 @@ public class EventHandler extends SQLiteOpenHelper {
 
     // Delete Database
     public void deleteDatabase() {
-        this.getWritableDatabase().execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
+        this.getWritableDatabase().delete(TABLE_EVENTS,null,null);
     }
 
 

@@ -34,6 +34,24 @@
             android:name=".Activities.AddEvent"
             android:label="@string/title_activity_add_event" >
         </activity>
+
+        <receiver
+            android:name=".BroadcastReceivers.BootReceiver"
+            android:enabled="false"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".AlarmManagers.AlarmService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".AlarmManagers.AlarmTriggerer"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>
