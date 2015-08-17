@@ -10,9 +10,9 @@ import android.os.Parcelable;
 public class Subject implements Parcelable {
 
     String id = "", subject = "";
-    String teacher="", notes="";
-    String days="";
-    int assignmentCount=0;
+    String teacher = "", notes = "";
+    String days = "", place = "", shortSubject = "";
+    int assignmentCount = 0;
     int bunkedClasses = 0, attendance = 100, totalClasses = 1;
     int color = 0;
 
@@ -27,11 +27,14 @@ public class Subject implements Parcelable {
     public Subject(Parcel in) {
     }
 
-    public Subject(String subjectName, String teacherName, int color, String days){
-        subject=subjectName;
-        teacher=teacherName;
-        this.color=color;
-        this.days=days;
+    public Subject(String subjectName, String shortSubject, String teacherName, int color, String days, String notes, String place) {
+        subject = subjectName;
+        teacher = teacherName;
+        this.color = color;
+        this.days = days;
+        this.shortSubject = shortSubject;
+        this.place = place;
+        this.notes = notes;
     }
 
     @Override
@@ -78,10 +81,18 @@ public class Subject implements Parcelable {
         this.subject = subject;
     }
 
+    public String getShortSubject() {
+        return shortSubject;
+    }
+
+    public void setShortSubject(String shortSubject) {
+        this.shortSubject = shortSubject;
+    }
+
     public int getColor() {
-        if(this.color==0){
+        if (this.color == 0) {
             return Color.parseColor("#fefefe");
-        }else{
+        } else {
             return this.color;
         }
     }
@@ -90,12 +101,12 @@ public class Subject implements Parcelable {
         this.color = color;
     }
 
-    public String getDays(){
+    public String getDays() {
         return days;
     }
 
-    public void setDays(String days){
-        this.days=days;
+    public void setDays(String days) {
+        this.days = days;
     }
 
     public int getBunkedClasses() {
@@ -142,6 +153,14 @@ public class Subject implements Parcelable {
         this.notes = notes;
     }
 
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
     public int getAssignmentCount() {
         return assignmentCount;
     }
@@ -150,10 +169,11 @@ public class Subject implements Parcelable {
         this.assignmentCount = assignmentCount;
     }
 
-    public boolean hasAssignment(){
-        return assignmentCount>0;
+    public boolean hasAssignment() {
+        return assignmentCount > 0;
     }
-    public void incrementAssignmentCount(){
+
+    public void incrementAssignmentCount() {
         this.assignmentCount++;
     }
 }

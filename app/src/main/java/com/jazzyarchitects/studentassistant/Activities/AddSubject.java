@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -21,13 +23,15 @@ import java.util.ArrayList;
 
 public class AddSubject extends AppCompatActivity {
 
-    EditText subjectName, teacherName;
+    EditText subjectName, teacherName, shortName, notes;
+    AutoCompleteTextView place;
     View colorPicker;
-    TextView txtSubjectName, txtTeacherName, discard, save;
+    TextView discard, save;
     int subColor;
+    ArrayList<Subject> subjectList;
     String days="0000000";
     SubjectDatabase subjectDatabase;
-    CheckBox mon, tue, wed, thrus, fri, sat;
+    CheckBox mon, tue, wed, thurs, fri, sat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +40,13 @@ public class AddSubject extends AppCompatActivity {
 
         subjectName = (EditText) findViewById(R.id.editSubjectName);
         teacherName = (EditText) findViewById(R.id.editTeacherName);
-        txtSubjectName = (TextView) findViewById(R.id.textSubjectName);
-        txtTeacherName = (TextView) findViewById(R.id.textTeacherName);
+        shortName=(EditText)findViewById(R.id.editShortName);
+        place=(AutoCompleteTextView)findViewById(R.id.place);
+        notes=(EditText)findViewById(R.id.notes);
         mon=(CheckBox)findViewById(R.id.checkMon);
         tue=(CheckBox)findViewById(R.id.checkTues);
         wed=(CheckBox)findViewById(R.id.checkWed);
-        thrus=(CheckBox)findViewById(R.id.checkThrus);
+        thurs=(CheckBox)findViewById(R.id.checkThurs);
         fri=(CheckBox)findViewById(R.id.checkFri);
         sat=(CheckBox)findViewById(R.id.checkSat);
         discard = (TextView) findViewById(R.id.discard);
@@ -49,8 +54,46 @@ public class AddSubject extends AppCompatActivity {
         colorPicker = findViewById(R.id.colorPicker);
         subColor = getResources().getColor(R.color.white);
 
+        checkIfChecked(mon,"monday");
+        checkIfChecked(tue,"tuesday");
+        checkIfChecked(wed,"wednesday");
+        checkIfChecked(thurs,"thursday");
+        checkIfChecked(fri,"friday");
+        checkIfChecked(sat,"saturday");
+
         subjectDatabase = new SubjectDatabase(this);
 
+        //auto suggestion for short Subject name
+        shortName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(shortName.getText().toString().isEmpty() && hasFocus)
+                {
+                    String s=subjectName.getText().toString();
+                    String o="",f="";
+                    int c=1,i;
+                    if(!s.isEmpty())
+                    {
+                        o=o+s.charAt(0);
+                        for(i=0;i<s.length();i++)
+                        {
+                            if(c==1)
+                                f=f+s.charAt(i);
+                            if(s.charAt(i)==' ')
+                            {
+                                c++;
+                                o=o+s.charAt(i+1);
+                            }
+                        }
+                        if(c>2)
+                            shortName.setText(o);
+                        else
+                            shortName.setText(f);
+                    }
+                }
+            }
+        });
+        //pick color for each subject
         colorPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +101,6 @@ public class AddSubject extends AppCompatActivity {
                         new ColorPickerDialog.OnColorSelectedListener() {
                             @Override
                             public void onColorSelected(int color) {
-                                Toast.makeText(getBaseContext(), String.valueOf(color), Toast.LENGTH_LONG).show();
                                 colorPicker.setBackgroundColor(color);
                                 subColor = color;
                             }
@@ -67,8 +109,17 @@ public class AddSubject extends AppCompatActivity {
             }
         });
 
-        textViewVisibility(subjectName, txtSubjectName, "Subject Name");
-        textViewVisibility(teacherName, txtTeacherName, "Teacher Name");
+        //populating AutoCompleteTextView 'place'
+        subjectList = new ArrayList<>();
+        subjectList = subjectDatabase.getAllSubject();
+        if(!subjectList.isEmpty())
+        {
+            String[] databasePlace = new String[subjectList.size()];
+            for(int i=0;i<subjectList.size();i++)
+                databasePlace[i]=subjectList.get(i).getPlace();
+            ArrayAdapter<String> adapter=new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_list_item_1,databasePlace);
+            place.setAdapter(adapter);
+        }
 
         discard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +133,9 @@ public class AddSubject extends AppCompatActivity {
             public void onClick(View v) {
                 String subject = subjectName.getText().toString();
                 String teacher = teacherName.getText().toString();
+                String noteSubject=notes.getText().toString();
+                String shortSubject=shortName.getText().toString();
+                String subjectPlace=place.getText().toString();
                 if (subject.isEmpty()) {
                     subjectName.setError("Enter Subject Name");
                     return;
@@ -89,11 +143,15 @@ public class AddSubject extends AppCompatActivity {
                 if (teacher.isEmpty()) {
                     teacher = "";
                 }
-                subjectDatabase.addSubject(new Subject(subject, teacher, subColor,days));
+                if (noteSubject.isEmpty()) {
+                    noteSubject= "";
+                }
+                subjectDatabase.addSubject(new Subject(subject,shortSubject, teacher, subColor,days,noteSubject,subjectPlace));
+                Log.e("days",days);
 
                 ArrayList<Subject> subjectList = subjectDatabase.getAllSubject();
                 for (int i = 0; i < subjectList.size(); i++) {
-                    Log.e("database", subjectList.get(i).getSubject());
+                    Log.e("database", subjectList.get(i).getDays());
                 }
                 finish();
             }
@@ -101,26 +159,7 @@ public class AddSubject extends AppCompatActivity {
 
     }
 
-    public void textViewVisibility(final EditText editText, final TextView textView, final String s) {
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    textView.setVisibility(View.VISIBLE);
-                    editText.setHint("");
-                } else {
-                    if (editText.getText().toString().isEmpty()) {
-                        textView.setVisibility(View.GONE);
-                        editText.setHint(s);
-                    } else {
-                        textView.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-    }
-
-    public void checkIfChecked(CheckBox checkBox, String name){
+    public void checkIfChecked(CheckBox checkBox, final String name){
         final int[] x = {0};
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -134,7 +173,7 @@ public class AddSubject extends AppCompatActivity {
                         break;
                     case "wednesday": x[0]=3;
                         break;
-                    case "thrusday": x[0] =4;
+                    case "thursday": x[0] =4;
                         break;
                     case "friday": x[0]=5;
                         break;
@@ -142,7 +181,10 @@ public class AddSubject extends AppCompatActivity {
                         break;
                 }
                 if (isChecked){
-
+                    days=replace(days,x[0],'1');
+                }
+                else{
+                    days=replace(days,x[0],'0');
                 }
             }
         });

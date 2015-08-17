@@ -2,6 +2,7 @@ package com.jazzyarchitects.studentassistant.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtViewSubject, txtViewTeacher;
+        TextView txtViewSubject, txtViewTeacher,txtViewDays;
         LinearLayout linearLayout;
 
         public ViewHolder(View itemLayoutView) {
@@ -40,6 +41,7 @@ public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.
 
             txtViewSubject = (TextView) itemLayoutView.findViewById(R.id.subject);
             txtViewTeacher = (TextView) itemLayoutView.findViewById(R.id.teacher);
+            txtViewDays=(TextView)itemLayoutView.findViewById(R.id.daysName);
             linearLayout = (LinearLayout) itemLayoutView.findViewById(R.id.linearLayout);
         }
     }
@@ -61,6 +63,31 @@ public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.
         viewHolder.txtViewTeacher.setText(subjectList.get(position).getTeacher());
         viewHolder.txtViewSubject.setText(subjectList.get(position).getSubject());
         viewHolder.linearLayout.setBackgroundColor(subjectList.get(position).getColor());
+        String days="",daysCode="";
+        daysCode=subjectList.get(position).getDays();
+        Log.e("daysCode in Adapter",daysCode);
+        char[] x=daysCode.toCharArray();
+        for(int i=0;i<daysCode.length();i++){
+            if (x[i]=='1'){
+                switch(i){
+                    case 0: days=days+"Sunday  ";
+                        break;
+                    case 1: days=days+"Monday  ";
+                        break;
+                    case 2: days=days+"Tuesday  ";
+                        break;
+                    case 3: days=days+"Wednesday  ";
+                        break;
+                    case 4: days=days+"Thursday  ";
+                        break;
+                    case 5: days=days+"Friday  ";
+                        break;
+                    case 6: days=days+"Saturday  ";
+                        break;
+                }
+            }
+        }
+        viewHolder.txtViewDays.setText("Classes on: "+days);
     }
 
     @Override
