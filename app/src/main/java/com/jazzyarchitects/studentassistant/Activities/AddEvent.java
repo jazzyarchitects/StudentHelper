@@ -1,15 +1,8 @@
 package com.jazzyarchitects.studentassistant.Activities;
 
-import android.content.Context;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -24,13 +17,13 @@ import java.util.ArrayList;
 
 public class AddEvent extends AppCompatActivity {
 
-    Spinner eventType,subject;
+    Spinner eventType, subject;
     EditText notes;
     TextView save, cancel;
     SubjectDatabase subjectDatabase;
-    String[] events,subjects;
+    String[] events, subjects;
     ArrayList<Subject> subjectList;
-    SpinnerAdapter spinnerAdapterEvents,spinnerAdapterSubject;
+    SpinnerAdapter spinnerAdapterEvents, spinnerAdapterSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,28 +31,26 @@ public class AddEvent extends AppCompatActivity {
         setContentView(R.layout.activity_add_event);
 
         eventType = (Spinner) findViewById(R.id.eventType);
-        subject=(Spinner)findViewById(R.id.subject);
+        subject = (Spinner) findViewById(R.id.subject);
         notes = (EditText) findViewById(R.id.notes);
-        save=(TextView)findViewById(R.id.save);
-        cancel=(TextView)findViewById(R.id.cancel);
+        save = (TextView) findViewById(R.id.save);
+        cancel = (TextView) findViewById(R.id.cancel);
         events = new String[]{"Assignment", "Exam", "Class Text", "Extra Class"};
 
         //get Subject List from database
         subjectDatabase = new SubjectDatabase(this);
         subjectList = new ArrayList<>();
         subjectList = subjectDatabase.getAllSubject();
-        if(!subjectList.isEmpty())
-        {
-            subjects=new String[]{};
-            for(int i=0;i<subjectList.size();i++)
-                subjects[i]=subjectList.get(i).getSubject();
-        }
-        else {
-            subjects[0]="No Subjects Added";
+        if (!subjectList.isEmpty()) {
+            subjects = new String[subjectList.size()];
+            for (int i = 0; i < subjectList.size(); i++)
+                subjects[i] = subjectList.get(i).getSubject();
+        } else {
+            subjects[0] = "No Subjects Added";
         }
 
-        spinnerAdapterEvents= Constants.spinnerAdapter(this,events);
-        spinnerAdapterSubject=Constants.spinnerAdapter(this,subjects);
+        spinnerAdapterEvents = Constants.spinnerAdapter(this, events);
+        spinnerAdapterSubject = Constants.spinnerAdapter(this, subjects);
 
         eventType.setAdapter(spinnerAdapterEvents);
         subject.setAdapter(spinnerAdapterSubject);

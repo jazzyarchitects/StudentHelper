@@ -15,8 +15,11 @@ import android.widget.TextView;
 
 import com.jazzyarchitects.studentassistant.Activities.AddEvent;
 import com.jazzyarchitects.studentassistant.Activities.AddSubject;
+import com.jazzyarchitects.studentassistant.Adapters.EventListAdapter;
 import com.jazzyarchitects.studentassistant.Adapters.SubjectListAdapter;
+import com.jazzyarchitects.studentassistant.DatabaseHandlers.EventHandler;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
+import com.jazzyarchitects.studentassistant.Models.Event;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.R;
 
@@ -25,10 +28,10 @@ import java.util.ArrayList;
 public class EventList extends Fragment {
     Context context;
     TextView addEvent, noEvent;
-    SubjectDatabase subjectDatabase;
+    EventHandler eventHandler;
     RecyclerView recyclerView;
-    SubjectListAdapter subjectListAdapter;
-    ArrayList<Subject> subjectList;
+    ArrayList<Event> eventList;
+    EventListAdapter eventListAdapter;
 
     public EventList() {
         // Required empty public constructor
@@ -49,7 +52,6 @@ public class EventList extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
         addEvent = (TextView) view.findViewById(R.id.addEvent);
         noEvent = (TextView) view.findViewById(R.id.noEvent);
@@ -66,16 +68,20 @@ public class EventList extends Fragment {
     }
 
     public void updateEventList() {
-        subjectDatabase = new SubjectDatabase(context);
-        subjectList = new ArrayList<>();
-        subjectList = subjectDatabase.getAllSubject();
+        eventHandler = new EventHandler(context);
+        eventList = new ArrayList<>();
+        eventList = eventHandler.getAllEvents();
 
-        if (subjectList.isEmpty()) {
+        if (eventList.isEmpty()) {
             noEvent.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
             noEvent.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            eventListAdapter = new EventListAdapter(eventList, context);
+            recyclerView.setAdapter(eventListAdapter);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
         }
     }
 
