@@ -3,18 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFF"
     tools:context="com.jazzyarchitects.studentassistant.Fragment.EventList">
-=======
-    tools:context="com.jazzyarchitects.studentassistant.Fragment.AssignmentList">
-
     <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
         <!--android:id="@+id/emptyView">-->
->>>>>>> e238ddadcd4be4ddae3eb8271543814849100f84
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,7 +42,6 @@
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/addEvent"
         android:visibility="gone"
         android:clipToPadding="false" />
 
