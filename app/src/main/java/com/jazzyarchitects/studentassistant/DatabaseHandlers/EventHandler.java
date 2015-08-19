@@ -140,9 +140,8 @@ public class EventHandler extends SQLiteOpenHelper {
         Log.e("check","get event matching query");
         ArrayList<Event> eventList = new ArrayList<Event>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_EVENTS+ " WHERE "+KEY_EVENT_NAME+" =\" "+query+"\"";
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor=db.query(TABLE_EVENTS, null, KEY_EVENT_NAME + "=?", new String[]{query}, null, null, null);
 
         // looping through all rows and adding to list
 
@@ -160,7 +159,7 @@ public class EventHandler extends SQLiteOpenHelper {
                     event.setHour(cursor.getString(cursor.getColumnIndex(KEY_HOUR)));
                     event.setMin(cursor.getString(cursor.getColumnIndex(KEY_MIN)));
                     event.setNotes(cursor.getString(cursor.getColumnIndex(KEY_NOTES)));
-
+                    Log.e("Check",event.toString());
                     eventList.add(event);
                 } while (cursor.moveToNext());
             }

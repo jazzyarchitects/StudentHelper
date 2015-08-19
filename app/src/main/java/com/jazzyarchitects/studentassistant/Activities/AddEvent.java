@@ -94,14 +94,14 @@ public class AddEvent extends AppCompatActivity {
                 return false;
             }
         });
-        subject.setAdapter(spinnerAdapterSubject);
-        subject.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+        subjectSpinner.setAdapter(spinnerAdapterSubject);
+        subjectSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(Spinner spinner, View view, int position, long l) {
                 spinner.setSelection(position);
             }
         });
-        subject.setOnItemClickListener(new Spinner.OnItemClickListener() {
+        subjectSpinner.setOnItemClickListener(new Spinner.OnItemClickListener() {
             @Override
             public boolean onItemClick(Spinner spinner, View view, int i, long l) {
                 spinner.setSelection(i);
@@ -157,8 +157,8 @@ public class AddEvent extends AppCompatActivity {
                 if(noteString.isEmpty())
                     noteString="";
                 Log.e("check", "save clicked");
-                eventHandler = new EventHandler(getBaseContext());
-                eventHandler.addEvent(new Event(event,subject,noteString,date,month,year,minute,noteString));
+                eventHandler = new EventHandler(AddEvent.this);
+                eventHandler.addEvent(new Event(event,subject,date,month,year,hour,minute,noteString));
                 finish();
             }
         });

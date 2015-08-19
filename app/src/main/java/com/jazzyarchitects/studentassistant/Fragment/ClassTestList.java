@@ -1,10 +1,9 @@
 package com.jazzyarchitects.studentassistant.Fragment;
 
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,9 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jazzyarchitects.studentassistant.Activities.AddEvent;
 import com.jazzyarchitects.studentassistant.Adapters.EventListAdapter;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.EventHandler;
 import com.jazzyarchitects.studentassistant.Models.Event;
@@ -33,6 +32,7 @@ public class ClassTestList extends Fragment {
     RecyclerView recyclerView;
     ArrayList<Event> testList;
     EventListAdapter eventListAdapter;
+    RelativeLayout emptyView;
 
     public ClassTestList() {
         // Required empty public constructor
@@ -50,20 +50,13 @@ public class ClassTestList extends Fragment {
             e.printStackTrace();
         }
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
-        addTest = (TextView) view.findViewById(R.id.addEvent);
         noTest = (TextView) view.findViewById(R.id.noEvent);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        emptyView=(RelativeLayout)view.findViewById(R.id.emptyView);
 
-        addTest.setText("+ADD NEW CLASS TEST");
         noTest.setText("Yipeee!! No Tests!!");
         updateEventList();
 
-        addTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddEvent.class));
-            }
-        });
         return view;
     }
 
@@ -73,10 +66,10 @@ public class ClassTestList extends Fragment {
         testList = eventHandler.getAllEventsWhereQuery("Class Test");
 
         if (testList.isEmpty()) {
-            noTest.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
-            noTest.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             eventListAdapter = new EventListAdapter(testList, context);

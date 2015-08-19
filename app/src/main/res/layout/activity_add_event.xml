@@ -73,6 +73,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Set Date"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     app:rd_backgroundColor="@color/white"
                     app:rd_rippleColor="@color/themeColor1"
                     app:rd_rippleType="wave"
@@ -109,6 +111,8 @@
                     app:rd_rippleColor="@color/themeColor1"
                     app:rd_rippleType="wave"
                     android:textColor="#FFF"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:background="@drawable/button1"
                     app:rd_style="@style/Material.Drawable.Ripple.Touch.MatchView" />
 

@@ -96,4 +96,8 @@ public class Event {
         this.notes=notes;
     }
 
+    @Override
+    public String toString() {
+        return getId()+" "+getEvent()+" "+getNotes()+" "+getMonth();
+    }
 }

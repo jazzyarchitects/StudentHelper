@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFF"
+    tools:context="com.jazzyarchitects.studentassistant.Fragment.EventList">
+
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/themeColor3"
+        app:tabTextColor="#FFF"
+        app:tabSelectedTextColor="#c1f853"
+        app:tabIndicatorColor="#FFF"
+        app:tabGravity="center"
+        app:tabMode="scrollable"
+        android:id="@+id/tabLayout" />
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager"
+        android:layout_below="@+id/tabLayout"
+        android:layout_above="@+id/addEvent" />
+
+    <TextView
+        android:id="@+id/addEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15sp"
+        android:background="@color/themeColor4"
+        android:layout_alignParentBottom="true"
+        android:text="+ ADD NEW EVENT"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>

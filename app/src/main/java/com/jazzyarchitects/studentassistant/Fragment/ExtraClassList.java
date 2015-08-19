@@ -1,10 +1,9 @@
 package com.jazzyarchitects.studentassistant.Fragment;
 
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,9 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jazzyarchitects.studentassistant.Activities.AddEvent;
 import com.jazzyarchitects.studentassistant.Adapters.EventListAdapter;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.EventHandler;
 import com.jazzyarchitects.studentassistant.Models.Event;
@@ -31,6 +30,7 @@ public class ExtraClassList extends Fragment {
     EventHandler eventHandler;
     RecyclerView recyclerView;
     ArrayList<Event> classList;
+    RelativeLayout emptyView;
     EventListAdapter eventListAdapter;
 
     public ExtraClassList() {
@@ -49,19 +49,13 @@ public class ExtraClassList extends Fragment {
             e.printStackTrace();
         }
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
-        addClass = (TextView) view.findViewById(R.id.addEvent);
         noClass = (TextView) view.findViewById(R.id.noEvent);
+        emptyView=(RelativeLayout)view.findViewById(R.id.emptyView);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        addClass.setText("+ADD EXTRA CLASS");
+
         noClass.setText("Yipeee!! No Extra classes!!");
         updateEventList();
 
-        addClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddEvent.class));
-            }
-        });
         return view;
     }
 
@@ -71,10 +65,10 @@ public class ExtraClassList extends Fragment {
         classList = eventHandler.getAllEventsWhereQuery("Extra Class");
 
         if (classList.isEmpty()) {
-            noClass.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
-            noClass.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             eventListAdapter = new EventListAdapter(classList, context);

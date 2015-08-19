@@ -2,7 +2,6 @@ package com.jazzyarchitects.studentassistant.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,9 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jazzyarchitects.studentassistant.Activities.AddEvent;
 import com.jazzyarchitects.studentassistant.Adapters.EventListAdapter;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.EventHandler;
 import com.jazzyarchitects.studentassistant.Models.Event;
@@ -29,6 +28,7 @@ public class AssignmentList extends Fragment {
     RecyclerView recyclerView;
     ArrayList<Event> assignmentList;
     EventListAdapter eventListAdapter;
+    RelativeLayout emptyView;
 
     public AssignmentList() {
         // Required empty public constructor
@@ -50,20 +50,13 @@ public class AssignmentList extends Fragment {
             e.printStackTrace();
         }
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
-        addAssignment = (TextView) view.findViewById(R.id.addEvent);
         noAssignment = (TextView) view.findViewById(R.id.noEvent);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        emptyView=(RelativeLayout)view.findViewById(R.id.emptyView);
 
-        addAssignment.setText("+ADD NEW ASSIGNMENT");
         noAssignment.setText("Yipeee!! No Assignments!!");
         updateEventList();
 
-        addAssignment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddEvent.class));
-            }
-        });
         return view;
     }
 
@@ -75,10 +68,10 @@ public class AssignmentList extends Fragment {
 
         if (assignmentList.isEmpty()) {
             Log.e("check","Event List empty");
-            noAssignment.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
-            noAssignment.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             eventListAdapter = new EventListAdapter(assignmentList, context);

@@ -55,6 +55,7 @@
                 android:id="@+id/tableRow"
                 android:layout_below="@+id/notes"
                 android:layout_margin="5dp"
+                android:visibility="gone"
                 android:weightSum="2">
 
                 <TextView
