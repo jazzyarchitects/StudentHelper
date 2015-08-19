@@ -28,11 +28,13 @@ import java.util.ArrayList;
 public class Constants {
 
     public static Spanned getBunkedClassText(int bunkedClasses) {
-        return Html.fromHtml("Bunked Classes: <b>" + bunkedClasses + "</b>");
+//        return Html.fromHtml("Bunked Classes: <b>" + bunkedClasses + "</b>");
+        return Html.fromHtml("");
     }
 
     public static Spanned getAttendancePercentageText(double percentage) {
-        return Html.fromHtml("Attendance: <b>" + percentage + "%</b>");
+//        return Html.fromHtml("Attendance: <b>" + percentage + "%</b>");
+        return Html.fromHtml("");
     }
 
     public static Spanned getProfessorNameText(String name) {
