@@ -55,9 +55,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         /** Setting list View item details */
+        String d=eventList.get(position).getDate()+"/"+eventList.get(position).getMonth()+"/"+eventList.get(position).getYear();
+        String t=eventList.get(position).getHour()+":"+ eventList.get(position).getMin();
         viewHolder.txtViewEvent.setText(eventList.get(position).getEvent());
         viewHolder.txtViewSubject.setText(eventList.get(position).getSubject());
-        viewHolder.txtViewDate.setText(eventList.get(position).getDate() + eventList.get(position).getTime());
+        viewHolder.txtViewDate.setText(d+"\t"+t);
     }
 
     @Override

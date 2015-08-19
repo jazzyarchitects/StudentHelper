@@ -19,7 +19,7 @@ import android.widget.FrameLayout;
 
 import com.jazzyarchitects.studentassistant.Notifications.DayScheduleClassNotification;
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
-import com.jazzyarchitects.studentassistant.Fragment.EventList;
+import com.jazzyarchitects.studentassistant.Fragment.AssignmentList;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
 import com.jazzyarchitects.studentassistant.Fragment.SundayView;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
@@ -104,7 +104,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
                 replaceViewWithFragment(new SubjectList());
                 break;
             case R.id.eventList:
-                replaceViewWithFragment(new EventList());
+                replaceViewWithFragment(new AssignmentList());
                 break;
             case  R.id.test:
                 DayScheduleClassNotification.notify(this,12);

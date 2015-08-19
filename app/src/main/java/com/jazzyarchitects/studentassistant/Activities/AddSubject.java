@@ -147,12 +147,6 @@ public class AddSubject extends AppCompatActivity {
                     noteSubject= "";
                 }
                 subjectDatabase.addSubject(new Subject(subject,shortSubject, teacher, subColor,days,noteSubject,subjectPlace));
-                Log.e("days",days);
-
-                ArrayList<Subject> subjectList = subjectDatabase.getAllSubject();
-                for (int i = 0; i < subjectList.size(); i++) {
-                    Log.e("database", subjectList.get(i).getDays());
-                }
                 finish();
             }
         });

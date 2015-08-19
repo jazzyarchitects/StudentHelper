@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jazzyarchitects.studentassistant.Fragment.EventList">
+    tools:context="com.jazzyarchitects.studentassistant.Fragment.AssignmentList">
 
     <TextView
         android:id="@+id/noEvent"

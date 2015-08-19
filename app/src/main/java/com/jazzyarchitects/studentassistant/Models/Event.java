@@ -7,15 +7,17 @@ public class Event {
     String id="";
     String event = "";
     String subject = "";
-    String date = "";
-    String time = "";
+    String date = "",month="",year="",hour="",min="";
     String notes = "";
 
-    public Event(String event, String subject, String date, String time, String notes) {
+    public Event(String event, String subject, String date,String month,String year, String hour,String min, String notes) {
         this.event = event;
         this.subject = subject;
         this.date = date;
-        this.time = time;
+        this.month=month;
+        this.year=year;
+        this.hour=hour;
+        this.min=min;
         this.notes = notes;
     }
 
@@ -26,9 +28,10 @@ public class Event {
         return this.id;
     }
 
-    public void setId(String Id){
+    public void setId(String id){
         this.id=id;
     }
+
     public String getEvent() {
         return this.event;
     }
@@ -53,12 +56,36 @@ public class Event {
         this.date=date;
     }
 
-    public String getTime(){
-        return this.time;
+    public String getMonth(){
+        return this.month;
     }
 
-    public void setTime(String time){
-        this.time=time;
+    public void setMonth(String month){
+        this.month=month;
+    }
+
+    public String getYear(){
+        return  this.year;
+    }
+
+    public void setYear(String year){
+        this.year=year;
+    }
+
+    public String getHour(){
+        return this.hour;
+    }
+
+    public void setHour(String hour){
+        this.hour=hour;
+    }
+
+    public String getMin(){
+        return this.min;
+    }
+
+    public void setMin(String min){
+        this.min=min;
     }
 
     public String getNotes(){

@@ -34,12 +34,16 @@ public class EventHandler extends SQLiteOpenHelper {
     private static final String KEY_EVENT_NAME = "event";
     private static final String KEY_SUBJECT_NAME = "subject";
     private static final String KEY_DATE = "date";
-    private static final String KEY_TIME = "time";
+    private static final String KEY_MONTH = "month";
+    private static final String KEY_YEAR = "year";
+    private static final String KEY_HOUR = "hour";
+    private static final String KEY_MIN = "minutes";
     private static final String KEY_NOTES = "notes";
 
     String CREATE_EXPENSES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_EVENTS + " ("
             + KEY_ID + " INTEGER PRIMARY KEY," + KEY_EVENT_NAME + " TEXT," + KEY_SUBJECT_NAME + " TEXT,"
-            + KEY_DATE + " DATE," + KEY_TIME + " TIME," + KEY_NOTES + " TEXT" + ");";
+            + KEY_DATE + " TEXT," + KEY_MONTH + " TEXT,"+ KEY_YEAR + " TEXT,"+ KEY_HOUR + " TEXT,"
+            + KEY_MIN + " TEXT,"+ KEY_NOTES + " TEXT" + ");";
 
     SQLiteDatabase db;
 
@@ -77,8 +81,7 @@ public class EventHandler extends SQLiteOpenHelper {
 
     // Adding new Event
     public void addEvent(Event event) {
-
-//        SQLiteDatabase db = this.getWritableDatabase();
+        Log.e("check","Add event");
         db.execSQL(CREATE_EXPENSES_TABLE);
 
         ContentValues values = new ContentValues();
@@ -86,10 +89,14 @@ public class EventHandler extends SQLiteOpenHelper {
         values.put(KEY_EVENT_NAME, event.getEvent());
         values.put(KEY_SUBJECT_NAME, event.getSubject());
         values.put(KEY_DATE, event.getDate());
-        values.put(KEY_TIME, event.getTime());
+        values.put(KEY_MONTH, event.getMonth());
+        values.put(KEY_YEAR, event.getYear());
+        values.put(KEY_HOUR, event.getHour());
+        values.put(KEY_MIN, event.getMin());
         values.put(KEY_NOTES, event.getNotes());
 
         // Inserting Row
+        Log.e("check",values.get(KEY_EVENT_NAME).toString());
         db.insert(TABLE_EVENTS, null, values);
         db.close(); // Closing database connection
     }
@@ -112,7 +119,10 @@ public class EventHandler extends SQLiteOpenHelper {
                     event.setSubject(cursor.getString(cursor.getColumnIndex(KEY_SUBJECT_NAME)));
                     event.setEvent(cursor.getString(cursor.getColumnIndex(KEY_EVENT_NAME)));
                     event.setDate(cursor.getString(cursor.getColumnIndex(KEY_DATE)));
-                    event.setTime(cursor.getString(cursor.getColumnIndex(KEY_TIME)));
+                    event.setMonth(cursor.getString(cursor.getColumnIndex(KEY_MONTH)));
+                    event.setYear(cursor.getString(cursor.getColumnIndex(KEY_YEAR)));
+                    event.setHour(cursor.getString(cursor.getColumnIndex(KEY_HOUR)));
+                    event.setMin(cursor.getString(cursor.getColumnIndex(KEY_MIN)));
                     event.setNotes(cursor.getString(cursor.getColumnIndex(KEY_NOTES)));
 
                     eventList.add(event);
@@ -125,6 +135,41 @@ public class EventHandler extends SQLiteOpenHelper {
         return eventList;
     }
 
+    // Getting All events where it passes a given query
+    public ArrayList<Event> getAllEventsWhereQuery(String query) {
+        Log.e("check","get event matching query");
+        ArrayList<Event> eventList = new ArrayList<Event>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_EVENTS+ " WHERE "+KEY_EVENT_NAME+" =\" "+query+"\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+
+        if (cursor != null) {
+            Log.e("check","cursor not null");
+            if (cursor.moveToFirst()) {
+                do {
+                    Event event = new Event();
+                    event.setId(cursor.getString(cursor.getColumnIndex(KEY_ID)));
+                    event.setSubject(cursor.getString(cursor.getColumnIndex(KEY_SUBJECT_NAME)));
+                    event.setEvent(cursor.getString(cursor.getColumnIndex(KEY_EVENT_NAME)));
+                    event.setDate(cursor.getString(cursor.getColumnIndex(KEY_DATE)));
+                    event.setMonth(cursor.getString(cursor.getColumnIndex(KEY_MONTH)));
+                    event.setYear(cursor.getString(cursor.getColumnIndex(KEY_YEAR)));
+                    event.setHour(cursor.getString(cursor.getColumnIndex(KEY_HOUR)));
+                    event.setMin(cursor.getString(cursor.getColumnIndex(KEY_MIN)));
+                    event.setNotes(cursor.getString(cursor.getColumnIndex(KEY_NOTES)));
+
+                    eventList.add(event);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        // return event list
+        return eventList;
+    }
+
     // Updating single event
     public int updateEvent(Event event) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -133,7 +178,10 @@ public class EventHandler extends SQLiteOpenHelper {
         values.put(KEY_EVENT_NAME, event.getEvent());
         values.put(KEY_SUBJECT_NAME, event.getSubject());
         values.put(KEY_DATE, event.getDate());
-        values.put(KEY_TIME, event.getTime());
+        values.put(KEY_MONTH, event.getMonth());
+        values.put(KEY_YEAR, event.getYear());
+        values.put(KEY_HOUR, event.getHour());
+        values.put(KEY_MIN, event.getMin());
         values.put(KEY_NOTES, event.getNotes());
 
         // updating row
@@ -154,15 +202,18 @@ public class EventHandler extends SQLiteOpenHelper {
         if (eventId.equalsIgnoreCase("0"))
             return null;
         Cursor c = db.query(TABLE_EVENTS, new String[]{KEY_ID, KEY_EVENT_NAME, KEY_SUBJECT_NAME, KEY_DATE,
-                KEY_TIME, KEY_NOTES}, KEY_ID + "= ?", new String[]{eventId}, null, null, null);
+                KEY_MONTH,KEY_YEAR,KEY_HOUR,KEY_MIN, KEY_NOTES}, KEY_ID + "= ?", new String[]{eventId}, null, null, null);
         if (c.moveToFirst()) {
             event = new Event();
             event.setId(c.getString(0));
             event.setEvent(c.getString(1));
             event.setSubject(c.getString(2));
             event.setDate(c.getString(3));
-            event.setTime(c.getString(4));
-            event.setNotes(c.getString(5));
+            event.setMonth(c.getString(4));
+            event.setYear(c.getString(5));
+            event.setHour(c.getString(6));
+            event.setMin(c.getString(7));
+            event.setNotes(c.getString(8));
         }
         c.close();
         return event;

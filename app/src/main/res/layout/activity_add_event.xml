@@ -137,7 +137,8 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/save"
+                android:layout_margin="3dp"
+                android:id="@+id/cancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -148,7 +149,8 @@
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/cancel"
+                android:id="@+id/save"
+                android:layout_margin="3dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

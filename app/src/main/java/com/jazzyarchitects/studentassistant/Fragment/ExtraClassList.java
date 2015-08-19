@@ -1,9 +1,10 @@
 package com.jazzyarchitects.studentassistant.Fragment;
 
-import android.app.Fragment;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,33 +15,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jazzyarchitects.studentassistant.Activities.AddEvent;
-import com.jazzyarchitects.studentassistant.Activities.AddSubject;
 import com.jazzyarchitects.studentassistant.Adapters.EventListAdapter;
-import com.jazzyarchitects.studentassistant.Adapters.SubjectListAdapter;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.EventHandler;
-import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
 import com.jazzyarchitects.studentassistant.Models.Event;
-import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.R;
 
 import java.util.ArrayList;
 
-public class EventList extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class ExtraClassList extends Fragment {
     Context context;
-    TextView addEvent, noEvent;
+    TextView addClass, noClass;
     EventHandler eventHandler;
     RecyclerView recyclerView;
-    ArrayList<Event> eventList;
+    ArrayList<Event> classList;
     EventListAdapter eventListAdapter;
 
-    public EventList() {
+    public ExtraClassList() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,12 +49,14 @@ public class EventList extends Fragment {
             e.printStackTrace();
         }
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
-        addEvent = (TextView) view.findViewById(R.id.addEvent);
-        noEvent = (TextView) view.findViewById(R.id.noEvent);
+        addClass = (TextView) view.findViewById(R.id.addEvent);
+        noClass = (TextView) view.findViewById(R.id.noEvent);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        addClass.setText("+ADD EXTRA CLASS");
+        noClass.setText("Yipeee!! No Extra classes!!");
         updateEventList();
 
-        addEvent.setOnClickListener(new View.OnClickListener() {
+        addClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AddEvent.class));
@@ -69,29 +67,19 @@ public class EventList extends Fragment {
 
     public void updateEventList() {
         eventHandler = new EventHandler(context);
-        eventList = new ArrayList<>();
-        eventList = eventHandler.getAllEvents();
+        classList = new ArrayList<>();
+        classList = eventHandler.getAllEventsWhereQuery("Extra Class");
 
-        if (eventList.isEmpty()) {
-            noEvent.setVisibility(View.VISIBLE);
+        if (classList.isEmpty()) {
+            noClass.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
-            noEvent.setVisibility(View.GONE);
+            noClass.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            eventListAdapter = new EventListAdapter(eventList, context);
+            eventListAdapter = new EventListAdapter(classList, context);
             recyclerView.setAdapter(eventListAdapter);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 }
