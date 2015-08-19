@@ -52,6 +52,7 @@ public class Constants {
         public static final String Restructured="tableRestructured";
     }
 
+    public static final String EVENT_KEY="keyEvent";
 
     public static boolean isColorDark(int color) {
         float[] hsv = new float[3];

@@ -67,15 +67,13 @@ public class AddEvent extends AppCompatActivity {
         eventType.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(Spinner spinner, View view, int position, long l) {
-                TextView label = (TextView) view.findViewById(android.R.id.text1);
-                label.setText(events[position]);
+                spinner.setSelection(position);
             }
         });
         eventType.setOnItemClickListener(new Spinner.OnItemClickListener() {
             @Override
             public boolean onItemClick(Spinner spinner, View view, int i, long l) {
-                TextView label = (TextView) view.findViewById(android.R.id.text1);
-                label.setText(events[i]);
+                spinner.setSelection(i);
                 return false;
             }
         });
@@ -83,15 +81,13 @@ public class AddEvent extends AppCompatActivity {
         subject.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(Spinner spinner, View view, int position, long l) {
-                TextView label = (TextView) view.findViewById(android.R.id.text1);
-                label.setText(subjects.get(position));
+                spinner.setSelection(position);
             }
         });
         subject.setOnItemClickListener(new Spinner.OnItemClickListener() {
             @Override
             public boolean onItemClick(Spinner spinner, View view, int i, long l) {
-                TextView label = (TextView) view.findViewById(android.R.id.text1);
-                label.setText(subjects.get(i));
+                spinner.setSelection(i);
                 return false;
             }
         });

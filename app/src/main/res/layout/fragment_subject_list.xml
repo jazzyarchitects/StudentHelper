@@ -2,27 +2,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF"
     tools:context="com.jazzyarchitects.studentassistant.Fragment.SubjectList">
 
-    <TextView
-        android:id="@+id/noSubject"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:text="@string/noSubject"
-        android:textColor="@color/themeColor5"
-        android:textSize="17sp"
-        android:visibility="visible" />
+        android:layout_height="match_parent"
+        android:id="@+id/emptyView">
+
+
+        <TextView
+            android:id="@+id/noSubject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="@string/noSubject"
+            android:textColor="@color/themeColor5"
+            android:textSize="17sp"
+            android:visibility="visible" />
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/cal_big"/>
+
+    </RelativeLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/noSubject"
         android:layout_above="@+id/addSubject"
-        android:visibility="visible"
+        android:visibility="gone"
         android:clipToPadding="false" />
 
     <TextView

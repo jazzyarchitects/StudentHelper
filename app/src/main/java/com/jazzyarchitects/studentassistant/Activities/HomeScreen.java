@@ -21,12 +21,13 @@ import android.widget.FrameLayout;
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
 import com.jazzyarchitects.studentassistant.Fragment.EventList;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
+import com.jazzyarchitects.studentassistant.Fragment.SundayView;
 import com.jazzyarchitects.studentassistant.Fragment.TimeTable;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.R;
 
 public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        TimeTable.OnFragmentInteractionListener {
+        TimeTable.OnFragmentInteractionListener, SundayView.EventOptionClickListener, DailyTimeTable.EventOptionClickListener {
 
     Toolbar toolbar;
     ActionBarDrawerToggle drawerToggle;
@@ -148,6 +149,23 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
+    @Override
+    public void OnEventClick(int position) {
+        openEvent(position);
+    }
+
+    void openEvent(int position){
+        Fragment fragment=new EventList();
+        Bundle bundle=new Bundle();
+        bundle.putInt(Constants.EVENT_KEY,position);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager=getFragmentManager();
+        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        transaction.replace(frameLayout.getId(),fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
     public interface ActivityClickListener{
         void onSubjectClick(View view);
         boolean onBackKeyPressed();
@@ -169,5 +187,6 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     public void setActivityClickListener(ActivityClickListener activityClickListener){
         this.activityClickListener=activityClickListener;
     }
+
 
 }

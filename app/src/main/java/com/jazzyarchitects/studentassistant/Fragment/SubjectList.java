@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jazzyarchitects.studentassistant.Activities.AddSubject;
@@ -29,6 +30,7 @@ public class SubjectList extends Fragment {
     RecyclerView recyclerView;
     SubjectListAdapter subjectListAdapter;
     ArrayList<Subject> subjectList;
+    RelativeLayout emptyView;
 
 
     public SubjectList() {
@@ -53,6 +55,7 @@ public class SubjectList extends Fragment {
         addSubject = (TextView) view.findViewById(R.id.addSubject);
         noSubject = (TextView) view.findViewById(R.id.noSubject);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        emptyView=(RelativeLayout)view.findViewById(R.id.emptyView);
 
         updateSubjectList();
 
@@ -73,10 +76,10 @@ public class SubjectList extends Fragment {
         subjectList = subjectDatabase.getAllSubject();
 
         if (subjectList.isEmpty()) {
-            noSubject.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
-            noSubject.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             subjectListAdapter = new SubjectListAdapter(subjectList, context);
