@@ -1,7 +1,9 @@
 package com.jazzyarchitects.studentassistant.Activities;
 
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +14,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jazzyarchitects.studentassistant.CustomViews.ColorPickerDialog;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
@@ -28,6 +29,7 @@ public class AddSubject extends AppCompatActivity {
     View colorPicker;
     TextView discard, save;
     int subColor;
+    Toolbar toolbar;
     ArrayList<Subject> subjectList;
     String days="0000000";
     SubjectDatabase subjectDatabase;
@@ -38,6 +40,11 @@ public class AddSubject extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_subject);
 
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Add Event");
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         subjectName = (EditText) findViewById(R.id.editSubjectName);
         teacherName = (EditText) findViewById(R.id.editTeacherName);
         shortName=(EditText)findViewById(R.id.editShortName);
@@ -196,10 +203,11 @@ public class AddSubject extends AppCompatActivity {
         return String.valueOf(chars);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_subject, menu);
+        getMenuInflater().inflate(R.menu.menu_time_setting, menu);
         return true;
     }
 
@@ -210,7 +218,30 @@ public class AddSubject extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id==android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+        }
 
+//        if (id == R.id.save) {
+//            savePreferences();
+//            startHomeScreenActivity();
+//        }
+
+        //noinspection SimplifiableIfStatement
         return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.slide_left_show, R.anim.slide_left_hide);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        overridePendingTransition(R.anim.slide_right_show,R.anim.slide_right_show);
+    }
+
 }

@@ -5,10 +5,14 @@
     android:animateLayoutChanges="true"
     tools:context="com.jazzyarchitects.studentassistant.Activities.AddSubject">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/app_toolbar" />
     <TableRow
         android:id="@+id/tableRow"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="45dp"
         android:weightSum="2">
 
         <TextView
@@ -42,7 +46,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tableRow"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@+id/tableRow"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"

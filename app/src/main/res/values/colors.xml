@@ -24,7 +24,6 @@
 
 
     <color name="selectedCellColor">#ffa4aeda</color>
-    //Change this color in TimeTableOperations also
     <color name="unSelectedCellColor">#fefefe</color>
 
     <color name="roundImageViewBorder">#FFF</color>
@@ -33,7 +32,7 @@
     <color name="toolBarColor">@color/appThemeColor</color>
 
     <!--<color name="borderColor">#ff847e96</color>-->
-    <color name="borderColor">#fff</color>
+    <color name="borderColor">#333</color>
     <color name="shadowColor">#66000000</color>
 
     <color name="white">#ffffffff</color>
@@ -47,7 +46,7 @@
     <color name="color7">#ff002f35</color>
 
     <color name="themeColor1">#8ab741</color>
-    <color name="themeColor1Faded">#b4e951</color>
+    <color name="themeColor1Faded">#0c4639</color>
     <color name="themeColor2">#7AB317</color>
     <color name="themeColor3">#0D6759</color>
     <color name="themeColor3Dark">#0b574b</color>

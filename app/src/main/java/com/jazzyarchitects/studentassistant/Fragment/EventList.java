@@ -14,13 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jazzyarchitects.studentassistant.Activities.AddEvent;
-import com.jazzyarchitects.studentassistant.Activities.AddSubject;
 import com.jazzyarchitects.studentassistant.Adapters.EventListAdapter;
-import com.jazzyarchitects.studentassistant.Adapters.SubjectListAdapter;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.EventHandler;
-import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
 import com.jazzyarchitects.studentassistant.Models.Event;
-import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.R;
 
 import java.util.ArrayList;
@@ -62,6 +58,8 @@ public class EventList extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AddEvent.class));
+                getActivity().
+                        overridePendingTransition(R.anim.slide_left_show, R.anim.slide_left_hide);
             }
         });
         return view;

@@ -60,6 +60,8 @@ public class SubjectList extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AddSubject.class));
+                getActivity().
+                        overridePendingTransition(R.anim.slide_left_show, R.anim.slide_left_hide);
             }
         });
         return view;

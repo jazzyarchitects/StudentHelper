@@ -23,8 +23,10 @@ import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.TimeTableHandler;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.HelperClasses.TimingClass;
+import com.jazzyarchitects.studentassistant.Models.ClassTime;
 import com.jazzyarchitects.studentassistant.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -111,8 +113,10 @@ public class DailyTimeTable extends Fragment {
 
         TimeTableHandler timeTableHandler=new TimeTableHandler(context);
         SubjectDatabase subjectDatabase=new SubjectDatabase(context);
+
+        ArrayList<ClassTime> startTimes=timeTableHandler.getClassTimes();
         for (int i = 0; i < periodCount; i++) {
-            tableRow.addView(Constants.DailyTimeTable.getTimeView(context, i));
+            tableRow.addView(Constants.DailyTimeTable.getTimeView(context, i, startTimes.get(i)));
             View cell=Constants.DailyTimeTable.getSubjectView(context,subjectDatabase.findSubjectById(timeTableHandler.getSubjectId(dayToday,i)),i);
             tableRow1.addView(cell);
         }

@@ -1,9 +1,17 @@
 package com.jazzyarchitects.studentassistant.HelperClasses;
 
+import com.jazzyarchitects.studentassistant.Models.ClassTime;
+
+import java.util.Calendar;
+
 /**
  * Created by Jibin_ism on 04-May-15.
  */
 public class TimingClass {
+
+    public static String getTime(ClassTime classTime, Boolean is24Hours){
+        return getTime(classTime.getHour(),classTime.getMinute(), is24Hours);
+    }
 
     /*Get the time in correct format*/
     public static String getTime(int h, int m,Boolean is24hrs )
@@ -97,6 +105,13 @@ public class TimingClass {
         }
     }
 
+    public static ClassTime getFinishTime(ClassTime startTime, int classDuration){
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,startTime.getHour());
+        calendar.set(Calendar.MINUTE, startTime.getMinute());
+        calendar.add(Calendar.MINUTE,classDuration);
+        return new ClassTime(calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE));
+    }
 
 
 }

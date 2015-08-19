@@ -33,6 +33,8 @@ import com.jazzyarchitects.studentassistant.CustomViews.SubjectDetailDialog;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.TimeTableHandler;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
+import com.jazzyarchitects.studentassistant.HelperClasses.TimingClass;
+import com.jazzyarchitects.studentassistant.Models.ClassTime;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.ViewTag;
 import com.jazzyarchitects.studentassistant.R;
@@ -144,6 +146,7 @@ public class TimeTable extends Fragment {
     void setupSubjects() {
         final TimeTableHandler handler = new TimeTableHandler(context);
         SubjectDatabase subjectHandler = new SubjectDatabase(context);
+        ArrayList<ClassTime> classTimes=handler.getClassTimes();
         for (int i = 0; i < periodCount; i++) {
             TableRow tableRow = new TableRow(context);
             int rowId = 100 * (i + 1);
@@ -151,7 +154,9 @@ public class TimeTable extends Fragment {
             tableRow.setWeightSum(dayCount + 1);
             tableRow.setMinimumHeight((int) getResources().getDimension(R.dimen.cellMinHeight));
             tableRow.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
-            tableRow.addView(Constants.getTimeView(context, TimeTableOperations.timings[i]));
+            tableRow.addView(Constants.getTimeView(context,
+                    TimingClass.getTime(classTimes.get(i),true)+" - " +
+                    TimingClass.getTime(TimingClass.getFinishTime(classTimes.get(i),context.getSharedPreferences(Constants.TimeTablePreferences.Preference,Context.MODE_PRIVATE).getInt(Constants.TimeTablePreferences.ClassDuration,50)),true)));
             for (int j = 0; j < dayCount; j++) {
                 View v = Constants.getSubjectView(context, subjectHandler.findSubjectById(handler.getSubjectId(j, i)), j, i);
                 v.setId(rowId + j);
@@ -231,9 +236,9 @@ public class TimeTable extends Fragment {
      */
     private static class TimeTableOperations {
         static String[] day = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-        static String[] timings = {"8:00 - 8:55", "9:00 - 9:55", "10:00 - 10:55", "11:00 - 11:55", "1:30 - 2:25",
-                "2:30 - 3:25", "3:30 - 4:25", "4:30 - 5:25", "8:00 - 8:55", "9:00 - 9:55", "10:00 - 10:55", "11:00 - 11:55", "1:30 - 2:25",
-                "2:30 - 3:25", "3:30 - 4:25", "4:30 - 5:25"};
+//        static String[] timings = {"8:00 - 8:55", "9:00 - 9:55", "10:00 - 10:55", "11:00 - 11:55", "1:30 - 2:25",
+//                "2:30 - 3:25", "3:30 - 4:25", "4:30 - 5:25", "8:00 - 8:55", "9:00 - 9:55", "10:00 - 10:55", "11:00 - 11:55", "1:30 - 2:25",
+//                "2:30 - 3:25", "3:30 - 4:25", "4:30 - 5:25"};
     }
 
 
@@ -280,7 +285,7 @@ public class TimeTable extends Fragment {
                     ViewTag viewTag = (ViewTag) v.findViewById(R.id.cell).getTag();
                     int dayIndex = viewTag.getDayIndex();
                     int periodIndex = viewTag.getPeriodIndex();
-                    Log.e(TAG, "DragEvent: ACTION_DRAG_DROPPED in (" + dayIndex + "," + periodIndex + ")");
+//                    Log.e(TAG, "DragEvent: ACTION_DRAG_DROPPED in (" + dayIndex + "," + periodIndex + ")");
                     viewTag.setSubject(draggingSubject);
                     setSubject(v, viewTag);
                     updateSubject(dayIndex, periodIndex, draggingSubject);
@@ -295,7 +300,7 @@ public class TimeTable extends Fragment {
                     viewTag=(ViewTag)v.findViewById(R.id.cell).getTag();
                     Subject existingSubject=viewTag.getSubject();
                     int dI=viewTag.getDayIndex();
-                    Log.e(TAG, "DragEvent: ACTION_DRAG_EXITED dI: " + dI + " dayToday: " + dayToday);
+//                    Log.e(TAG, "DragEvent: ACTION_DRAG_EXITED dI: " + dI + " dayToday: " + dayToday);
                     if (dI + 2 == dayToday) {
                         rl.setBackgroundColor(Color.parseColor("#7AB317"));
                     } else if (existingSubject == null) {
@@ -380,8 +385,13 @@ public class TimeTable extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if(item.getItemId()==R.id.editTimeTable){
-            rl.setVisibility(View.VISIBLE);
-            isInEditMode=true;
+            if(!isInEditMode) {
+                rl.setVisibility(View.VISIBLE);
+                isInEditMode = true;
+            }else{
+                rl.setVisibility(View.GONE);
+                isInEditMode=false;
+            }
         }
         return true;
     }
