@@ -47,8 +47,10 @@
     <color name="color7">#ff002f35</color>
 
     <color name="themeColor1">#8ab741</color>
+    <color name="themeColor1Faded">#b4e951</color>
     <color name="themeColor2">#7AB317</color>
     <color name="themeColor3">#0D6759</color>
+    <color name="themeColor3Dark">#0b574b</color>
     <color name="themeColor4">#0B2E59</color>
     <color name="themeColor5">#2A044A</color>
     <color name="dailyTableSubjectTextColor">@color/themeColor5</color>

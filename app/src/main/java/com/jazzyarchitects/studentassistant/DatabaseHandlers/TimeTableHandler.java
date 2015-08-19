@@ -4,13 +4,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
-import com.jazzyarchitects.studentassistant.Listeners.NoDayInAWeekException;
+import com.jazzyarchitects.studentassistant.Models.ClassTime;
+
+import java.util.ArrayList;
 
 /**
  * Created by Jibin_ism on 19-Jul-15.
@@ -28,13 +31,8 @@ public class TimeTableHandler extends SQLiteOpenHelper {
 
     private static final String TIMETABLE_STRUCTURE_TABLE = "timeTableStructure";
     private static final String DAY_INDEX_COLUMN_NAME="dayIndex";
-    private static int COLUMNS = 0;
+    private static int COLUMNS = 2;
     String CREATE_STRUCTURE = "CREATE TABLE IF NOT EXISTS " + TIMETABLE_STRUCTURE_TABLE;
-
-
-    public TimeTableHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
 
     public TimeTableHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -45,7 +43,7 @@ public class TimeTableHandler extends SQLiteOpenHelper {
 
         boolean tableRestructured=context.getSharedPreferences(Constants.TimeTablePreferences.Preference,Context.MODE_PRIVATE).getBoolean(Constants.TimeTablePreferences.Restructured,false);
         if (!tableExists(TIMETABLE_STRUCTURE_TABLE) || tableRestructured) {
-            Log.e(TAG,"Table Restructuring Required: "+tableRestructured);
+//            Log.e(TAG,"Table Restructuring Required: "+tableRestructured);
             db.execSQL("DROP TABLE IF EXISTS " + TIMETABLE_STRUCTURE_TABLE);
             context.getSharedPreferences(Constants.TimeTablePreferences.Preference,Context.MODE_PRIVATE).edit().putBoolean(Constants.TimeTablePreferences.Restructured,false).apply();
             retrieveTimeTableColumns();
@@ -68,14 +66,11 @@ public class TimeTableHandler extends SQLiteOpenHelper {
 
     void retrieveTimeTableColumns() {
         prefs = context.getSharedPreferences(Constants.TimeTablePreferences.Preference, Context.MODE_PRIVATE);
-        COLUMNS = prefs.getInt(Constants.TimeTablePreferences.PeriodCount, 0);
+        COLUMNS = prefs.getInt(Constants.TimeTablePreferences.PeriodCount, 2);
     }
 
     void insertDaysOfWeek(){
         int days=prefs.getInt(Constants.TimeTablePreferences.WorkingDaysInWeek, 0);
-        if(days==0){
-            throw new NoDayInAWeekException();
-        }
         for (int j=0;j<days;j++){
             ContentValues values=new ContentValues();
             values.put(DAY_INDEX_COLUMN_NAME,j);
@@ -84,6 +79,12 @@ public class TimeTableHandler extends SQLiteOpenHelper {
             }
             db.insertOrThrow(TIMETABLE_STRUCTURE_TABLE,null,values);
         }
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(DAY_INDEX_COLUMN_NAME,"Timings");
+        for(int d=0;d<COLUMNS;d++){
+            contentValues.put(getColumnName(d),"0");
+        }
+        db.insertOrThrow(TIMETABLE_STRUCTURE_TABLE,null,contentValues);
     }
 
     public String getSubjectId(int dayIndex, int periodIndex){
@@ -99,7 +100,7 @@ public class TimeTableHandler extends SQLiteOpenHelper {
     public void insertSubject(int dayIndex, int periodIndex, String subjectId){
         Log.e(TAG,"Updating subject: "+subjectId+" in ("+String.valueOf(dayIndex)+","+getColumnName(periodIndex)+")");
         ContentValues contentValues=new ContentValues();
-        contentValues.put(getColumnName(periodIndex),subjectId);
+        contentValues.put(getColumnName(periodIndex), subjectId);
         db.update(TIMETABLE_STRUCTURE_TABLE, contentValues, DAY_INDEX_COLUMN_NAME + " = ?", new String[]{String.valueOf(dayIndex)});
     }
 
@@ -151,5 +152,41 @@ public class TimeTableHandler extends SQLiteOpenHelper {
 
     private String getColumnName(int index){
         return "__"+index;
+    }
+
+    public void addPeriodTime(int periodIndex,ClassTime classTime){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(getColumnName(periodIndex-1),classTime.getHour()+","+classTime.getMinute());
+        db.update(TIMETABLE_STRUCTURE_TABLE,contentValues,DAY_INDEX_COLUMN_NAME+"=?",new String[]{"Timings"});
+    }
+
+    public ClassTime getFirstClassTime(){
+        Cursor c=db.query(TIMETABLE_STRUCTURE_TABLE, null, DAY_INDEX_COLUMN_NAME + "=?", new String[]{"Timings"}, null, null, null);
+        c.moveToFirst();
+        String s=c.getString(1);
+        String[] times=s.split(",");
+        c.close();
+        return new ClassTime(Integer.parseInt(times[0]),Integer.parseInt(times[1]));
+    }
+
+    public ArrayList<ClassTime> getClassTimes(){
+        ArrayList<ClassTime> classTimes=new ArrayList<>();
+        Cursor c=db.query(TIMETABLE_STRUCTURE_TABLE,null,DAY_INDEX_COLUMN_NAME+"=?",new String[]{"Timings"},null,null,null);
+        c.moveToFirst();
+        for(int i=1;i<c.getColumnCount();i++){
+            try {
+                String s = c.getString(i);
+                String[] times = s.split(",");
+                try {
+                    classTimes.add(new ClassTime(Integer.parseInt(times[0]), Integer.parseInt(times[1])));
+                }catch (ArrayIndexOutOfBoundsException e){
+                    classTimes.add(null);
+                }
+            }catch (CursorIndexOutOfBoundsException e){
+                e.printStackTrace();
+            }
+        }
+        c.close();
+        return classTimes;
     }
 }

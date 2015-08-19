@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:weightSum="2">
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="0.75"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="Period 1"
+        android:textColor="#000"
+        android:background="@color/themeColor1Faded"
+        android:id="@+id/periodName"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.25"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:hint="Timing"
+        android:focusable="false"
+        android:clickable="false"
+        android:textColor="#111"
+        android:background="#FFF"
+        android:inputType="none"
+        android:id="@+id/timeInput"
+        android:textSize="18sp"
+        />
+
+</LinearLayout>

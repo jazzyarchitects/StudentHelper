@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,7 +58,7 @@ public class SundayView extends Fragment {
     View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            Log.e("SundayView","Motion Event: "+event.getAction());
+//            Log.e("SundayView","Motion Event: "+event.getAction());
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     showDarkBackground(v);

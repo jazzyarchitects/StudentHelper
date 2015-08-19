@@ -21,7 +21,8 @@ public class AddEvent extends AppCompatActivity {
     EditText notes;
     TextView save, cancel;
     SubjectDatabase subjectDatabase;
-    String[] events, subjects;
+    String[] events;
+    ArrayList<String> subjects;
     ArrayList<Subject> subjectList;
     SpinnerAdapter spinnerAdapterEvents, spinnerAdapterSubject;
 
@@ -41,12 +42,12 @@ public class AddEvent extends AppCompatActivity {
         subjectDatabase = new SubjectDatabase(this);
         subjectList = new ArrayList<>();
         subjectList = subjectDatabase.getAllSubject();
+        subjects=new ArrayList<>();
         if (!subjectList.isEmpty()) {
-            subjects = new String[subjectList.size()];
             for (int i = 0; i < subjectList.size(); i++)
-                subjects[i] = subjectList.get(i).getSubject();
+                subjects.add(subjectList.get(i).getSubject());
         } else {
-            subjects[0] = "No Subjects Added";
+            subjects.add("No Subjects Added");
         }
 
         spinnerAdapterEvents = Constants.spinnerAdapter(this, events);
@@ -71,19 +72,4 @@ public class AddEvent extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_add_event, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }

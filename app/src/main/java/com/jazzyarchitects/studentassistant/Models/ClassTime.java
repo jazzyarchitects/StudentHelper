@@ -1,0 +1,32 @@
+package com.jazzyarchitects.studentassistant.Models;
+
+/**
+ * Created by Jibin_ism on 18-Aug-15.
+ */
+public class ClassTime{
+    public int hour=0,minute=0;
+
+    public ClassTime() {
+    }
+
+    public ClassTime(int hour, int minute) {
+        this.hour = hour;
+        this.minute = minute;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+}

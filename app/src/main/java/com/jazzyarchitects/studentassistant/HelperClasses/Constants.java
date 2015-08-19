@@ -19,6 +19,8 @@ import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.ViewTag;
 import com.jazzyarchitects.studentassistant.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jibin_ism on 08-Jul-15.
  */
@@ -136,9 +138,9 @@ public class Constants {
             TextView professorName=(TextView)view.findViewById(R.id.professorName);
 
             if (subject == null) {
-                subjectName.setText("...OFF...");
-                subjectName.setGravity(Gravity.CENTER);
+                subjectName.setVisibility(View.INVISIBLE);
                 notes.setText("There is nothing here... Enjoy your day...");
+                notes.setGravity(Gravity.CENTER);
                 bunkedClasses.setVisibility(View.GONE);
                 assignments.setVisibility(View.GONE);
                 attendance.setVisibility(View.GONE);
@@ -241,5 +243,13 @@ public class Constants {
             }
         };
     }
+
+    public static SpinnerAdapter spinnerAdapter(final Context context, ArrayList<String > strings){
+        String[] s=new String[strings.size()];
+        for(int i=0;i<strings.size();i++){
+            s[i]=strings.get(i);
+        }
+        return spinnerAdapter(context,s);
+    };
 
 }

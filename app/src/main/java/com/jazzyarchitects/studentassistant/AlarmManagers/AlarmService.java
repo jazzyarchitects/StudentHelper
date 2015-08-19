@@ -6,7 +6,9 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.jazzyarchitects.studentassistant.DatabaseHandlers.TimeTableHandler;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
+import com.jazzyarchitects.studentassistant.Models.ClassTime;
 
 import java.util.Calendar;
 
@@ -17,14 +19,15 @@ public class AlarmService extends IntentService {
         super("AlarmService");
     }
 
-    int[] classTimingsHours={8,9,10,11,1,2,3,4};
-    int[] classTimingsMinutes={0,0,0,0,30,30,30,30};
     @Override
     protected void onHandleIntent(Intent intent) {
         setupAlarm();
     }
 
     private void setupAlarm(){
+        TimeTableHandler handler=new TimeTableHandler(this);
+        ClassTime classTime=handler.getFirstClassTime();
+        handler.close();
         AlarmManager alarmManager=(AlarmManager)getSystemService(ALARM_SERVICE);
         Calendar calendar=Calendar.getInstance();
         SharedPreferences sharedPreferences=getSharedPreferences(Constants.TimeTablePreferences.Preference, MODE_PRIVATE);
@@ -34,8 +37,8 @@ public class AlarmService extends IntentService {
         } else{
             calendar.add(Calendar.DATE, 1);
         }
-        calendar.set(Calendar.HOUR_OF_DAY, classTimingsHours[0]);
-        calendar.set(Calendar.MINUTE, classTimingsMinutes[0]);
+        calendar.set(Calendar.HOUR_OF_DAY, classTime.getHour());
+        calendar.set(Calendar.MINUTE, classTime.getMinute());
         calendar.add(Calendar.MINUTE, -10);
         Intent i=new Intent(this,AlarmTriggerer.class);
         PendingIntent pi=PendingIntent.getService(this,12,i,PendingIntent.FLAG_UPDATE_CURRENT);

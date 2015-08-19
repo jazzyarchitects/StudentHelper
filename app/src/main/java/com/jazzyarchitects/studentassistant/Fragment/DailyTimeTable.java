@@ -4,12 +4,16 @@ package com.jazzyarchitects.studentassistant.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,6 +35,7 @@ public class DailyTimeTable extends Fragment {
     int dayCount, periodCount;
     static Context context;
     Calendar calendar;
+    int linearLayoutIds[]={R.id.ll1,R.id.ll2,R.id.ll3,R.id.ll4};
     HorizontalScrollView horizontalScrollView;
 
 
@@ -63,6 +68,13 @@ public class DailyTimeTable extends Fragment {
             setupDayAndTime();
             createTable();
         }
+
+
+        for(int i:linearLayoutIds){
+            LinearLayout linearLayout=(LinearLayout)activityView.findViewById(i);
+            linearLayout.setOnTouchListener(onTouchListener);
+        }
+
         return activityView;
     }
 
@@ -110,4 +122,54 @@ public class DailyTimeTable extends Fragment {
         tableLayout.addView(tableRow);
         tableLayout.addView(tableRow1);
     }
+
+
+    float[] originalHSV=new float[3];
+    View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+//            Log.e("SundayView", "Motion Event: " + event.getAction());
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    showDarkBackground(v);
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                    showOriginalBackground(v);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    showOriginalBackground(v);
+                    break;
+                default:
+                    showOriginalBackground(v);
+                    break;
+            }
+            return true;
+        }
+    };
+
+
+    ColorDrawable originalColorDrawable=null;
+    void showDarkBackground(View v){
+        ColorDrawable drawable=(ColorDrawable)v.getBackground();
+        originalColorDrawable=drawable;
+        int color=drawable.getColor();
+        Color.colorToHSV(color, originalHSV);
+        float[] newColor=originalHSV;
+        newColor[2] = 0.1f;
+        v.setBackgroundDrawable(new ColorDrawable(Color.HSVToColor(newColor)));
+    }
+
+    void showOriginalBackground(View v){
+        if(originalColorDrawable==null){
+            return;
+        }
+        try{
+            v.setBackgroundDrawable(originalColorDrawable);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        originalColorDrawable=null;
+    }
+
+
 }

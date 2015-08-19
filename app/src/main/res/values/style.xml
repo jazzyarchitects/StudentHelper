@@ -18,4 +18,9 @@
         <item name="android:windowExitAnimation">@anim/zoom_out_animation</item>
     </style>
 
+    <style name="TimePickerDialog" parent="Material.Widget.TimePicker">
+        <item name="android:background">@color/themeColor1</item>
+        <item name="android:textColor">@color/themeColor3</item>
+    </style>
+
 </resources>
