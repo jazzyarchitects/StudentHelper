@@ -4,12 +4,12 @@
 
         <item
             android:id="@+id/dailyTimeTable"
-            android:icon="@drawable/ic_today_black_24dp"
+            android:icon="@drawable/ic_action_calendar_day"
             android:title="Today's Time Table" />
 
         <item
             android:id="@+id/timeTable"
-            android:icon="@drawable/ic_bookmark_border_black_24dp"
+            android:icon="@drawable/ic_action_calendar_month"
             android:title="Weekly Time Table" />
 
         <item
@@ -19,7 +19,7 @@
 
         <item
             android:id="@+id/eventList"
-            android:icon="@drawable/ic_view_list_black_24dp"
+            android:icon="@drawable/ic_action_lab"
             android:title="Events" />
 
         <item
@@ -27,8 +27,8 @@
             android:icon="@drawable/ic_action_settings"
             android:title="Settings" />
 
-        <item android:id="@+id/test"
-            android:title="Test" />
+        <!--<item android:id="@+id/test"-->
+            <!--android:title="Test" />-->
 
     </group>
 </menu>

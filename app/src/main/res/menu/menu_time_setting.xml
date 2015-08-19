@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.jazzyarchitects.studentassistant.Activities.TimeSetting">
 
-    <item android:id="@+id/save"
-        android:icon="@drawable/ic_action_save"
-        android:title="Save"
-        app:showAsAction="always" />
+    <!--<item android:id="@+id/save"-->
+        <!--android:icon="@drawable/ic_action_save"-->
+        <!--android:title="Save"-->
+        <!--app:showAsAction="always" />-->
 
 </menu>

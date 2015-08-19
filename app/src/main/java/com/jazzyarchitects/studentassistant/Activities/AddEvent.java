@@ -1,8 +1,12 @@
 package com.jazzyarchitects.studentassistant.Activities;
 
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SpinnerAdapter;
@@ -32,6 +36,7 @@ public class AddEvent extends AppCompatActivity {
     SubjectDatabase subjectDatabase;
     String[] events;
     String date, month, year, hour, minute;
+    Toolbar toolbar;
     ArrayList<String> subjects;
     ArrayList<Subject> subjectList;
     Button dateButton, timeButton;
@@ -43,6 +48,11 @@ public class AddEvent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
 
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Add Event");
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         eventType = (Spinner) findViewById(R.id.eventType);
         subjectSpinner = (Spinner) findViewById(R.id.subject);
         notes = (EditText) findViewById(R.id.notes);
@@ -71,6 +81,33 @@ public class AddEvent extends AppCompatActivity {
 
         eventType.setAdapter(spinnerAdapterEvents);
         subjectSpinner.setAdapter(spinnerAdapterSubject);
+        eventType.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(Spinner spinner, View view, int position, long l) {
+                spinner.setSelection(position);
+            }
+        });
+        eventType.setOnItemClickListener(new Spinner.OnItemClickListener() {
+            @Override
+            public boolean onItemClick(Spinner spinner, View view, int i, long l) {
+                spinner.setSelection(i);
+                return false;
+            }
+        });
+        subject.setAdapter(spinnerAdapterSubject);
+        subject.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(Spinner spinner, View view, int position, long l) {
+                spinner.setSelection(position);
+            }
+        });
+        subject.setOnItemClickListener(new Spinner.OnItemClickListener() {
+            @Override
+            public boolean onItemClick(Spinner spinner, View view, int i, long l) {
+                spinner.setSelection(i);
+                return false;
+            }
+        });
 
         //set Time
         timeButton.setOnClickListener(new View.OnClickListener() {
@@ -135,4 +172,43 @@ public class AddEvent extends AppCompatActivity {
         });
     }
 
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_time_setting, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+        }
+
+//        if (id == R.id.save) {
+//            savePreferences();
+//            startHomeScreenActivity();
+//        }
+
+        //noinspection SimplifiableIfStatement
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        overridePendingTransition(R.anim.slide_right_show, R.anim.slide_right_show);
+    }
 }

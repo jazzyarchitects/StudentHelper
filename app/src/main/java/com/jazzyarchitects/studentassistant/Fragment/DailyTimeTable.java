@@ -1,6 +1,7 @@
 package com.jazzyarchitects.studentassistant.Fragment;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,8 +24,10 @@ import com.jazzyarchitects.studentassistant.DatabaseHandlers.SubjectDatabase;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.TimeTableHandler;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.HelperClasses.TimingClass;
+import com.jazzyarchitects.studentassistant.Models.ClassTime;
 import com.jazzyarchitects.studentassistant.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -111,8 +114,10 @@ public class DailyTimeTable extends Fragment {
 
         TimeTableHandler timeTableHandler=new TimeTableHandler(context);
         SubjectDatabase subjectDatabase=new SubjectDatabase(context);
+
+        ArrayList<ClassTime> startTimes=timeTableHandler.getClassTimes();
         for (int i = 0; i < periodCount; i++) {
-            tableRow.addView(Constants.DailyTimeTable.getTimeView(context, i));
+            tableRow.addView(Constants.DailyTimeTable.getTimeView(context, i, startTimes.get(i)));
             View cell=Constants.DailyTimeTable.getSubjectView(context,subjectDatabase.findSubjectById(timeTableHandler.getSubjectId(dayToday,i)),i);
             tableRow1.addView(cell);
         }
@@ -138,6 +143,23 @@ public class DailyTimeTable extends Fragment {
                     break;
                 case MotionEvent.ACTION_UP:
                     showOriginalBackground(v);
+                    //TODO: update names and ids according to viewpager fragment order
+                    switch (v.getId()){
+                        case R.id.ll1:
+                            eventOptionClickListener.OnEventClick(0);
+                            break;
+                        case R.id.ll2:
+                            eventOptionClickListener.OnEventClick(1);
+                            break;
+                        case R.id.ll3:
+                            eventOptionClickListener.OnEventClick(2);
+                            break;
+                        case R.id.ll4:
+                            eventOptionClickListener.OnEventClick(3);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     showOriginalBackground(v);
@@ -171,5 +193,14 @@ public class DailyTimeTable extends Fragment {
         originalColorDrawable=null;
     }
 
+    EventOptionClickListener eventOptionClickListener;
+    public interface EventOptionClickListener{
+        void OnEventClick(int position);
+    }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        eventOptionClickListener=(EventOptionClickListener)activity;
+    }
 }

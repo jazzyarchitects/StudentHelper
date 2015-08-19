@@ -23,15 +23,18 @@
         <activity
             android:name=".Activities.AddSubject"
             android:label="@string/title_activity_add_subject"
+            android:parentActivityName=".Activities.HomeScreen"
             android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".Activities.TimeSetting"
             android:label="@string/title_activity_time_setting"
+            android:parentActivityName=".Activities.HomeScreen"
             android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".Activities.AddEvent"
+            android:parentActivityName=".Activities.HomeScreen"
             android:label="@string/title_activity_add_event" >
         </activity>
 

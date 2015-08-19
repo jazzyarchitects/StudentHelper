@@ -180,7 +180,7 @@ public class TimeTableHandler extends SQLiteOpenHelper {
                 try {
                     classTimes.add(new ClassTime(Integer.parseInt(times[0]), Integer.parseInt(times[1])));
                 }catch (ArrayIndexOutOfBoundsException e){
-                    classTimes.add(null);
+                    classTimes.add(new ClassTime(0,0));
                 }
             }catch (CursorIndexOutOfBoundsException e){
                 e.printStackTrace();

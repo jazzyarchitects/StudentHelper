@@ -1,6 +1,7 @@
 package com.jazzyarchitects.studentassistant.Fragment;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -68,6 +69,23 @@ public class SundayView extends Fragment {
                     break;
                 case MotionEvent.ACTION_UP:
                     showOriginalBackground(v);
+                    //TODO: update names and ids according to viewpager fragment order
+                    switch (v.getId()){
+                        case R.id.ll1:
+                            eventOptionClickListener.OnEventClick(0);
+                            break;
+                        case R.id.ll2:
+                            eventOptionClickListener.OnEventClick(1);
+                            break;
+                        case R.id.ll3:
+                            eventOptionClickListener.OnEventClick(2);
+                            break;
+                        case R.id.ll4:
+                            eventOptionClickListener.OnEventClick(3);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     showOriginalBackground(v);
@@ -101,5 +119,14 @@ public class SundayView extends Fragment {
         originalColorDrawable=null;
     }
 
+    EventOptionClickListener eventOptionClickListener;
+    public interface EventOptionClickListener{
+        void OnEventClick(int position);
+    }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        eventOptionClickListener=(EventOptionClickListener)activity;
+    }
 }

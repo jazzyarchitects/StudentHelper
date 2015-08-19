@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -31,6 +32,7 @@ public class TimeSetting extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     RecyclerView timeSettingsView;
     Button saveSetting;
+    InputMethodManager inputMethodManager;
     int initialDayCount, initialClassCount;
 
     private Boolean DELETE_DATABASE_ON_COUNT_CHANGE = true;
@@ -42,6 +44,11 @@ public class TimeSetting extends AppCompatActivity {
         setContentView(R.layout.activity_time_setting);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
+
+        inputMethodManager=(InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         sharedPreferences = getSharedPreferences(Constants.TimeTablePreferences.Preference, MODE_PRIVATE);
         initialDayCount = sharedPreferences.getInt(Constants.TimeTablePreferences.WorkingDaysInWeek, 5);
@@ -83,10 +90,14 @@ public class TimeSetting extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.save) {
-            savePreferences();
+        if(id==android.R.id.home){
             startHomeScreenActivity();
         }
+
+//        if (id == R.id.save) {
+//            savePreferences();
+//            startHomeScreenActivity();
+//        }
 
         //noinspection SimplifiableIfStatement
         return super.onOptionsItemSelected(item);
@@ -169,5 +180,29 @@ public class TimeSetting extends AppCompatActivity {
     void startHomeScreenActivity() {
         startActivity(new Intent(this, HomeScreen.class));
         finish();
+        overridePendingTransition(R.anim.slide_right_show, R.anim.slide_right_show);
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.slide_left_show, R.anim.slide_left_hide);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(inputMethodManager.isActive()){
+            inputMethodManager.hideSoftInputFromWindow(classCountIndicator.getWindowToken(),InputMethodManager.HIDE_IMPLICIT_ONLY);
+        }else{
+            startHomeScreenActivity();
+        }
+    }
+
+
 }

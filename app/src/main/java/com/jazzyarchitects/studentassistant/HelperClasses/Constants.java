@@ -15,6 +15,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.jazzyarchitects.studentassistant.Models.ClassTime;
 import com.jazzyarchitects.studentassistant.Models.Subject;
 import com.jazzyarchitects.studentassistant.Models.ViewTag;
 import com.jazzyarchitects.studentassistant.R;
@@ -27,11 +28,13 @@ import java.util.ArrayList;
 public class Constants {
 
     public static Spanned getBunkedClassText(int bunkedClasses) {
-        return Html.fromHtml("Bunked Classes: <b>" + bunkedClasses + "</b>");
+//        return Html.fromHtml("Bunked Classes: <b>" + bunkedClasses + "</b>");
+        return Html.fromHtml("");
     }
 
     public static Spanned getAttendancePercentageText(double percentage) {
-        return Html.fromHtml("Attendance: <b>" + percentage + "%</b>");
+//        return Html.fromHtml("Attendance: <b>" + percentage + "%</b>");
+        return Html.fromHtml("");
     }
 
     public static Spanned getProfessorNameText(String name) {
@@ -51,6 +54,7 @@ public class Constants {
         public static final String Restructured="tableRestructured";
     }
 
+    public static final String EVENT_KEY="keyEvent";
 
     public static boolean isColorDark(int color) {
         float[] hsv = new float[3];
@@ -138,7 +142,8 @@ public class Constants {
             TextView professorName=(TextView)view.findViewById(R.id.professorName);
 
             if (subject == null) {
-                subjectName.setVisibility(View.INVISIBLE);
+                subjectName.setVisibility(View.GONE);
+                professorName.setVisibility(View.GONE);
                 notes.setText("There is nothing here... Enjoy your day...");
                 notes.setGravity(Gravity.CENTER);
                 bunkedClasses.setVisibility(View.GONE);
@@ -170,9 +175,10 @@ public class Constants {
             return view;
         }
 
-        public static View getTimeView(Context context, int periodIndex) {
+        public static View getTimeView(Context context, int periodIndex, ClassTime startTime) {
             TextView view = (TextView) View.inflate(context, R.layout.table_cell_day, null);
-            view.setText("Period " + (periodIndex + 1));
+            ClassTime finishTime=TimingClass.getFinishTime(startTime,context.getSharedPreferences(TimeTablePreferences.Preference,Context.MODE_PRIVATE).getInt(TimeTablePreferences.ClassDuration,50));
+            view.setText("Period " + (periodIndex + 1)+"\n"+TimingClass.getTime(startTime,true)+" - "+TimingClass.getTime(finishTime,true));
             TableRow.LayoutParams params = new TableRow.LayoutParams((int) context.getResources().getDimension(R.dimen.dailyTimeTableSubjectWidth), (int) context.getResources().getDimension(R.dimen.cellMinHeight));
             params.setMargins(0, 1, 1, 0);
             view.setLayoutParams(params);
@@ -250,6 +256,6 @@ public class Constants {
             s[i]=strings.get(i);
         }
         return spinnerAdapter(context,s);
-    };
+    }
 
 }

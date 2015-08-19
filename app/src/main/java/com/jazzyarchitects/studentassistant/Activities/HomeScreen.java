@@ -2,6 +2,7 @@ package com.jazzyarchitects.studentassistant.Activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.jazzyarchitects.studentassistant.Notifications.DayScheduleClassNotification;
 import com.jazzyarchitects.studentassistant.Fragment.DailyTimeTable;
 import com.jazzyarchitects.studentassistant.Fragment.AssignmentList;
 import com.jazzyarchitects.studentassistant.Fragment.SubjectList;
@@ -27,16 +27,24 @@ import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
 import com.jazzyarchitects.studentassistant.R;
 
 public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        TimeTable.OnFragmentInteractionListener {
+        TimeTable.OnFragmentInteractionListener, SundayView.EventOptionClickListener, DailyTimeTable.EventOptionClickListener {
 
     Toolbar toolbar;
     ActionBarDrawerToggle drawerToggle;
     DrawerLayout drawerLayout;
     FrameLayout frameLayout;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.slide_right_show, R.anim.slide_right_hide);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.slide_right_show, R.anim.slide_right_hide);
         setContentView(R.layout.activity_home_screen);
 
 
@@ -106,12 +114,14 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             case R.id.eventList:
                 replaceViewWithFragment(new AssignmentList());
                 break;
-            case  R.id.test:
-                DayScheduleClassNotification.notify(this,12);
-                replaceViewWithFragment(new SundayView());
-                break;
+//            case  R.id.test:
+//                DayScheduleClassNotification.notify(this,12);
+//                replaceViewWithFragment(new SundayView());
+//                break;
             case R.id.settings:
                 startActivity(new Intent(this, TimeSetting.class));
+                finish();
+                overridePendingTransition(R.anim.slide_left_show, R.anim.slide_left_hide);
                 break;
             default:
                 break;
@@ -132,7 +142,28 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     public void replaceViewWithFragment(Fragment fragment){
         FragmentManager fragmentManager=getFragmentManager();
-        fragmentManager.beginTransaction().replace(frameLayout.getId(),fragment).commit();
+        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        transaction.replace(frameLayout.getId(),fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+    }
+
+    @Override
+    public void OnEventClick(int position) {
+        openEvent(position);
+    }
+
+    void openEvent(int position){
+        Fragment fragment=new EventList();
+        Bundle bundle=new Bundle();
+        bundle.putInt(Constants.EVENT_KEY,position);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager=getFragmentManager();
+        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        transaction.replace(frameLayout.getId(),fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public interface ActivityClickListener{
@@ -144,14 +175,18 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawers();
-        }else{
-            if(!activityClickListener.onBackKeyPressed())
+        }else if(!activityClickListener.onBackKeyPressed()){
+            if(getFragmentManager().getBackStackEntryCount()>1){
+                getFragmentManager().popBackStackImmediate();
+            }else{
                 super.onBackPressed();
+            }
         }
     }
 
     public void setActivityClickListener(ActivityClickListener activityClickListener){
         this.activityClickListener=activityClickListener;
     }
+
 
 }
