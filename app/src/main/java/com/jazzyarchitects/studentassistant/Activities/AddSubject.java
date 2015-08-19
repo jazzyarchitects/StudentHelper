@@ -42,7 +42,7 @@ public class AddSubject extends AppCompatActivity {
 
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Add Event");
+        getSupportActionBar().setTitle("Add Subject");
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         subjectName = (EditText) findViewById(R.id.editSubjectName);

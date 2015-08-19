@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,17 @@ public class ClassTestList extends Fragment {
             recyclerView.setItemAnimator(new DefaultItemAnimator());
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("check", "onResume called");
+        updateEventList();
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.e("check", "onDetach called");
+    }
 
 }

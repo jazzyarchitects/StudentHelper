@@ -34,6 +34,7 @@
                 android:id="@+id/eventType"
                 style="@style/Material.Widget.Spinner"
                 android:layout_width="match_parent"
+                app:spn_label=""
                 android:layout_height="wrap_content"
                 android:layout_below="@id/instruction"
                 app:rd_style="@style/Material.Drawable.Ripple.Wave" />
