@@ -3,12 +3,9 @@ package com.jazzyarchitects.studentassistant.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD:app/src/main/java/com/jazzyarchitects/studentassistant/Fragment/ExamList.java
 import android.app.Fragment;
-=======
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
->>>>>>> a167390da76c107ec45d9069e4ca456ab92e8c6b:app/src/main/java/com/jazzyarchitects/studentassistant/Fragment/EventList.java
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,13 +18,10 @@ import android.widget.TextView;
 
 import com.jazzyarchitects.studentassistant.Activities.AddEvent;
 import com.jazzyarchitects.studentassistant.Adapters.EventListAdapter;
-<<<<<<< HEAD:app/src/main/java/com/jazzyarchitects/studentassistant/Fragment/ExamList.java
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.EventHandler;
-=======
 import com.jazzyarchitects.studentassistant.Adapters.EventViewPagerAdapter;
 import com.jazzyarchitects.studentassistant.DatabaseHandlers.EventHandler;
 import com.jazzyarchitects.studentassistant.HelperClasses.Constants;
->>>>>>> a167390da76c107ec45d9069e4ca456ab92e8c6b:app/src/main/java/com/jazzyarchitects/studentassistant/Fragment/EventList.java
 import com.jazzyarchitects.studentassistant.Models.Event;
 import com.jazzyarchitects.studentassistant.R;
 
@@ -39,12 +33,9 @@ public class ExamList extends Fragment {
     TextView addExam, noExam;
     EventHandler eventHandler;
     RecyclerView recyclerView;
-<<<<<<< HEAD:app/src/main/java/com/jazzyarchitects/studentassistant/Fragment/ExamList.java
     ArrayList<Event> examList;
-=======
     ArrayList<Event> eventList;
     RelativeLayout emptyView;
->>>>>>> a167390da76c107ec45d9069e4ca456ab92e8c6b:app/src/main/java/com/jazzyarchitects/studentassistant/Fragment/EventList.java
     EventListAdapter eventListAdapter;
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -69,7 +60,6 @@ public class ExamList extends Fragment {
             e.printStackTrace();
         }
         View view = inflater.inflate(R.layout.fragment_event_list, container, false);
-<<<<<<< HEAD:app/src/main/java/com/jazzyarchitects/studentassistant/Fragment/ExamList.java
         addExam = (TextView) view.findViewById(R.id.addEvent);
         noExam = (TextView) view.findViewById(R.id.noEvent);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -77,7 +67,6 @@ public class ExamList extends Fragment {
         addExam.setText("+ADD NEW EXAM");
         noExam.setText("Yipeee!! No Examinations!!");
         updateEventList();
-=======
         addEvent = (TextView) view.findViewById(R.id.addEvent);
 
         tabLayout=(TabLayout)view.findViewById(R.id.tabLayout);

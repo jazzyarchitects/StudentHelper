@@ -94,14 +94,13 @@ public class AddEvent extends AppCompatActivity {
                 return false;
             }
         });
-        subject.setAdapter(spinnerAdapterSubject);
-        subject.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+        subjectSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(Spinner spinner, View view, int position, long l) {
                 spinner.setSelection(position);
             }
         });
-        subject.setOnItemClickListener(new Spinner.OnItemClickListener() {
+        subjectSpinner.setOnItemClickListener(new Spinner.OnItemClickListener() {
             @Override
             public boolean onItemClick(Spinner spinner, View view, int i, long l) {
                 spinner.setSelection(i);

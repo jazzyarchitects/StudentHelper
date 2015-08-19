@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="____"
-                android:maxLines="=2"
+                android:maxLines="2"
                 android:ellipsize="end"
                 android:textColor="#000"
                 android:textSize="12sp" />
