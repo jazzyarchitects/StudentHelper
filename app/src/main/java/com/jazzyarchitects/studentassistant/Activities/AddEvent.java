@@ -94,7 +94,6 @@ public class AddEvent extends AppCompatActivity {
                 return false;
             }
         });
-        subjectSpinner.setAdapter(spinnerAdapterSubject);
         subjectSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(Spinner spinner, View view, int position, long l) {
